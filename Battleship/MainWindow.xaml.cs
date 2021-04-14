@@ -29,10 +29,11 @@ namespace Battleship
         {
             InitializeComponent();
 
-            createTable();
+            createTable(leftTable, 'l');
+            createTable(rightTable, 'r');
         }
 
-        private void createTable()
+        private void createTable(Grid table, char tId)
         {
             for (int row = 0; row < rows; row++)
             {
@@ -45,7 +46,7 @@ namespace Battleship
                     };
                     Grid.SetRow(border, row);
                     Grid.SetColumn(border, column);
-                    border.Name = _characters[row].ToString() + _nums[column].ToString();
+                    border.Name = tId.ToString() + _characters[row].ToString() + _nums[column].ToString();
                     table.Children.Add(border);
                 }
             }
