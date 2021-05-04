@@ -24,6 +24,7 @@ namespace Battleship
         private static readonly short[] _nums = { 1, 2, 3, 4, 5, 6, 7, 8 };
         private static readonly int rows = _characters.Length;
         private static readonly int columns = _nums.Length;
+
         Random rnd = new Random();
 
         public MainWindow()
@@ -57,52 +58,55 @@ namespace Battleship
 
         private void shipAI(Grid table, Random rnd)
         {
-            //ship 3
-
-            int randomOrient = (int)rnd.Next(0, 2);
-            int randomPosX = (int)rnd.Next(0, 9);
-            int randomPosY = (int)rnd.Next(0, 9);
-
-            if (randomOrient == 0) // vízsintes
+            for(int i = 5; i > 0; i--)
             {
-                for (int col = 0; col < 3; col++)
+                int randomOrient = (int)rnd.Next(0, 2);
+                int randomPosX = (int)rnd.Next(0, 9);
+                int randomPosY = (int)rnd.Next(0, 9);
+
+                if (randomOrient == 0) // vízsintes
                 {
-                    var ship = new Rectangle();
-                    ship.Fill = Brushes.Red;
-                    var Y = table.Width / rows;
-                    var X = table.Height / columns;
-                    ship.Width = Y;
-                    ship.Height = X;
-
-                    if (randomPosY + 3 > 8)
+                    for (int col = 0; col < i; col++)
                     {
-                        randomPosY = (int)rnd.Next(0, 9);
-                    }
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.Red;
+                        var Y = table.Width / rows;
+                        var X = table.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
 
-                    Grid.SetRow(ship, randomPosX);
-                    Grid.SetColumn(ship, col + randomPosY);
-                    table.Children.Add(ship);
+                        while (randomPosY + i > 8)
+                        {
+                            randomPosY = (int)rnd.Next(0, 9);
+                        }
+
+                        Grid.SetRow(ship, randomPosX);
+                        Grid.SetColumn(ship, col + randomPosY);
+
+                        table.Children.Add(ship);
+                    }
                 }
-            }
-            else if (randomOrient == 1) //függőleges
-            {
-                for (int row = 0; row < 3; row++)
+                else if (randomOrient == 1) //függőleges
                 {
-                    var ship = new Rectangle();
-                    ship.Fill = Brushes.Red;
-                    var Y = table.Width / rows;
-                    var X = table.Height / columns;
-                    ship.Width = Y;
-                    ship.Height = X;
-
-                    if (randomPosX + 3 > 8)
+                    for (int row = 0; row < i; row++)
                     {
-                        randomPosX = (int)rnd.Next(0, 9);
-                    }
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.Red;
+                        var Y = table.Width / rows;
+                        var X = table.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
 
-                    Grid.SetRow(ship, row + randomPosX);
-                    Grid.SetColumn(ship, randomPosY);
-                    table.Children.Add(ship);
+                        while (randomPosX + i > 8)
+                        {
+                            randomPosX = (int)rnd.Next(0, 9);
+                        }
+
+                        Grid.SetRow(ship, row + randomPosX);
+                        Grid.SetColumn(ship, randomPosY);
+
+                        table.Children.Add(ship);
+                    }
                 }
             }
         }
