@@ -25,12 +25,16 @@ namespace Battleship
         private static readonly int rows = _characters.Length;
         private static readonly int columns = _nums.Length;
 
+        Random rnd = new Random();
+
         public MainWindow()
         {
             InitializeComponent();
 
             createTable(leftTable, 'l');
             createTable(rightTable, 'r');
+
+            shipAI(rightTable, rnd);
         }
 
         private void createTable(Grid table, char tId)
@@ -51,5 +55,62 @@ namespace Battleship
                 }
             }
         }
+
+        private void shipAI(Grid table, Random rnd)
+        {
+            for (int i = 5; i > 0; i--)
+            {
+                int randomOrient = (int)rnd.Next(0, 2);
+                int randomPosX = (int)rnd.Next(0, 9);
+                int randomPosY = (int)rnd.Next(0, 9);
+
+                if (randomOrient == 0) // vízsintes
+                {
+                    for (int col = 0; col < i; col++)
+                    {
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.Red;
+                        var Y = table.Width / rows;
+                        var X = table.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
+
+                        while (randomPosY + i > 8)
+                        {
+                            randomPosY = (int)rnd.Next(0, 9);
+                        }
+
+                        Grid.SetRow(ship, randomPosX);
+                        Grid.SetColumn(ship, col + randomPosY);
+
+                        table.Children.Add(ship);
+                    }
+                }
+                else if (randomOrient == 1) //függőleges
+                {
+                    for (int row = 0; row < i; row++)
+                    {
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.Red;
+                        var Y = table.Width / rows;
+                        var X = table.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
+
+                        while (randomPosX + i > 8)
+                        {
+                            randomPosX = (int)rnd.Next(0, 9);
+                        }
+
+                        Grid.SetRow(ship, row + randomPosX);
+                        Grid.SetColumn(ship, randomPosY);
+
+                        table.Children.Add(ship);
+                    }
+                }
+            }
+        }
+    }
+}
     }
 }
