@@ -26,10 +26,11 @@ namespace Battleship
         bool shipShadow = false;
         bool shipHorizontal = false;
 
+        char[,] battleshipPlayfield = new char[10,10];
+
         public ShipPlacement()
         {
             InitializeComponent();
-
         }
 
         private void onGridMouseClick(object sender, MouseButtonEventArgs e) //ship placement in the playfield
@@ -42,11 +43,6 @@ namespace Battleship
 
                 bool emptyCells = true;
 
-                for (int i = 0; i < shipLength; i++)
-                {
-                    //foglalt e már a helye
-                }
-                    
                 for (int i = 0; i < shipLength; i++)
                 {
                     int cell = calculateCell();
@@ -70,8 +66,27 @@ namespace Battleship
                         //enough space for the selected ship or not
                         if (cell / 10 + shipLength - 1 < 10 && cell % 10 < 10)
                         {
+                            //collision with another ship
+                            for (int unit = 0 + i; unit < shipLength; unit++)
+                            {
+                                if (battleshipPlayfield[cell / 10 + unit, cell % 10] == 'H')
+                                {
+                                    emptyCells = false;
+                                    break;
+                                }
+                            }
+
+                            if (!emptyCells)
+                            {
+                                shipPlacementEnoughSpace = false;
+                                break;
+                            }
+
                             Grid.SetRow(ship, cell / 10 + i);
                             Grid.SetColumn(ship, cell % 10);
+
+                            //save the ship position
+                            battleshipPlayfield[cell / 10 + i, cell % 10] = 'H';
                         }
                         else
                         {
@@ -83,8 +98,27 @@ namespace Battleship
                         //enough space for the selected ship or not
                         if (cell / 10 < 10 && cell % 10 + shipLength - 1 < 10)
                         {
+                            //collision with another ship
+                            for (int unit = 0 + i; unit < shipLength; unit++)
+                            {
+                                if (battleshipPlayfield[cell / 10, cell % 10 + unit] == 'H')
+                                {
+                                    emptyCells = false;
+                                    break;
+                                }
+                            }
+
+                            if (!emptyCells)
+                            {
+                                shipPlacementEnoughSpace = false;
+                                break;
+                            }
+
                             Grid.SetRow(ship, cell / 10);
                             Grid.SetColumn(ship, cell % 10 + i);
+
+                            //save the ship position
+                            battleshipPlayfield[cell / 10, cell % 10 + i] = 'H';
                         }
                         else
                         {
@@ -252,6 +286,14 @@ namespace Battleship
             destroyerBtn.IsEnabled = true;
 
             playfield.Children.Clear();
+
+            for (int row = 0; row < 10; row++)
+            {
+                for (int col = 0; col < 10; col++)
+                {
+                    battleshipPlayfield[row, col] = '\0';
+                }
+            }
         }
 
         private void rotateBtn_Click(object sender, RoutedEventArgs e)
