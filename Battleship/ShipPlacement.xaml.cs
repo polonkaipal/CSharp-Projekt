@@ -39,6 +39,13 @@ namespace Battleship
                 deleteShipShadow(shipLength);
                 shipShadow = false;
 
+                bool emptyCells = true;
+
+                for (int i = 0; i < shipLength; i++)
+                {
+                    //foglalt e már a helye
+                }
+                    
                 for (int i = 0; i < shipLength; i++)
                 {
                     int cell = calculateCell();
@@ -52,15 +59,34 @@ namespace Battleship
                     ship.Width = Y;
                     ship.Height = X;
 
+                    ship.Name = selectedShip;
+
                     Grid.SetRow(ship, cell / 10 + i);
                     Grid.SetColumn(ship, cell % 10);
 
                     playfield.Children.Add(ship);
                 }
-                    
-                selectedShip = null;
 
-                
+                switch (selectedShip)
+                {
+                    case "Carrier":
+                        carrierBtn.IsEnabled = false;
+                        break;
+                    case "Battleship":
+                        battleshipBtn.IsEnabled = false;
+                        break;
+                    case "Cruiser":
+                        cruiserBtn.IsEnabled = false;
+                        break;
+                    case "Submarine":
+                        submarineBtn.IsEnabled = false;
+                        break;
+                    case "Destroyer":
+                        destroyerBtn.IsEnabled = false;
+                        break;
+                }
+
+                selectedShip = null;
             }
         }
 

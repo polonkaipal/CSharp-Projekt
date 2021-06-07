@@ -30,11 +30,11 @@
         <Label Content="ShipPlacement" Grid.Row="0" Grid.ColumnSpan="2" FontFamily="Stencil" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
 
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button Content="Carrier" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
-            <Button Content="Battleship" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
-            <Button Content="Cruiser" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
-            <Button Content="Submarine" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
-            <Button Content="Destroyer" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
+            <Button x:Name="carrierBtn" Content="Carrier" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
+            <Button x:Name="battleshipBtn" Content="Battleship" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
+            <Button x:Name="cruiserBtn" Content="Cruiser" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
+            <Button x:Name="submarineBtn" Content="Submarine" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
+            <Button x:Name="destroyerBtn" Content="Destroyer" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
             <Button x:Name="Rotate" Content="Rotate" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
         </StackPanel>
 
