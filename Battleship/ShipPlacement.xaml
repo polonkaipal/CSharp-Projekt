@@ -35,12 +35,12 @@
             <Button x:Name="cruiserBtn" Content="Cruiser" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
             <Button x:Name="submarineBtn" Content="Submarine" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
             <Button x:Name="destroyerBtn" Content="Destroyer" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
-            <Button x:Name="Rotate" Content="Rotate" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
+            <Button x:Name="Rotate" Content="Rotate" Click="rotateBtn_Click" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
             <Button x:Name="RandomBtn" Content="Random" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
-            <Button x:Name="ResetBtn" Click="ResetBtn_Click" Content="Reset" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+            <Button x:Name="ResetBtn" Click="resetBtn_Click" Content="Reset" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
             <Button x:Name="SubmitBtn" Content="Submit" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
         </StackPanel>
 

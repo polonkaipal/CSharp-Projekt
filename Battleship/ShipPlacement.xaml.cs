@@ -24,6 +24,7 @@ namespace Battleship
         int columns = 10;
         int calculatedCell = -1;
         bool shipShadow = false;
+        bool shipHorizontal = false;
 
         public ShipPlacement()
         {
@@ -31,7 +32,7 @@ namespace Battleship
 
         }
 
-        private void onGridMouseClick(object sender, MouseButtonEventArgs e)
+        private void onGridMouseClick(object sender, MouseButtonEventArgs e) //ship placement in the playfield
         {
             if (e.ClickCount == 1)
             {
@@ -61,42 +62,72 @@ namespace Battleship
 
                     ship.Name = selectedShip;
 
-                    Grid.SetRow(ship, cell / 10 + i);
-                    Grid.SetColumn(ship, cell % 10);
+                    bool shipPlacementEnoughSpace = true;
 
-                    playfield.Children.Add(ship);
+                    // horizontal/vertical ship alignment
+                    if (!shipHorizontal)
+                    {
+                        //enough space for the selected ship or not
+                        if (cell / 10 + shipLength - 1 < 10 && cell % 10 < 10)
+                        {
+                            Grid.SetRow(ship, cell / 10 + i);
+                            Grid.SetColumn(ship, cell % 10);
+                        }
+                        else
+                        {
+                            shipPlacementEnoughSpace = false;
+                        }
+                    }
+                    else if (shipHorizontal)
+                    {
+                        //enough space for the selected ship or not
+                        if (cell / 10 < 10 && cell % 10 + shipLength - 1 < 10)
+                        {
+                            Grid.SetRow(ship, cell / 10);
+                            Grid.SetColumn(ship, cell % 10 + i);
+                        }
+                        else
+                        {
+                            shipPlacementEnoughSpace = false;
+                        }
+                    }
+
+                    if (shipPlacementEnoughSpace)
+                    {
+                        playfield.Children.Add(ship);
+
+                        switch (selectedShip) //placed ship button set disabled
+                        {
+                            case "Carrier":
+                                carrierBtn.IsEnabled = false;
+                                break;
+                            case "Battleship":
+                                battleshipBtn.IsEnabled = false;
+                                break;
+                            case "Cruiser":
+                                cruiserBtn.IsEnabled = false;
+                                break;
+                            case "Submarine":
+                                submarineBtn.IsEnabled = false;
+                                break;
+                            case "Destroyer":
+                                destroyerBtn.IsEnabled = false;
+                                break;
+                        }
+
+                        selectedShip = null;
+                    }
                 }
-
-                switch (selectedShip)
-                {
-                    case "Carrier":
-                        carrierBtn.IsEnabled = false;
-                        break;
-                    case "Battleship":
-                        battleshipBtn.IsEnabled = false;
-                        break;
-                    case "Cruiser":
-                        cruiserBtn.IsEnabled = false;
-                        break;
-                    case "Submarine":
-                        submarineBtn.IsEnabled = false;
-                        break;
-                    case "Destroyer":
-                        destroyerBtn.IsEnabled = false;
-                        break;
-                }
-
-                selectedShip = null;
             }
         }
 
-        private void shipBtn(object sender, RoutedEventArgs e)
+        private void shipBtn(object sender, RoutedEventArgs e) //select ship type
         {
             var ShipButton = (Button)sender;
             selectedShip = ShipButton.Content.ToString();
         }
 
-        private void onGridMouseOver(object sender, MouseEventArgs e)
+        private void onGridMouseOver(object sender, MouseEventArgs e) //ship shadow
         {
             int shipLength = shipLengthCalculate();
 
@@ -118,9 +149,18 @@ namespace Battleship
                         var X = playfield.Height / columns;
                         ship.Width = Y;
                         ship.Height = X;
-                
-                        Grid.SetRow(ship, cell / 10 + i);
-                        Grid.SetColumn(ship, cell % 10);
+
+                        // horizontal/vertical ship alignment
+                        if (!shipHorizontal)
+                        {
+                            Grid.SetRow(ship, cell / 10 + i);
+                            Grid.SetColumn(ship, cell % 10);
+                        }
+                        else if (shipHorizontal)
+                        {
+                            Grid.SetRow(ship, cell / 10);
+                            Grid.SetColumn(ship, cell % 10 + i);
+                        }
 
                         shipShadow = true;
                         playfield.Children.Add(ship);
@@ -130,7 +170,7 @@ namespace Battleship
             }
         }
 
-        private int calculateCell()
+        private int calculateCell() //which cell the cursor is on
         {
             var point = Mouse.GetPosition(playfield);
 
@@ -199,13 +239,24 @@ namespace Battleship
             }
         }
 
-        private void ResetBtn_Click(object sender, RoutedEventArgs e)
+        private void resetBtn_Click(object sender, RoutedEventArgs e)
         {
             selectedShip = null;
             calculatedCell = -1;
             shipShadow = false;
 
+            carrierBtn.IsEnabled = true;
+            battleshipBtn.IsEnabled = true;
+            cruiserBtn.IsEnabled = true;
+            submarineBtn.IsEnabled = true;
+            destroyerBtn.IsEnabled = true;
+
             playfield.Children.Clear();
+        }
+
+        private void rotateBtn_Click(object sender, RoutedEventArgs e)
+        {
+            shipHorizontal = !shipHorizontal;
         }
     }
 }
