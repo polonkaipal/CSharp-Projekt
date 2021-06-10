@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Battleship"
         mc:Ignorable="d"
+        ResizeMode="CanMinimize"
         Title="MainWindow" Height="500" Width="1500">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FFD0D6FF" Offset="1"/>
+            <GradientStop Color="White"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -14,8 +22,13 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Grid Height="400" Width="400" Name="leftTable" Grid.Column="0" Margin="20,0,20,0">
+            <Label Grid.Column="0" Content="A     B     C     D     E     F     G     H     I     J" FontFamily="Stencil" FontSize="21.6px" Margin="55 0 10 10" />
+            <TextBlock Grid.Column="0" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="33px" Margin="0,35,440,0" TextWrapping="Wrap" />
+
+            <Grid Height="400" Width="400" Name="leftTable" Grid.Column="0" Background="Transparent" Margin="20,0,20,0" ShowGridLines="True">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -27,6 +40,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
@@ -38,8 +53,13 @@
                 </Grid.RowDefinitions>
             </Grid>
 
-            <Grid Height="400" Width="400" Name="rightTable" Grid.Column="1" Margin="20,0,20,0">
+            <Label Grid.Column="1" Content="A     B     C     D     E     F     G     H     I     J" FontFamily="Stencil" FontSize="21.6px" Margin="55 0 10 10" />
+            <TextBlock Grid.Column="1" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="33px" Margin="0,35,440,0" TextWrapping="Wrap" />
+
+            <Grid Height="400" Width="400" Name="rightTable" Grid.Column="1" Margin="20,0,20,0" ShowGridLines="True">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -51,6 +71,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>

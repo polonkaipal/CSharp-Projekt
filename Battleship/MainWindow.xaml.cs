@@ -20,98 +20,188 @@ namespace Battleship
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly char[] _characters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
-        private static readonly short[] _nums = { 1, 2, 3, 4, 5, 6, 7, 8 };
+        private static readonly char[] _characters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' };
+        private static readonly short[] _nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         private static readonly int rows = _characters.Length;
         private static readonly int columns = _nums.Length;
 
         Random rnd = new Random();
 
-        char[,] battleshipPlayfield = new char[10, 10];
+        char[,] playerPlayfield = new char[10, 10];
+        char[,] aiPlayfield = new char[10, 10];
 
-        public MainWindow(char[,] battleshipPlayfield)
+        public MainWindow(Grid playfield, char[,] playerPlayfield)
         {
             InitializeComponent();
 
-            this.battleshipPlayfield = battleshipPlayfield;
+            this.playerPlayfield = playerPlayfield;
+            playerShipsLoad(playfield);
 
             //createTable(leftTable, 'l');
             //createTable(rightTable, 'r');
 
-            //shipAI(rightTable, rnd);
+            shipAI(rnd);
         }
 
-        private void createTable(Grid table, char tId)
+        private void playerShipsLoad(Grid playfield)
         {
-            for (int row = 0; row < rows; row++)
+            for (int unit = playfield.Children.Count - 1; unit >= 0; unit--)
             {
-                for (int column = 0; column < columns; column++)
-                {
-                    Border border = new()
-                    {
-                        BorderBrush = Brushes.Gray,
-                        BorderThickness = new Thickness(2)
-                    };
-                    Grid.SetRow(border, row);
-                    Grid.SetColumn(border, column);
-                    border.Name = tId.ToString() + _characters[row].ToString() + _nums[column].ToString();
-                    table.Children.Add(border);
-                }
+                var child = playfield.Children[unit];
+                playfield.Children.RemoveAt(unit);
+                leftTable.Children.Add(child);
             }
         }
 
-        private void shipAI(Grid table, Random rnd)
+        private Rectangle shipSettings(string shipName)
         {
+            Rectangle ship = new Rectangle();
+
+            ship.Fill = Brushes.DodgerBlue;
+            var Y = leftTable.Width / rows;
+            var X = leftTable.Height / columns;
+            ship.Width = Y;
+            ship.Height = X;
+
+            ship.Name = shipName;
+
+            return ship;
+        }
+
+        private void shipAI(Random rnd)
+        {
+            int randomOrient;
+            int randomPosX = (int)rnd.Next(0, 10);
+            int randomPosY = (int)rnd.Next(0, 10);
+
+            bool empty;
+
             for (int i = 5; i > 0; i--)
             {
-                int randomOrient = (int)rnd.Next(0, 2);
-                int randomPosX = (int)rnd.Next(0, 9);
-                int randomPosY = (int)rnd.Next(0, 9);
+                empty = false;
+
+                randomOrient = (int)rnd.Next(0, 2);
 
                 if (randomOrient == 0) // vízsintes
                 {
+                    randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                    randomPosY = (int)rnd.Next(0, 10);
+
+                    while (empty == false)
+                    {
+                        if ((randomPosX != 0 && aiPlayfield[randomPosY, randomPosX - 1] == 'H') || ((randomPosX + i - 1) != 9 && aiPlayfield[randomPosY, randomPosX + i] == 'H'))
+                        {
+                            randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                            randomPosY = (int)rnd.Next(0, 10);
+                        }
+                        else
+                        {
+                            for (int k = 0; k < i; k++)
+                            {
+                                if (aiPlayfield[randomPosY, randomPosX + k] == 'H' || (randomPosY != 0 && aiPlayfield[randomPosY - 1, randomPosX + k] == 'H') || (randomPosY != 9 && aiPlayfield[randomPosY + 1, randomPosX + k] == 'H'))
+                                {
+                                    randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                                    randomPosY = (int)rnd.Next(0, 10);
+                                    k = 0;
+                                    break;
+                                }
+                                else if (k == (i - 1))
+                                {
+                                    empty = true;
+                                }
+                            }
+                        }
+                    }
+
                     for (int col = 0; col < i; col++)
                     {
-                        var ship = new Rectangle();
-                        ship.Fill = Brushes.Red;
-                        var Y = table.Width / rows;
-                        var X = table.Height / columns;
-                        ship.Width = Y;
-                        ship.Height = X;
+                        Rectangle ship = shipSettings(i);
 
-                        while (randomPosY + i > 8)
-                        {
-                            randomPosY = (int)rnd.Next(0, 9);
-                        }
+                        Grid.SetRow(ship, randomPosY);
+                        Grid.SetColumn(ship, col + randomPosX);
 
-                        Grid.SetRow(ship, randomPosX);
-                        Grid.SetColumn(ship, col + randomPosY);
-
-                        table.Children.Add(ship);
+                        aiPlayfield[randomPosY, randomPosX + col] = 'H';
+                        rightTable.Children.Add(ship);
                     }
                 }
                 else if (randomOrient == 1) //függőleges
                 {
+                    randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                    randomPosX = (int)rnd.Next(0, 10);
+
+                    while (empty == false)
+                    {
+                        if ((randomPosY != 0 && aiPlayfield[randomPosY - 1, randomPosX] == 'H') || ((randomPosY + i - 1) != 9 && aiPlayfield[randomPosY + i, randomPosX] == 'H'))
+                        {
+                            randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                            randomPosX = (int)rnd.Next(0, 10);
+                        }
+                        else
+                        {
+                            for (int k = 0; k < i; k++)
+                            {
+                                if (aiPlayfield[randomPosY + k, randomPosX] == 'H' || (randomPosX != 0 && aiPlayfield[randomPosY + k, randomPosX - 1] == 'H') || (randomPosX != 9 && aiPlayfield[randomPosY + k, randomPosX + 1] == 'H'))
+                                {
+                                    randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                                    randomPosX = (int)rnd.Next(0, 10);
+                                    k = 0;
+                                    break;
+                                }
+                                else if (k == (i - 1))
+                                {
+                                    empty = true;
+                                }
+                            }
+                        }
+                    }
+
                     for (int row = 0; row < i; row++)
                     {
-                        var ship = new Rectangle();
-                        ship.Fill = Brushes.Red;
-                        var Y = table.Width / rows;
-                        var X = table.Height / columns;
-                        ship.Width = Y;
-                        ship.Height = X;
+                        Rectangle ship = shipSettings(i);
 
-                        while (randomPosX + i > 8)
-                        {
-                            randomPosX = (int)rnd.Next(0, 9);
-                        }
+                        Grid.SetRow(ship, row + randomPosY);
+                        Grid.SetColumn(ship, randomPosX);
 
-                        Grid.SetRow(ship, row + randomPosX);
-                        Grid.SetColumn(ship, randomPosY);
-
-                        table.Children.Add(ship);
+                        aiPlayfield[randomPosY + row, randomPosX] = 'H';
+                        rightTable.Children.Add(ship);
                     }
                 }
+            }
+        }
+
+        private Rectangle shipSettings(int shipLength)
+        {
+            Rectangle ship = new Rectangle();
+            ship.Fill = Brushes.DodgerBlue;
+            var Y = rightTable.Width / rows;
+            var X = rightTable.Height / columns;
+            ship.Width = Y;
+            ship.Height = X;
+
+            shipSetName(ship, shipLength);
+
+            return ship;
+        }
+
+        private void shipSetName(Rectangle ship, int shipLength)
+        {
+            switch (shipLength)
+            {
+                case 5:
+                    ship.Name = "Carrier";
+                    break;
+                case 4:
+                    ship.Name = "Battleship";
+                    break;
+                case 3:
+                    ship.Name = "Cruiser";
+                    break;
+                case 2:
+                    ship.Name = "Submarine";
+                    break;
+                case 1:
+                    ship.Name = "Destroyer";
+                    break;
             }
         }
     }

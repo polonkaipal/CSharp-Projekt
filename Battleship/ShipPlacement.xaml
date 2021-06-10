@@ -14,7 +14,7 @@
             <GradientStop Color="White"/>
         </LinearGradientBrush>
     </Window.Background>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
@@ -44,7 +44,11 @@
             <Button x:Name="SubmitBtn" Click="submitBtn_Click" Content="Submit" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
         </StackPanel>
 
-        <Grid Height="400" Width="400" Grid.Row="1" Grid.Column="1" Name="playfield" Margin="20,0,20,0" Background="Transparent" PreviewMouseMove="onGridMouseOver" PreviewMouseLeftButtonDown="onGridMouseClick" ShowGridLines="True" >
+        <Label Grid.Row="1" Grid.Column="1" Content="A     B     C     D     E     F     G     H     I     J" FontFamily="Stencil" FontSize="21.6px" Margin="65 0 10 10" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Width="45px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="33px" Margin="10,40,430,0" TextWrapping="Wrap" />
+
+
+        <Grid Height="400" Width="400" Grid.Row="1" Grid.Column="1" Name="playfield" Margin="20,0,20,0" Background="Transparent" PreviewMouseMove="onGridMouseOver" PreviewMouseLeftButtonDown="onGridMouseClick" ShowGridLines="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
