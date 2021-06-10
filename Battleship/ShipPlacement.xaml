@@ -39,7 +39,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
-            <Button x:Name="RandomBtn" Content="Random" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+            <Button x:Name="RandomBtn" Click="randomBtn_Click" Content="Random" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
             <Button x:Name="ResetBtn" Click="resetBtn_Click" Content="Reset" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
             <Button x:Name="SubmitBtn" Content="Submit" Width="150px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
         </StackPanel>
