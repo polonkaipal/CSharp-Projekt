@@ -27,14 +27,18 @@ namespace Battleship
 
         Random rnd = new Random();
 
-        public MainWindow()
+        char[,] battleshipPlayfield = new char[10, 10];
+
+        public MainWindow(char[,] battleshipPlayfield)
         {
             InitializeComponent();
 
-            createTable(leftTable, 'l');
-            createTable(rightTable, 'r');
+            this.battleshipPlayfield = battleshipPlayfield;
 
-            shipAI(rightTable, rnd);
+            //createTable(leftTable, 'l');
+            //createTable(rightTable, 'r');
+
+            //shipAI(rightTable, rnd);
         }
 
         private void createTable(Grid table, char tId)

@@ -26,7 +26,7 @@ namespace Battleship
         bool shipShadow = false;
         bool shipHorizontal = false;
 
-        char[,] battleshipPlayfield = new char[10,10];
+        char[,] battleshipPlayfield = new char[10, 10];
 
         public ShipPlacement()
         {
@@ -41,118 +41,138 @@ namespace Battleship
                 deleteShipShadow(shipLength);
                 shipShadow = false;
 
-                bool emptyCells = true;
-
                 for (int i = 0; i < shipLength; i++)
                 {
                     int cell = calculateCell();
 
-                    //playfield.Children[2].GetValue(Name)
-
-                    var ship = new Rectangle();
-                    ship.Fill = Brushes.DodgerBlue;
-                    var Y = playfield.Width / rows;
-                    var X = playfield.Height / columns;
-                    ship.Width = Y;
-                    ship.Height = X;
-
-                    ship.Name = selectedShip;
+                    Rectangle ship = shipSettings();
 
                     bool shipPlacementEnoughSpace = true;
 
-                    // horizontal/vertical ship alignment
-                    if (!shipHorizontal)
+                    //enough space for the selected ship or not
+                    shipPlacementEnoughSpace = !shipExtendsBeyond(cell, shipLength, shipHorizontal);
+
+                    //collision with another ship
+                    if (shipPlacementEnoughSpace)
                     {
-                        //enough space for the selected ship or not
-                        if (cell / 10 + shipLength - 1 < 10 && cell % 10 < 10)
-                        {
-                            //collision with another ship
-                            for (int unit = 0 + i; unit < shipLength; unit++)
-                            {
-                                if (battleshipPlayfield[cell / 10 + unit, cell % 10] == 'H')
-                                {
-                                    emptyCells = false;
-                                    break;
-                                }
-                            }
-
-                            if (!emptyCells)
-                            {
-                                shipPlacementEnoughSpace = false;
-                                break;
-                            }
-
-                            Grid.SetRow(ship, cell / 10 + i);
-                            Grid.SetColumn(ship, cell % 10);
-
-                            //save the ship position
-                            battleshipPlayfield[cell / 10 + i, cell % 10] = 'H';
-                        }
-                        else
-                        {
-                            shipPlacementEnoughSpace = false;
-                        }
-                    }
-                    else if (shipHorizontal)
-                    {
-                        //enough space for the selected ship or not
-                        if (cell / 10 < 10 && cell % 10 + shipLength - 1 < 10)
-                        {
-                            //collision with another ship
-                            for (int unit = 0 + i; unit < shipLength; unit++)
-                            {
-                                if (battleshipPlayfield[cell / 10, cell % 10 + unit] == 'H')
-                                {
-                                    emptyCells = false;
-                                    break;
-                                }
-                            }
-
-                            if (!emptyCells)
-                            {
-                                shipPlacementEnoughSpace = false;
-                                break;
-                            }
-
-                            Grid.SetRow(ship, cell / 10);
-                            Grid.SetColumn(ship, cell % 10 + i);
-
-                            //save the ship position
-                            battleshipPlayfield[cell / 10, cell % 10 + i] = 'H';
-                        }
-                        else
-                        {
-                            shipPlacementEnoughSpace = false;
-                        }
+                        shipPlacementEnoughSpace = !shipCollision(i, cell, shipLength, shipHorizontal);
                     }
 
                     if (shipPlacementEnoughSpace)
                     {
-                        playfield.Children.Add(ship);
-
-                        switch (selectedShip) //placed ship button set disabled
-                        {
-                            case "Carrier":
-                                carrierBtn.IsEnabled = false;
-                                break;
-                            case "Battleship":
-                                battleshipBtn.IsEnabled = false;
-                                break;
-                            case "Cruiser":
-                                cruiserBtn.IsEnabled = false;
-                                break;
-                            case "Submarine":
-                                submarineBtn.IsEnabled = false;
-                                break;
-                            case "Destroyer":
-                                destroyerBtn.IsEnabled = false;
-                                break;
-                        }
-
-                        selectedShip = null;
+                        shipPlaceToPlayfield(ship, i, cell, shipHorizontal);
+                        setSelectedShipButtonDisabled();
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
             }
+        }
+
+        private void setSelectedShipButtonDisabled()
+        {
+            switch (selectedShip) //placed ship button set disabled
+            {
+                case "Carrier":
+                    carrierBtn.IsEnabled = false;
+                    break;
+                case "Battleship":
+                    battleshipBtn.IsEnabled = false;
+                    break;
+                case "Cruiser":
+                    cruiserBtn.IsEnabled = false;
+                    break;
+                case "Submarine":
+                    submarineBtn.IsEnabled = false;
+                    break;
+                case "Destroyer":
+                    destroyerBtn.IsEnabled = false;
+                    break;
+            }
+
+            selectedShip = null;
+        }
+
+        private void shipPlaceToPlayfield(Rectangle ship, int i, int cell, bool shipHorizontal)
+        {
+            if (shipHorizontal)
+            {
+                Grid.SetRow(ship, cell / 10);
+                Grid.SetColumn(ship, cell % 10 + i);
+
+                //save the ship position
+                battleshipPlayfield[cell / 10, cell % 10 + i] = 'H';
+            }
+            else if (!shipHorizontal)
+            {
+                Grid.SetRow(ship, cell / 10 + i);
+                Grid.SetColumn(ship, cell % 10);
+
+                //save the ship position
+                battleshipPlayfield[cell / 10 + i, cell % 10] = 'H';
+            }
+
+            playfield.Children.Add(ship);
+        }
+
+        private bool shipExtendsBeyond(int cell, int shipLength, bool shipHorizontal)
+        {
+            if (shipHorizontal)
+            {
+                if (cell / 10 < 10 && cell % 10 + shipLength - 1 < 10)
+                {
+                    return false;
+                }
+            }
+            else if (!shipHorizontal)
+            {
+                if (cell / 10 + shipLength - 1 < 10 && cell % 10 < 10)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool shipCollision(int i, int cell, int shipLength, bool shipHorizontal)
+        {
+            for (int unit = 0 + i; unit < shipLength; unit++)
+            {
+                if (shipHorizontal)
+                {
+                    if (battleshipPlayfield[cell / 10, cell % 10 + unit] == 'H')
+                    {
+                        return true;
+                    }
+                }
+                else if (!shipHorizontal)
+                {
+                    if (battleshipPlayfield[cell / 10 + unit, cell % 10] == 'H')
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private Rectangle shipSettings()
+        {
+            Rectangle ship = new Rectangle();
+
+            ship.Fill = Brushes.DodgerBlue;
+            var Y = playfield.Width / rows;
+            var X = playfield.Height / columns;
+            ship.Width = Y;
+            ship.Height = X;
+
+            ship.Name = selectedShip;
+
+            return ship;
         }
 
         private void shipBtn(object sender, RoutedEventArgs e) //select ship type
@@ -299,6 +319,157 @@ namespace Battleship
         private void rotateBtn_Click(object sender, RoutedEventArgs e)
         {
             shipHorizontal = !shipHorizontal;
+        }
+
+        private void submitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (everyShipPlaced())
+            {
+                MainWindow battleshipPlayfieldWindow = new MainWindow(battleshipPlayfield);
+                App.Current.MainWindow = battleshipPlayfieldWindow;
+                this.Close();
+                battleshipPlayfieldWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("All ships must be placed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        private bool everyShipPlaced()
+        {
+            if (!carrierBtn.IsEnabled && !battleshipBtn.IsEnabled && !cruiserBtn.IsEnabled && !submarineBtn.IsEnabled && !destroyerBtn.IsEnabled)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void randomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            playfield.Children.Clear();
+
+            Array.Clear(battleshipPlayfield, 0, battleshipPlayfield.Length);
+
+            carrierBtn.IsEnabled = false;
+            battleshipBtn.IsEnabled = false;
+            cruiserBtn.IsEnabled = false;
+            submarineBtn.IsEnabled = false;
+            destroyerBtn.IsEnabled = false;
+
+            Random rnd = new Random();
+
+            int randomOrient;
+            int randomPosX = (int)rnd.Next(0, 10);
+            int randomPosY = (int)rnd.Next(0, 10);
+
+            bool empty;
+
+            for (int i = 5; i > 0; i--)
+            {
+                empty = false;
+
+                randomOrient = (int)rnd.Next(0, 2);
+
+                if (randomOrient == 0) // vízsintes
+                {
+                    randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                    randomPosY = (int)rnd.Next(0, 10);
+
+                    while (empty == false)
+                    {
+                        if ((randomPosX != 0 && battleshipPlayfield[randomPosY, randomPosX-1] == 'H') || ((randomPosX + i - 1)!= 9 && battleshipPlayfield[randomPosY, randomPosX + i] == 'H'))
+                        {
+                            randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                            randomPosY = (int)rnd.Next(0, 10);
+                        }
+                        else
+                        {
+                            for (int k = 0; k < i; k++)
+                            {
+                                if (battleshipPlayfield[randomPosY, randomPosX + k] == 'H' || (randomPosY != 0 && battleshipPlayfield[randomPosY - 1, randomPosX + k] == 'H') || (randomPosY != 9 && battleshipPlayfield[randomPosY + 1, randomPosX + k] == 'H'))
+                                {
+                                    randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                                    randomPosY = (int)rnd.Next(0, 10);
+                                    k = 0;
+                                    break;
+                                }
+                                else if (k == (i - 1))
+                                {
+                                    empty = true;
+                                }
+                            }
+                        }
+                    }
+
+                    for (int col = 0; col < i; col++)
+                    {
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.DodgerBlue;
+                        var Y = playfield.Width / rows;
+                        var X = playfield.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
+
+                        Grid.SetRow(ship, randomPosY);
+                        Grid.SetColumn(ship, col + randomPosX);
+
+                        battleshipPlayfield[randomPosY, randomPosX + col] = 'H';
+                        playfield.Children.Add(ship);
+                    }
+                }
+                else if (randomOrient == 1) //függőleges
+                {
+                    randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                    randomPosX = (int)rnd.Next(0, 10);
+
+                    while (empty == false)
+                    {
+                        if ((randomPosY != 0 && battleshipPlayfield[randomPosY - 1, randomPosX] == 'H') || ((randomPosY + i - 1) != 9 && battleshipPlayfield[randomPosY + i, randomPosX] == 'H') )
+                        {
+                            randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                            randomPosX = (int)rnd.Next(0, 10);
+                        }
+                        else
+                        {
+                            for (int k = 0; k < i; k++)
+                            {
+                                if (battleshipPlayfield[randomPosY + k, randomPosX] == 'H' || (randomPosX != 0 && battleshipPlayfield[randomPosY + k, randomPosX - 1] == 'H') || (randomPosX != 9 && battleshipPlayfield[randomPosY + k, randomPosX + 1] == 'H'))
+                                {
+                                    randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                                    randomPosX = (int)rnd.Next(0, 10);
+                                    k = 0;
+                                    break;
+                                }
+                                else if(k == (i-1))
+                                {
+                                    empty = true;
+                                }
+                            }                            
+                        }
+                    }
+
+                    for (int row = 0; row < i; row++)
+                    {
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.DodgerBlue;
+                        var Y = playfield.Width / rows;
+                        var X = playfield.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
+
+                        Grid.SetRow(ship, row + randomPosY);
+                        Grid.SetColumn(ship, randomPosX);
+
+                        battleshipPlayfield[randomPosY + row, randomPosX] = 'H';
+                        playfield.Children.Add(ship);
+                    }
+                }
+            }
         }
     }
 }
