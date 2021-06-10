@@ -30,6 +30,8 @@ namespace Battleship
         char[,] playerPlayfield = new char[10, 10];
         char[,] aiPlayfield = new char[10, 10];
 
+        bool aiShipsShow = false;
+
         public MainWindow(Grid playfield, char[,] playerPlayfield)
         {
             InitializeComponent();
@@ -37,10 +39,8 @@ namespace Battleship
             this.playerPlayfield = playerPlayfield;
             playerShipsLoad(playfield);
 
-            //createTable(leftTable, 'l');
-            //createTable(rightTable, 'r');
-
             shipAI(rnd);
+
         }
 
         private void playerShipsLoad(Grid playfield)
@@ -51,21 +51,6 @@ namespace Battleship
                 playfield.Children.RemoveAt(unit);
                 leftTable.Children.Add(child);
             }
-        }
-
-        private Rectangle shipSettings(string shipName)
-        {
-            Rectangle ship = new Rectangle();
-
-            ship.Fill = Brushes.DodgerBlue;
-            var Y = leftTable.Width / rows;
-            var X = leftTable.Height / columns;
-            ship.Width = Y;
-            ship.Height = X;
-
-            ship.Name = shipName;
-
-            return ship;
         }
 
         private void shipAI(Random rnd)
@@ -180,6 +165,8 @@ namespace Battleship
 
             shipSetName(ship, shipLength);
 
+            ship.Visibility = Visibility.Hidden;
+
             return ship;
         }
 
@@ -202,6 +189,26 @@ namespace Battleship
                 case 1:
                     ship.Name = "Destroyer";
                     break;
+            }
+        }
+
+        private void aiVisibility_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.S))
+            {
+                aiShipsShow = !aiShipsShow;
+
+                for (int unit = 0; unit < rightTable.Children.Count; unit++)
+                {
+                    if (aiShipsShow)
+                    {
+                        rightTable.Children[unit].Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        rightTable.Children[unit].Visibility = Visibility.Hidden;
+                    }
+                }
             }
         }
     }
