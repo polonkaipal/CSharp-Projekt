@@ -348,5 +348,128 @@ namespace Battleship
                 return false;
             }
         }
+
+        private void randomBtn_Click(object sender, RoutedEventArgs e)
+        {
+            playfield.Children.Clear();
+
+            Array.Clear(battleshipPlayfield, 0, battleshipPlayfield.Length);
+
+            carrierBtn.IsEnabled = false;
+            battleshipBtn.IsEnabled = false;
+            cruiserBtn.IsEnabled = false;
+            submarineBtn.IsEnabled = false;
+            destroyerBtn.IsEnabled = false;
+
+            Random rnd = new Random();
+
+            int randomOrient;
+            int randomPosX = (int)rnd.Next(0, 10);
+            int randomPosY = (int)rnd.Next(0, 10);
+
+            bool empty;
+
+            for (int i = 5; i > 0; i--)
+            {
+                empty = false;
+
+                randomOrient = (int)rnd.Next(0, 2);
+
+                if (randomOrient == 0) // vízsintes
+                {
+                    randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                    randomPosY = (int)rnd.Next(0, 10);
+
+                    while (empty == false)
+                    {
+                        if ((randomPosX != 0 && battleshipPlayfield[randomPosY, randomPosX-1] == 'H') || ((randomPosX + i - 1)!= 9 && battleshipPlayfield[randomPosY, randomPosX + i] == 'H'))
+                        {
+                            randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                            randomPosY = (int)rnd.Next(0, 10);
+                        }
+                        else
+                        {
+                            for (int k = 0; k < i; k++)
+                            {
+                                if (battleshipPlayfield[randomPosY, randomPosX + k] == 'H' || (randomPosY != 0 && battleshipPlayfield[randomPosY - 1, randomPosX + k] == 'H') || (randomPosY != 9 && battleshipPlayfield[randomPosY + 1, randomPosX + k] == 'H'))
+                                {
+                                    randomPosX = (int)rnd.Next(0, 10 - i + 1);
+                                    randomPosY = (int)rnd.Next(0, 10);
+                                    k = 0;
+                                    break;
+                                }
+                                else if (k == (i - 1))
+                                {
+                                    empty = true;
+                                }
+                            }
+                        }
+                    }
+
+                    for (int col = 0; col < i; col++)
+                    {
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.DodgerBlue;
+                        var Y = playfield.Width / rows;
+                        var X = playfield.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
+
+                        Grid.SetRow(ship, randomPosY);
+                        Grid.SetColumn(ship, col + randomPosX);
+
+                        battleshipPlayfield[randomPosY, randomPosX + col] = 'H';
+                        playfield.Children.Add(ship);
+                    }
+                }
+                else if (randomOrient == 1) //függőleges
+                {
+                    randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                    randomPosX = (int)rnd.Next(0, 10);
+
+                    while (empty == false)
+                    {
+                        if ((randomPosY != 0 && battleshipPlayfield[randomPosY - 1, randomPosX] == 'H') || ((randomPosY + i - 1) != 9 && battleshipPlayfield[randomPosY + i, randomPosX] == 'H') )
+                        {
+                            randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                            randomPosX = (int)rnd.Next(0, 10);
+                        }
+                        else
+                        {
+                            for (int k = 0; k < i; k++)
+                            {
+                                if (battleshipPlayfield[randomPosY + k, randomPosX] == 'H' || (randomPosX != 0 && battleshipPlayfield[randomPosY + k, randomPosX - 1] == 'H') || (randomPosX != 9 && battleshipPlayfield[randomPosY + k, randomPosX + 1] == 'H'))
+                                {
+                                    randomPosY = (int)rnd.Next(0, 10 - i + 1);
+                                    randomPosX = (int)rnd.Next(0, 10);
+                                    k = 0;
+                                    break;
+                                }
+                                else if(k == (i-1))
+                                {
+                                    empty = true;
+                                }
+                            }                            
+                        }
+                    }
+
+                    for (int row = 0; row < i; row++)
+                    {
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.DodgerBlue;
+                        var Y = playfield.Width / rows;
+                        var X = playfield.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
+
+                        Grid.SetRow(ship, row + randomPosY);
+                        Grid.SetColumn(ship, randomPosX);
+
+                        battleshipPlayfield[randomPosY + row, randomPosX] = 'H';
+                        playfield.Children.Add(ship);
+                    }
+                }
+            }
+        }
     }
 }
