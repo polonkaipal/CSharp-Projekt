@@ -325,7 +325,7 @@ namespace Battleship
         {
             if (everyShipPlaced())
             {
-                MainWindow battleshipPlayfieldWindow = new MainWindow();
+                MainWindow battleshipPlayfieldWindow = new MainWindow(battleshipPlayfield);
                 App.Current.MainWindow = battleshipPlayfieldWindow;
                 this.Close();
                 battleshipPlayfieldWindow.Show();
