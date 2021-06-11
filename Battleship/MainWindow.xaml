@@ -106,8 +106,8 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" Content="New Game" FontSize="25" Margin="20"></Button>
-                        <Button Grid.Column="1" Content="Reset" FontSize="25" Margin="20"></Button>
+                        <Button Click="new_gameBtn_Click" Grid.Column="0" Content="New Game" FontSize="25" Margin="20"></Button>
+                        <Button Click="resetBtn_Click" Grid.Column="1" Content="Reset" FontSize="25" Margin="20"></Button>
                     </Grid>
                 </Grid>
             </Grid>

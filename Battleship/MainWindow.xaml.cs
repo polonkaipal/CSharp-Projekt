@@ -43,6 +43,23 @@ namespace Battleship
 
         }
 
+        private void new_gameBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Opponent opponentWindow = new Opponent();
+            App.Current.MainWindow = opponentWindow;
+            this.Close();
+            opponentWindow.Show();
+        }
+
+        private void resetBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShipPlacement shipPlacementWindow = new ShipPlacement();
+            App.Current.MainWindow = shipPlacementWindow;
+            this.Close();
+            shipPlacementWindow.Show();
+        }
+
+        
         private void playerShipsLoad(Grid playfield)
         {
             for (int unit = playfield.Children.Count - 1; unit >= 0; unit--)
