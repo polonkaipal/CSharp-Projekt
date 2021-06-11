@@ -103,7 +103,16 @@
                         <RowDefinition Height="3*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0" Content="New Game" Width="250px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button Grid.Column="0" x:Name="newgameBtn" Content="New Game" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+                        <Button Grid.Column="1" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+
+                    </Grid>
 
                     <Label Grid.Row="1" Content="Stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
