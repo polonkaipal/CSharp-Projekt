@@ -19,14 +19,31 @@ namespace Battleship
     /// </summary>
     public partial class Opponent : Window
     {
+        String mode;
+
         public Opponent()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void openWindow()
         {
+            ShipPlacement shipPlacementtWindow = new ShipPlacement(mode);
+            App.Current.MainWindow = shipPlacementtWindow;
+            this.Close();
+            shipPlacementtWindow.Show();
+        }
 
+        private void pcBtn_Click(object sender, RoutedEventArgs e)
+        {
+            mode = "pc";
+            openWindow();
+        }
+
+        private void ppBtn_Click (object sender, RoutedEventArgs e)
+        {
+            mode = "pp";
+            openWindow();
         }
     }
 }

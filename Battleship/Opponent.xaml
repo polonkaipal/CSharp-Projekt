@@ -21,9 +21,10 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Button Content="Player VS Computer" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="300" Click="Button_Click"/>
-        <Button Content="Player VS Player" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="100" Width="300"/>
-        <Label Content="Game Mode"  FontFamily="Stencil" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="40" Grid.ColumnSpan="2" Margin="335,21,0,0"/>
+
+        <Button Click="pcBtn_Click" Content="Player VS Computer" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="350" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil"/>
+        <Button Click="ppBtn_Click" Content="Player VS Player" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="100" Width="350" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil"/>
+        <Label Content="Game Mode"  FontFamily="Stencil" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="40" Grid.ColumnSpan="2" Margin="335,0,0,0"/>
 
     </Grid>
 </Window>

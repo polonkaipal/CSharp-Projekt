@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 
 namespace Battleship
 {
@@ -28,6 +30,7 @@ namespace Battleship
         Random rnd = new Random();
 
         char[,] playerPlayfield = new char[10, 10];
+        char[,] playerPlayfield2 = new char[10, 10];
         char[,] aiPlayfield = new char[10, 10];
 
         bool aiShipsShow = false;
@@ -40,6 +43,39 @@ namespace Battleship
             playerShipsLoad(playfield);
 
             shipAI(rnd);
+
+        }
+
+        public MainWindow(Grid playfield, char[,] playerPlayfield, char[,] playerPlayfield2)
+        {
+            InitializeComponent();
+
+            this.playerPlayfield = playerPlayfield; 
+            this.playerPlayfield2 = playerPlayfield2;
+            playerShipsLoad(playfield);
+
+
+            for (int row = 0; row < 10; row++)
+            {
+                for (int col = 0; col < 10; col++)
+                {
+                    Rectangle ship = new Rectangle();
+                    ship.Fill = Brushes.Red;
+                    var Y = rightTable.Width / rows;
+                    var X = rightTable.Height / columns;
+                    ship.Width = Y;
+                    ship.Height = X;
+
+                    Grid.SetRow(ship, row);
+                    Grid.SetColumn(ship, col);
+
+                    if (playerPlayfield[row, col] == 'H')
+                    {
+                        rightTable.Children.Add(ship);
+                    }
+                }
+
+            }
 
         }
 
@@ -69,6 +105,7 @@ namespace Battleship
                 leftTable.Children.Add(child);
             }
         }
+
 
         private void shipAI(Random rnd)
         {

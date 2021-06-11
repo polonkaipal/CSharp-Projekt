@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,30 @@ namespace Battleship
         int calculatedCell = -1;
         bool shipShadow = false;
         bool shipHorizontal = false;
+        string mode = "";
 
         char[,] battleshipPlayfield = new char[10, 10];
+        char[,] battleshipPlayfield2 = new char[10, 10];
 
         public ShipPlacement()
         {
             InitializeComponent();
         }
+
+        public ShipPlacement(string mode)
+        {
+            this.mode = mode;
+            //Debug.WriteLine(mode);
+            InitializeComponent();
+        }
+
+        public ShipPlacement(char[,] battleshipPlayfieldsave)
+        {
+            battleshipPlayfield2 = (char[,])battleshipPlayfieldsave.Clone();
+            //Debug.WriteLine(mode);
+            InitializeComponent();
+        }
+
 
         private void onGridMouseClick(object sender, MouseButtonEventArgs e) //ship placement in the playfield
         {
@@ -330,19 +348,38 @@ namespace Battleship
 
         private void submitBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (everyShipPlaced())
+            if(mode == "pc")
             {
-                MainWindow battleshipPlayfieldWindow = new MainWindow(playfield, battleshipPlayfield);
-                App.Current.MainWindow = battleshipPlayfieldWindow;
+                if (everyShipPlaced())
+                {
+                    MainWindow battleshipPlayfieldWindow = new MainWindow(playfield, battleshipPlayfield);
+                    App.Current.MainWindow = battleshipPlayfieldWindow;
+                    this.Close();
+                    battleshipPlayfieldWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show("All ships must be placed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else if (mode == "pp")
+            {
+
+                ShipPlacement shipPlacementtWindow = new ShipPlacement(battleshipPlayfield);
+                App.Current.MainWindow = shipPlacementtWindow;
                 this.Close();
-                battleshipPlayfieldWindow.Show();
+                shipPlacementtWindow.Show();
             }
             else
             {
-                MessageBox.Show("All ships must be placed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow mainWindow = new MainWindow(playfield, battleshipPlayfield2, battleshipPlayfield);
+                App.Current.MainWindow = mainWindow;
+                this.Close();
+                mainWindow.Show();
             }
-
         }
+
+        
 
         private bool everyShipPlaced()
         {
