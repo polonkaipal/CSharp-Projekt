@@ -41,6 +41,52 @@ namespace Battleship
 
             shipAI(rnd);
 
+            shipStatHpInit();
+
+        }
+
+        private void shipStatHpInit()
+        {
+            for (int ship = 5; ship > 0; ship--)
+            {
+                for (int unit = 0; unit < ship; unit++)
+                {
+                    Rectangle hpUnit = shipHpSettings(ship);
+
+                    Grid.SetColumn(hpUnit, unit);
+
+                    switch (ship)
+                    {
+                        case 5:
+                            carrierHpGrid.Children.Add(hpUnit);
+                            break;
+                        case 4:
+                            battleshipHpGrid.Children.Add(hpUnit);
+                            break;
+                        case 3:
+                            cruiserHpGrid.Children.Add(hpUnit);
+                            break;
+                        case 2:
+                            submarineHpGrid.Children.Add(hpUnit);
+                            break;
+                        case 1:
+                            destroyerHpGrid.Children.Add(hpUnit);
+                            break;
+                    }
+                }
+            }
+        }
+
+        private Rectangle shipHpSettings(int shipLength)
+        {
+            Rectangle hpUnit = new Rectangle();
+            hpUnit.Fill = Brushes.Green;
+            var Y = carrierHpGrid.Width;
+            var X = carrierHpGrid.Height / shipLength;
+            hpUnit.Width = Y;
+            hpUnit.Height = X;
+
+            return hpUnit;
         }
 
         private void playerShipsLoad(Grid playfield)
