@@ -27,7 +27,7 @@
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="ShipPlacement" Grid.Row="0" Grid.ColumnSpan="2" FontFamily="Stencil" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
+        <Label x:Name="welcomeLabel" Content="ShipPlacement" Grid.Row="0" Grid.ColumnSpan="2" FontFamily="Stencil" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="40"/>
 
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Button x:Name="carrierBtn" Content="Carrier" Click="shipBtn" HorizontalContentAlignment="Center" FontWeight="Black" FontSize="25px" FontFamily="Stencil" Background="Transparent" BorderBrush="Black" BorderThickness="2" Width="200px" Height="45px" Margin="10"/>

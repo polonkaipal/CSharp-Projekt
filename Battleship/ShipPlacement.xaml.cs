@@ -43,6 +43,7 @@ namespace Battleship
             this.player1Name = player1Name;
 
             this.Title = player1Name + "'s ship placement";
+            welcomeLabel.Content = player1Name + "'s ship placement";
         }
 
         public ShipPlacement(string player1Name, string player2Name)
@@ -54,6 +55,7 @@ namespace Battleship
             this.player2Name = player2Name;
 
             this.Title = player1Name + "'s ship placement";
+            welcomeLabel.Content = player1Name + "'s ship placement";
         }
 
         public ShipPlacement(string player1Name, string player2Name, Grid playfield, char[,] battleshipPlayfield)
@@ -67,6 +69,7 @@ namespace Battleship
             this.player1PlayfieldGrid = playfield;
 
             this.Title = player2Name + "'s ship placement";
+            welcomeLabel.Content = player2Name + "'s ship placement";
         }
 
         private void onGridMouseClick(object sender, MouseButtonEventArgs e) //ship placement in the playfield
