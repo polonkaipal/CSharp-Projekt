@@ -62,5 +62,6 @@ Indítsd el a solution fájlt
 ### Induló ablak
 ![induló ablak](screenshots/valaszto.jpg)
 ![induló ablak 2](screenshots/valaszto2.jpg)
+![hajók elhelyezése](screenshots/hajok_elhelyezese.jpg)
 
 Todo
