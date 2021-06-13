@@ -61,5 +61,6 @@ Indítsd el a solution fájlt
 
 ### Induló ablak
 ![induló ablak](screenshots/valaszto.jpg)
+![induló ablak 2](screenshots/valaszto.jpg)
 
 Todo
