@@ -67,4 +67,7 @@ Indítsd el a solution fájlt
 ![hajók elhelyezése](screenshots/hajok_elhelyezese.jpg)
 ![hajók elhelyezése 2](screenshots/hajok_elhelyezese2.jpg)
 
+### Játék
+![elindult játék](screenshots/hajok_elhelyezese2.jpg)
+
 Todo
