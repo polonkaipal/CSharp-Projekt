@@ -34,7 +34,25 @@ namespace Battleship
 
         private void playBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (vsComputerRadioBtn.IsChecked == true)
+            {
+                if (!string.IsNullOrWhiteSpace(player1TextBox.Text))
+                {
+                    ShipPlacement player1ShipPlacementWindow = new ShipPlacement(player1TextBox.Text);
+                    this.Close();
+                    player1ShipPlacementWindow.Show();
+                }
+            }
+            else if (vsPlayerRadioBtn.IsChecked == true)
+            {
+                if (!string.IsNullOrWhiteSpace(player1TextBox.Text) && !string.IsNullOrWhiteSpace(player2TextBox.Text))
+                {
+                    ShipPlacement player1ShipPlacementWindow = new ShipPlacement(player1TextBox.Text, player2TextBox.Text);
+                    App.Current.MainWindow = player1ShipPlacementWindow;
+                    this.Close();
+                    player1ShipPlacementWindow.Show();
+                }
+            }
         }
     }
 }

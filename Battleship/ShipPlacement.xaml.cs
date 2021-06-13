@@ -19,18 +19,54 @@ namespace Battleship
     /// </summary>
     public partial class ShipPlacement : Window
     {
-        string selectedShip = null;
-        int rows = 10;
-        int columns = 10;
-        int calculatedCell = -1;
-        bool shipShadow = false;
-        bool shipHorizontal = false;
+        private string selectedShip = null;
+        private int rows = 10;
+        private int columns = 10;
+        private int calculatedCell = -1;
+        private bool shipShadow = false;
+        private bool shipHorizontal = false;
 
-        char[,] battleshipPlayfield = new char[10, 10];
+        private char[,] battleshipPlayfield = new char[10, 10];
 
-        public ShipPlacement()
+        private bool vsComputer;
+        private bool player2PlaceShips = false;
+        private string player1Name;
+        private string player2Name;
+        private char[,] player1BattleshipPlayfield = new char[10, 10];
+        private Grid player1PlayfieldGrid;
+
+        public ShipPlacement(string player1Name)
         {
             InitializeComponent();
+
+            vsComputer = true;
+            this.player1Name = player1Name;
+
+            this.Title = player1Name + "'s ship placement";
+        }
+
+        public ShipPlacement(string player1Name, string player2Name)
+        {
+            InitializeComponent();
+
+            vsComputer = false;
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
+
+            this.Title = player1Name + "'s ship placement";
+        }
+
+        public ShipPlacement(string player1Name, string player2Name, Grid playfield, char[,] battleshipPlayfield)
+        {
+            InitializeComponent();
+
+            player2PlaceShips = true;
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
+            this.player1BattleshipPlayfield = battleshipPlayfield;
+            this.player1PlayfieldGrid = playfield;
+
+            this.Title = player2Name + "'s ship placement";
         }
 
         private void onGridMouseClick(object sender, MouseButtonEventArgs e) //ship placement in the playfield
@@ -332,10 +368,29 @@ namespace Battleship
         {
             if (everyShipPlaced())
             {
-                MainWindow battleshipPlayfieldWindow = new MainWindow(playfield, battleshipPlayfield);
-                App.Current.MainWindow = battleshipPlayfieldWindow;
-                this.Close();
-                battleshipPlayfieldWindow.Show();
+                if (vsComputer)
+                {
+                    MainWindow battleshipPlayfieldWindow = new MainWindow(playfield, battleshipPlayfield);
+                    App.Current.MainWindow = battleshipPlayfieldWindow;
+                    this.Close();
+                    battleshipPlayfieldWindow.Show();
+                }
+                else if (!vsComputer)
+                {
+                    ShipPlacement player2ShipPlacementWindow = new ShipPlacement(player1Name, player2Name, playfield, battleshipPlayfield);
+                    App.Current.MainWindow = player2ShipPlacementWindow;
+                    this.Close();
+                    player2ShipPlacementWindow.Show();
+                }
+                else if (player2PlaceShips)
+                {
+                    PvP player1BattleshipPlayfieldWindow = new PvP(player1PlayfieldGrid, player1BattleshipPlayfield, playfield, battleshipPlayfield);
+                    App.Current.MainWindow = player1BattleshipPlayfieldWindow;
+                    this.Close();
+                    player1BattleshipPlayfieldWindow.Show();
+                }
+
+                
             }
             else
             {

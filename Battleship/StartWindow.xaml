@@ -63,10 +63,10 @@
                 <RowDefinition x:Name="player2GridRow"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" x:Name="player1TextBox" Content="Player 1 name:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Width="100px" Height="20px" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Player 1 name:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="player1TextBox" Width="100px" Height="20px" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
             <Label Grid.Row="1" Grid.Column="0" Content="Player 2 name:" VerticalContentAlignment="Center"  HorizontalContentAlignment="Right"/>
-            <TextBox Grid.Row="1" Grid.Column="1" x:Name="player2Textbox" Width="100px" Height="20px" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="player2TextBox" Width="100px" Height="20px" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
         </Grid>
 
         <Button Grid.Row="3" x:Name="PlayBtn" Click="playBtn_Click" Content="Play" Width="120px" Height="30px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="18" Foreground="White" FontFamily="Stencil" Margin="10"/>

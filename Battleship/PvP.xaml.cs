@@ -23,5 +23,10 @@ namespace Battleship
         {
             InitializeComponent();
         }
+
+        public PvP(Grid player1PlayfieldGrid, char[,] player1BattleshipPlayfield, Grid playfield, char[,] battleshipPlayfield)
+        {
+
+        }
     }
 }
