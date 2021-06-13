@@ -35,6 +35,11 @@ namespace Battleship
 
         bool aiShipsShow = false;
 
+        int left = 0, right = 0, down = 0, up = 0;
+        int ures = 0;
+
+        int hitX = -1, hitY = -1;
+
         public MainWindow(Grid playfield, char[,] playerPlayfield)
         {
             InitializeComponent();
@@ -44,8 +49,9 @@ namespace Battleship
 
             shipAI(rnd);
 
-            shipStatHpInit();
+            //game(rnd);
 
+            shipStatHpInit();
         }
 
         private void shipStatHpInit()
@@ -132,15 +138,6 @@ namespace Battleship
             this.Close();
             opponentWindow.Show();
         }
-
-        private void resetBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ShipPlacement shipPlacementWindow = new ShipPlacement();
-            App.Current.MainWindow = shipPlacementWindow;
-            this.Close();
-            shipPlacementWindow.Show();
-        }
-
         
         private void playerShipsLoad(Grid playfield)
         {
@@ -310,6 +307,161 @@ namespace Battleship
                     }
                 }
             }
+        }
+
+        private void surrendClick(object sender, RoutedEventArgs e)
+        {
+            Random rnd = new Random();
+            game(rnd);
+        }
+
+        
+
+        private void game(Random rnd)
+        {
+            bool player = false; // false - AI | true - Player 
+            bool hit;  
+
+            int randomX;
+            int randomY;
+
+            while (!player)
+            {
+                /*
+                if (ures == 100)
+                {
+                    surrrendBtn.IsEnabled = false;
+                    break;
+                }
+                */
+
+                randomY = (int)rnd.Next(0, 10);
+                randomX = (int)rnd.Next(0, 10);
+
+                if(playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
+                {
+                    continue;
+                }
+
+                if (playerPlayfield[randomY, randomX] == 'H')
+                {
+                    //playerPlayfield[randomY, randomX] = 'T';
+
+                    hitX = randomX;
+                    hitY = randomY;
+
+                    hit = true;
+
+                    while (hit)
+                    {
+                        emptyCells(hitY, hitX);
+
+                        if (playerPlayfield[hitY, hitX] == 'H')
+                        {
+                            //hitX = randomX;
+                            playerPlayfield[hitY, hitX] = 'T';
+                            paintHitCell(hitX, hitY);
+                            
+                            if(hitY != 0)
+                            {
+                                hitY--;
+                            }
+                            else
+                            {
+                                hit = false;
+                            }
+                        }
+                        else if (!(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V'))
+                        {
+                            playerPlayfield[hitY, hitX] = 'V';
+                            paintMissCell(hitX, hitY);
+                            hit = false;
+                            //player = true;
+                        }
+                        else if(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
+                        {
+                            randomY = (int)rnd.Next(0, 10);
+                            randomX = (int)rnd.Next(0, 10);
+                            hitX = randomX;
+                            hitY = randomY;
+                        }
+                    }
+
+                    //Debug.WriteLine($"up: {up}\tright: {right}\tdown: {down}\tleft: {left}");
+
+                    player = true;
+                }
+                else if(!(playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V'))
+                {
+                    playerPlayfield[randomY, randomX] = 'V';
+
+                    paintMissCell(randomX, randomY);
+           
+                    player = true;
+                }   
+            }
+        }
+
+        private void paintMissCell(int randomX, int randomY)
+        {
+            Rectangle ship = shipHpSettings(1);
+            ship.Fill = Brushes.Gray;
+            Grid.SetRow(ship, randomY);
+            Grid.SetColumn(ship, randomX);
+
+            leftTable.Children.Add(ship);
+        }
+
+
+        private void paintHitCell(int randomX, int randomY)
+        {
+            Rectangle ship = shipHpSettings(1);
+            ship.Fill = Brushes.Black;
+
+            Grid.SetRow(ship, randomY);
+            Grid.SetColumn(ship, randomX);
+
+            leftTable.Children.Add(ship);
+        }
+
+        private void emptyCells(int randomY, int randomX)
+        {
+            if (randomY != 0 && (playerPlayfield[randomY - 1, randomX] != 'T' || playerPlayfield[randomY - 1, randomX] != 'V'))
+            {
+                up = randomY - 1;
+            }
+            else
+            {
+                up = -1;
+            }
+
+            if (randomY != 9 && (playerPlayfield[randomY + 1, randomX] != 'T' || playerPlayfield[randomY + 1, randomX] != 'V'))
+            {
+                down = randomY + 1;
+            }
+            else
+            {
+                down = -1;
+            }
+
+            if (randomX != 0 && (playerPlayfield[randomY, randomX - 1] != 'T' || playerPlayfield[randomY, randomX - 1] != 'V'))
+            {
+                left = randomX - 1;
+            }
+            else
+            {
+                left = -1;
+            }
+
+            if (randomX != 9 && (playerPlayfield[randomY, randomX + 1] != 'T' || playerPlayfield[randomY, randomX + 1] != 'V'))
+            {
+                right = randomX + 1;
+            }
+            else
+            {
+                right = -1;
+            }
+
         }
     }
 }
