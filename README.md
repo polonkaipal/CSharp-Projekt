@@ -1,5 +1,5 @@
 # Battleship
-Egy közismert és egyszerű játék implementálása C# nyelven.
+Egy közismert és egyszerű, de annál izgalmasabb játék implementálása C# nyelven.
 
 
 ## Fejlesztéshez használt IDE
@@ -40,6 +40,8 @@ Todo
 
 
 ## Features
+- AI elleni játszáskor a Ctrl+S megnyomására láthatóvá válik az ellenség hajói
+
 Todo
 
 
