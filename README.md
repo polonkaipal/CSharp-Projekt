@@ -65,5 +65,6 @@ Indítsd el a solution fájlt
 
 ### Hajók elhelyezése
 ![hajók elhelyezése](screenshots/hajok_elhelyezese.jpg)
+![hajók elhelyezése 2](screenshots/hajok_elhelyezese2.jpg)
 
 Todo
