@@ -1,3 +1,4 @@
+
 # Battleship
 
 Egy közismert és egyszerű játék implementálása C# nyelven.
@@ -31,13 +32,13 @@ Egy közismert és egyszerű játék implementálása C# nyelven.
 ## Demo
 
 Todo
-## Documentáció
+## Dokumentáció
 
 Todo
 ## Features
 
 Todo
-## License
+## Licensz
 
 [MIT](https://github.com/polonkaipal/CSharp-Projekt/blob/main/LICENSE)
 
@@ -57,6 +58,6 @@ Indítsd el a solution fájlt
 ```
 
 
-## Screenshots
+## Képernyőképek
 
 Todo
