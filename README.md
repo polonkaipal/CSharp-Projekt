@@ -1,4 +1,3 @@
-
 # Battleship
 
 Egy közismert és egyszerű játék implementálása C# nyelven.
@@ -59,5 +58,8 @@ Indítsd el a solution fájlt
 
 
 ## Képernyőképek
+
+### Induló ablak
+![induló ablak](screenshots/valaszto.jpg)
 
 Todo
