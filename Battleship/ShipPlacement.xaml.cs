@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,36 +19,55 @@ namespace Battleship
     /// </summary>
     public partial class ShipPlacement : Window
     {
-        string selectedShip = null;
-        int rows = 10;
-        int columns = 10;
-        int calculatedCell = -1;
-        bool shipShadow = false;
-        bool shipHorizontal = false;
-        string mode = "";
+        private string selectedShip = null;
+        private int rows = 10;
+        private int columns = 10;
+        private int calculatedCell = -1;
+        private bool shipShadow = false;
+        private bool shipHorizontal = false;
 
-        char[,] battleshipPlayfield = new char[10, 10];
-        char[,] battleshipPlayfield2 = new char[10, 10];
+        private char[,] battleshipPlayfield = new char[10, 10];
 
-        public ShipPlacement()
+        private bool vsComputer;
+        private bool player2PlaceShips = false;
+        private string player1Name;
+        private string player2Name;
+        private char[,] player1BattleshipPlayfield = new char[10, 10];
+        private Grid player1PlayfieldGrid;
+
+        public ShipPlacement(string player1Name)
         {
             InitializeComponent();
+
+            vsComputer = true;
+            this.player1Name = player1Name;
+
+            this.Title = player1Name + "'s ship placement";
         }
 
-        public ShipPlacement(string mode)
+        public ShipPlacement(string player1Name, string player2Name)
         {
-            this.mode = mode;
-            //Debug.WriteLine(mode);
             InitializeComponent();
+
+            vsComputer = false;
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
+
+            this.Title = player1Name + "'s ship placement";
         }
 
-        public ShipPlacement(char[,] battleshipPlayfieldsave)
+        public ShipPlacement(string player1Name, string player2Name, Grid playfield, char[,] battleshipPlayfield)
         {
-            battleshipPlayfield2 = (char[,])battleshipPlayfieldsave.Clone();
-            //Debug.WriteLine(mode);
             InitializeComponent();
-        }
 
+            player2PlaceShips = true;
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
+            this.player1BattleshipPlayfield = battleshipPlayfield;
+            this.player1PlayfieldGrid = playfield;
+
+            this.Title = player2Name + "'s ship placement";
+        }
 
         private void onGridMouseClick(object sender, MouseButtonEventArgs e) //ship placement in the playfield
         {
@@ -348,38 +366,36 @@ namespace Battleship
 
         private void submitBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(mode == "pc")
+            if (everyShipPlaced())
             {
-                if (everyShipPlaced())
+                if (player2PlaceShips)
+                {
+                    PvP player1BattleshipPlayfieldWindow = new PvP(player1PlayfieldGrid, player1BattleshipPlayfield, playfield, battleshipPlayfield);
+                    App.Current.MainWindow = player1BattleshipPlayfieldWindow;
+                    this.Close();
+                    player1BattleshipPlayfieldWindow.Show();
+                }
+                else if (vsComputer)
                 {
                     MainWindow battleshipPlayfieldWindow = new MainWindow(playfield, battleshipPlayfield);
                     App.Current.MainWindow = battleshipPlayfieldWindow;
                     this.Close();
                     battleshipPlayfieldWindow.Show();
                 }
-                else
+                else if (!vsComputer)
                 {
-                    MessageBox.Show("All ships must be placed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ShipPlacement player2ShipPlacementWindow = new ShipPlacement(player1Name, player2Name, playfield, battleshipPlayfield);
+                    App.Current.MainWindow = player2ShipPlacementWindow;
+                    this.Close();
+                    player2ShipPlacementWindow.Show();
                 }
-            }
-            else if (mode == "pp")
-            {
-
-                ShipPlacement shipPlacementtWindow = new ShipPlacement(battleshipPlayfield);
-                App.Current.MainWindow = shipPlacementtWindow;
-                this.Close();
-                shipPlacementtWindow.Show();
             }
             else
             {
-                MainWindow mainWindow = new MainWindow(playfield, battleshipPlayfield2, battleshipPlayfield);
-                App.Current.MainWindow = mainWindow;
-                this.Close();
-                mainWindow.Show();
+                MessageBox.Show("All ships must be placed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
 
-        
+        }
 
         private bool everyShipPlaced()
         {

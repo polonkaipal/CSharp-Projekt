@@ -1,0 +1,364 @@
+﻿<Window x:Class="Battleship.vsPlayer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Battleship"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="vsPlayer" Height="800" Width="1500">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FFD0D6FF" Offset="1"/>
+            <GradientStop Color="White"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="Game Phase" FontFamily="Stencil" FontSize="24px" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            
+            <!--Player 1 view-->
+
+            <Label Grid.Row="1" Grid.Column="0" Content="A    B    C    D    E    F    G    H    I    J" FontFamily="Stencil" FontSize="18.8px" Margin="100,0,10,10" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="25.5px" Margin="0,30,320,0" TextWrapping="Wrap" />
+
+            <!--Player 1 LeftTable-->
+            <Grid Height="300" Width="300" Name="player1LeftTable" Grid.Row="1" Grid.Column="0" Background="Transparent" Margin="20,0,20,0" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <Label Grid.Row="1" Grid.Column="1" Content="A    B    C    D    E    F    G    H    I    J" FontFamily="Stencil" FontSize="18.8px" Margin="100,0,10,10" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="25.5px" Margin="0,30,320,0" TextWrapping="Wrap" />
+
+            <!--Player 1 RightTable-->
+            <Grid Height="300" Width="300" Name="player1RightTable" Grid.Row="1" Grid.Column="1" Margin="20,0,20,0" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <!--Player 1 Stats-->
+            <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        
+                    </Grid.RowDefinitions>
+
+                    <Button x:Name="player1SurrrendBtn" Content="Surrend" Width="200px" Height="40px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="24" Foreground="White" FontFamily="Stencil" Margin="10"/>
+
+                    <Label Grid.Row="1" Content="Player 1 stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                    <!--Player 1 Carrier & Battleship HP-->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="250px" Height="50px" BorderThickness="2" BorderBrush="Black">
+                            <Grid ShowGridLines="True" Name="player1CarrierHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1" Width="200px" Height="50px" BorderThickness="2" BorderBrush="Black">
+                            <Grid ShowGridLines="True" Name="player1BattleshipHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!--Player 1 Cruiser & Submarine & Destroyer HP-->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="150px" Height="50px" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right">
+                            <Grid ShowGridLines="True" Name="player1CruiserHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1" Width="100px" Height="50px" BorderThickness="2" BorderBrush="Black">
+                            <Grid ShowGridLines="True" Name="player1SubmarineHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="2" Width="50px" Height="50px" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Left">
+                            <Grid ShowGridLines="True" Name="player1DestroyerHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!--Rounds counter-->
+                    <Grid Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Content="Rounds:" FontFamily="Stencil" FontSize="30px" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                        <Label Grid.Column="1" x:Name="roundsLabel" Content="0" FontFamily="Stencil" FontSize="30px" VerticalContentAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Content="Player1 hits:" FontFamily="Stencil" FontSize="26px" VerticalContentAlignment="Center"/>
+                        <Label Grid.Column="1" x:Name="player1HitsLabel" Content="0" FontFamily="Stencil" FontSize="26px" Margin="1,0,0,0" VerticalContentAlignment="Center"/>
+
+                        <Label Grid.Column="2" Content="Player2 hits:" FontFamily="Stencil" FontSize="26px" VerticalContentAlignment="Center"/>
+                        <Label Grid.Column="3" x:Name="player2HitsLabel" Content="0" FontFamily="Stencil" FontSize="26px" VerticalContentAlignment="Center"/>
+                    </Grid>
+
+                    <Button Grid.Row="4" x:Name="newgameBtn" Content="New Game" Width="200px" Height="40px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="24" Foreground="White" FontFamily="Stencil" Margin="10"/>
+
+                    <Label Grid.Row="5" Content="Player 1/2 is coming" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Green"/>
+                    
+                    <!--Player 2-->
+                    <Label Grid.Row="8" Content="Player 2 stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Grid.Row="11" x:Name="player2SurrrendBtn" Content="Surrend" Width="200px" Height="40px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="24" Foreground="White" FontFamily="Stencil" Margin="10"/>
+                    
+                    <!--Player 2 Stats-->
+                    <!--Player 2 Carrier & Battleship HP-->
+                    <Grid Grid.Row="9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="250px" Height="50px" BorderThickness="2" BorderBrush="Black">
+                            <Grid ShowGridLines="True" Name="player2CarrierHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1" Width="200px" Height="50px" BorderThickness="2" BorderBrush="Black">
+                            <Grid ShowGridLines="True" Name="player2BattleshipHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!--Player 2 Cruiser & Submarine & Destroyer HP-->
+                    <Grid Grid.Row="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Width="150px" Height="50px" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Right">
+                            <Grid ShowGridLines="True" Name="player2CruiserHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="1" Width="100px" Height="50px" BorderThickness="2" BorderBrush="Black">
+                            <Grid ShowGridLines="True" Name="player2SubmarineHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Column="2" Width="50px" Height="50px" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Left">
+                            <Grid ShowGridLines="True" Name="player2DestroyerHpGrid">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+            
+            <!--Player 2 view-->
+
+            <Label Grid.Row="2" Grid.Column="0" Content="A    B    C    D    E    F    G    H    I    J" FontFamily="Stencil" FontSize="18.8px" Margin="100,0,10,10" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="25.5px" Margin="0,30,320,0" TextWrapping="Wrap" />
+
+            <!--Player 2 LeftTable-->
+            <Grid Height="300" Width="300" Name="player2LeftTable" Grid.Row="2" Grid.Column="0" Background="Transparent" Margin="20,0,20,0" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <Label Grid.Row="2" Grid.Column="1" Content="A    B    C    D    E    F    G    H    I    J" FontFamily="Stencil" FontSize="18.8px" Margin="100,0,10,10" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="25.5px" Margin="0,30,320,0" TextWrapping="Wrap" />
+
+            <!--Player 2 RightTable-->
+            <Grid Height="300" Width="300" Name="Player2RightTable" Grid.Row="2" Grid.Column="1" Margin="20,0,20,0" ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            
+            
+        </Grid>
+    </Grid>
+</Window>
