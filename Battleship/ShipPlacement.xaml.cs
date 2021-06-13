@@ -368,7 +368,14 @@ namespace Battleship
         {
             if (everyShipPlaced())
             {
-                if (vsComputer)
+                if (player2PlaceShips)
+                {
+                    PvP player1BattleshipPlayfieldWindow = new PvP(player1PlayfieldGrid, player1BattleshipPlayfield, playfield, battleshipPlayfield);
+                    App.Current.MainWindow = player1BattleshipPlayfieldWindow;
+                    this.Close();
+                    player1BattleshipPlayfieldWindow.Show();
+                }
+                else if (vsComputer)
                 {
                     MainWindow battleshipPlayfieldWindow = new MainWindow(playfield, battleshipPlayfield);
                     App.Current.MainWindow = battleshipPlayfieldWindow;
@@ -382,15 +389,6 @@ namespace Battleship
                     this.Close();
                     player2ShipPlacementWindow.Show();
                 }
-                else if (player2PlaceShips)
-                {
-                    PvP player1BattleshipPlayfieldWindow = new PvP(player1PlayfieldGrid, player1BattleshipPlayfield, playfield, battleshipPlayfield);
-                    App.Current.MainWindow = player1BattleshipPlayfieldWindow;
-                    this.Close();
-                    player1BattleshipPlayfieldWindow.Show();
-                }
-
-                
             }
             else
             {
