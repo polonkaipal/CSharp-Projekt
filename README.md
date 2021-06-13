@@ -70,4 +70,7 @@ Indítsd el a solution fájlt
 ### Játék
 ![elindult játék](screenshots/jatek_fazis.jpg)
 
+### Játék (a Ctr+S megnyomásakor az ellenség hajónak megjelenítése)
+![elindult játék 2](screenshots/jatek_fazis2.jpg)
+
 Todo
