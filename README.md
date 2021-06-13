@@ -1,22 +1,18 @@
 # Battleship
-
 Egy közismert és egyszerű játék implementálása C# nyelven.
 
 
 ## Fejlesztéshez használt IDE
-
 [Visual Studio IDE](https://visualstudio.microsoft.com/)
 
 
 ## Szerzők
-
 - [@Roxor456](https://github.com/Roxor456) - Ladányi Dávid
 - [@polonkaipal](https://github.com/polonkaipal) - Polonkai Pál
 - [@Szasa40](https://github.com/Szasa40) - Váradi Sándor
 
 
 ## Badges
-
 ![GitHub top language](https://img.shields.io/github/languages/top/polonkaipal/CSharp-Projekt)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/polonkaipal/CSharp-Projekt)
 ![GitHub repo size](https://img.shields.io/github/repo-size/polonkaipal/CSharp-Projekt)
@@ -29,21 +25,29 @@ Egy közismert és egyszerű játék implementálása C# nyelven.
 ![GitHub last commit](https://img.shields.io/github/last-commit/polonkaipal/CSharp-Projekt)
 
 ## Demo
+Todo
+
+
+## Dokumentáció avagy hogyan tudsz játszani
+1. Válaszd ki, hogy AI vagy humán ellen akarsz játszani!
+2. Írd be a neved (vagy neveiteket, ha nem AI ellen játszol)!
+3. Rakd le a hajókat (vagy választhatod, hogy generáljon neked egy lehetőséget)!
+4. Taktikáz!
+5. Nyerj! :D
+
 
 Todo
-## Dokumentáció
 
-Todo
+
 ## Features
-
 Todo
-## Licensz
 
+
+## Licensz
 [MIT](https://github.com/polonkaipal/CSharp-Projekt/blob/main/LICENSE)
 
 
 ## Fordítás + futtatás
-
 Klónozd le a projektet
 
 ```bash
@@ -58,7 +62,6 @@ Indítsd el a solution fájlt
 
 
 ## Képernyőképek
-
 ### Induló ablak
 ![induló ablak](screenshots/valaszto.jpg)
 ![induló ablak 2](screenshots/valaszto2.jpg)
