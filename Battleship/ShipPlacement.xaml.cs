@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Battleship
@@ -243,31 +236,38 @@ namespace Battleship
 
                     for (int i = 0; i < shipLength; i++)
                     {
-                        var ship = new Rectangle();
-                        ship.Fill = Brushes.LightGray;
-                        var Y = playfield.Width / rows;
-                        var X = playfield.Height / columns;
-                        ship.Width = Y;
-                        ship.Height = X;
+                        Rectangle shadow = shadowUnitSettings();
 
                         // horizontal/vertical ship alignment
                         if (!shipHorizontal)
                         {
-                            Grid.SetRow(ship, cell / rows + i);
-                            Grid.SetColumn(ship, cell % columns);
+                            Grid.SetRow(shadow, cell / rows + i);
+                            Grid.SetColumn(shadow, cell % columns);
                         }
                         else if (shipHorizontal)
                         {
-                            Grid.SetRow(ship, cell / rows);
-                            Grid.SetColumn(ship, cell % columns + i);
+                            Grid.SetRow(shadow, cell / rows);
+                            Grid.SetColumn(shadow, cell % columns + i);
                         }
 
                         shipShadow = true;
-                        playfield.Children.Add(ship);
+                        playfield.Children.Add(shadow);
                     }
                 }
 
             }
+        }
+
+        private Rectangle shadowUnitSettings()
+        {
+            var shadow = new Rectangle();
+            shadow.Fill = Brushes.LightGray;
+            var Y = playfield.Width / rows;
+            var X = playfield.Height / columns;
+            shadow.Width = Y;
+            shadow.Height = X;
+
+            return shadow;
         }
 
         private int calculateCell() //which cell the cursor is on
@@ -373,7 +373,7 @@ namespace Battleship
             {
                 if (player2PlaceShips)
                 {
-                    PvP player1BattleshipPlayfieldWindow = new PvP(player1PlayfieldGrid, player1BattleshipPlayfield, playfield, battleshipPlayfield);
+                    PvP player1BattleshipPlayfieldWindow = new PvP(player1Name, player1PlayfieldGrid, player1BattleshipPlayfield, player2Name, playfield, battleshipPlayfield);
                     App.Current.MainWindow = player1BattleshipPlayfieldWindow;
                     this.Close();
                     player1BattleshipPlayfieldWindow.Show();
