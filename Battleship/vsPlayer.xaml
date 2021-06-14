@@ -117,7 +117,7 @@
 
                     <Button x:Name="player1SurrrendBtn" Content="Surrend" Width="200px" Height="40px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="24" Foreground="White" FontFamily="Stencil" Margin="10"/>
 
-                    <Label Grid.Row="1" Content="Player 1 stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Grid.Row="1" Content="Player 1 stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center" Click="stats_Click"/>
 
                     <!--Player 1 Carrier & Battleship HP-->
                     <Grid Grid.Row="2">
@@ -217,7 +217,7 @@
                     <Label Grid.Row="5" Content="Player 1/2 is coming" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Green"/>
                     
                     <!--Player 2-->
-                    <Label Grid.Row="8" Content="Player 2 stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Grid.Row="8" Content="Player 2 stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Center" HorizontalAlignment="Center" Click="stats_Click"/>
                     <Button Grid.Row="11" x:Name="player2SurrrendBtn" Content="Surrend" Width="200px" Height="40px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="24" Foreground="White" FontFamily="Stencil" Margin="10"/>
                     
                     <!--Player 2 Stats-->

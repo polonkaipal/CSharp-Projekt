@@ -1,22 +1,18 @@
 # Battleship
-
-Egy közismert és egyszerű játék implementálása C# nyelven.
+Egy közismert és egyszerű, de annál izgalmasabb játék implementálása C# nyelven. (.NET 5)
 
 
 ## Fejlesztéshez használt IDE
-
 [Visual Studio IDE](https://visualstudio.microsoft.com/)
 
 
 ## Szerzők
-
 - [@Roxor456](https://github.com/Roxor456) - Ladányi Dávid
 - [@polonkaipal](https://github.com/polonkaipal) - Polonkai Pál
 - [@Szasa40](https://github.com/Szasa40) - Váradi Sándor
 
 
 ## Badges
-
 ![GitHub top language](https://img.shields.io/github/languages/top/polonkaipal/CSharp-Projekt)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/polonkaipal/CSharp-Projekt)
 ![GitHub repo size](https://img.shields.io/github/repo-size/polonkaipal/CSharp-Projekt)
@@ -28,22 +24,24 @@ Egy közismert és egyszerű játék implementálása C# nyelven.
 ![GitHub contributors](https://img.shields.io/github/contributors/polonkaipal/CSharp-Projekt)
 ![GitHub last commit](https://img.shields.io/github/last-commit/polonkaipal/CSharp-Projekt)
 
-## Demo
 
-Todo
-## Documentáció
+## Dokumentáció, avagy hogyan tudsz játszani
+1. Válaszd ki, hogy AI vagy humán ellen akarsz játszani!
+2. Írd be a neved (vagy neveiteket, ha nem AI ellen játszol)!
+3. Rakd le a hajókat (vagy választhatod, hogy generáljon neked egy lehetőséget)!
+4. Taktikázz!
+5. Nyerj! :D
 
-Todo
+
 ## Features
+- AI elleni játszáskor a Ctrl+S megnyomására láthatóvá válik az ellenség hajói
 
-Todo
-## License
 
+## Licensz
 [MIT](https://github.com/polonkaipal/CSharp-Projekt/blob/main/LICENSE)
 
 
 ## Fordítás + futtatás
-
 Klónozd le a projektet
 
 ```bash
@@ -57,6 +55,17 @@ Indítsd el a solution fájlt
 ```
 
 
-## Screenshots
+## Képernyőképek
+### Induló ablak
+![induló ablak](screenshots/valaszto.jpg)
+![induló ablak 2](screenshots/valaszto2.jpg)
 
-Todo
+### Hajók elhelyezése
+![hajók elhelyezése](screenshots/hajok_elhelyezese.jpg)
+![hajók elhelyezése 2](screenshots/hajok_elhelyezese2.jpg)
+
+### Játék
+![elindult játék](screenshots/jatek_fazis.jpg)
+
+### Játék (a Ctr+S megnyomásakor az ellenség hajónak megjelenítése, kizárólag AI elleni játékkor)
+![elindult játék 2](screenshots/jatek_fazis2.jpg)
