@@ -13,13 +13,17 @@ namespace Battleship
         private static List<Score> _result;
         public static List<Score> ReadResult(string file)
         {
-            using (StreamReader r = new StreamReader(file))
+            if (File.Exists(file))
             {
-                string json = r.ReadToEnd();
-                _result = JsonConvert.DeserializeObject<List<Score>>(json);
-            }
+                using (StreamReader r = new StreamReader(file))
+                {
+                    string json = r.ReadToEnd();
+                    _result = JsonConvert.DeserializeObject<List<Score>>(json);
+                }
 
-            return _result;
+                return _result;
+            }
+            return null;
         }
 
         public static void WriteResult(List<Score> result, string file)
