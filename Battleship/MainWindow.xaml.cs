@@ -151,17 +151,30 @@ namespace Battleship
                 {
                     if (char.IsDigit(aiPlayfield[cell % columns, cell / rows]))
                     {
-
                         var ship = shipSettings(shipLength);
-                        ship.Fill = Brushes.Red;
+                        ship.Fill = Brushes.DarkRed;
                         Grid.SetRow(ship, cell / rows);
                         Grid.SetColumn(ship, cell % columns);
 
                         aiPlayfield[cell % columns, cell / rows] = 'T';
 
                         ship.Visibility = Visibility.Visible;
-
                         rightTable.Children.Add(ship);
+                    }
+                    else if(!(aiPlayfield[cell % columns, cell / rows] == 'T' || aiPlayfield[cell % columns, cell / rows] == 'V' ))
+                    {
+                        var ship = shipSettings(shipLength);
+                        ship.Fill = Brushes.Gray;
+                        Grid.SetRow(ship, cell / rows);
+                        Grid.SetColumn(ship, cell % columns);
+
+                        aiPlayfield[cell % columns, cell / rows] = 'V';
+
+                        ship.Visibility = Visibility.Visible;
+                        rightTable.Children.Add(ship);
+
+                        Random rnd = new Random();
+                        game(rnd);
                     }
                 }
             }     
@@ -415,8 +428,7 @@ namespace Battleship
 
         private void surrendClick(object sender, RoutedEventArgs e)
         {
-            Random rnd = new Random();
-            game(rnd);
+            
         }
 
         private void stats_Click(object sender, RoutedEventArgs e)
@@ -824,7 +836,7 @@ namespace Battleship
         private void paintHitCell(int randomX, int randomY)
         {
             Rectangle ship = shipHpSettings(1);
-            ship.Fill = Brushes.Black;
+            ship.Fill = Brushes.DarkRed;
 
             Grid.SetRow(ship, randomY);
             Grid.SetColumn(ship, randomX);
