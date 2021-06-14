@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Battleship
 {
-    class Score
+    public class Score
     {
         public String Player { get; set; }
         public String Enemy { get; set; }
