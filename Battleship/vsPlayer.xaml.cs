@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Battleship
@@ -67,8 +58,10 @@ namespace Battleship
 
         private Rectangle shipHpSettings(int shipLength)
         {
-            Rectangle hpUnit = new Rectangle();
-            hpUnit.Fill = Brushes.Green;
+            Rectangle hpUnit = new()
+            {
+                Fill = Brushes.Green
+            };
             var Y = player1CarrierHpGrid.Width;
             var X = player1CarrierHpGrid.Height / shipLength;
             hpUnit.Width = Y;
@@ -79,7 +72,7 @@ namespace Battleship
 
         private void stats_Click(object sender, RoutedEventArgs e)
         {
-            Stats stats = new Stats();
+            Stats stats = new();
             stats.Show();
         }
     }
