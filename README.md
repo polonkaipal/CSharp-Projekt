@@ -24,9 +24,6 @@ Egy közismert és egyszerű, de annál izgalmasabb játék implementálása C# 
 ![GitHub contributors](https://img.shields.io/github/contributors/polonkaipal/CSharp-Projekt)
 ![GitHub last commit](https://img.shields.io/github/last-commit/polonkaipal/CSharp-Projekt)
 
-## Demo
-Todo
-
 
 ## Dokumentáció, avagy hogyan tudsz játszani
 1. Válaszd ki, hogy AI vagy humán ellen akarsz játszani!
