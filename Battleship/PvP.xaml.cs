@@ -16,8 +16,10 @@ namespace Battleship
         private int rows = 10;
         private int columns = 10;
         private bool shadowExists = false;
-        private char[,] battleshipPlayfield = new char[10, 10];
+        private char[,] myPlayfield = new char[10, 10];
+        private char[,] enemyPlayfield = new char[10, 10];
         private bool player1Coming;
+        private bool windowPlayer1;
 
         PvP player2Window;
         Random rnd = new Random();
@@ -25,15 +27,16 @@ namespace Battleship
         public delegate string Hit(int cell);
         public event Hit OnHit;
 
-        public PvP(string player1Name, Grid player1PlayfieldGrid, char[,] player1BattleshipPlayfield, string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield)
+        public PvP(string player1Name, Grid player1PlayfieldGrid, char[,] player1Playfield, string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield)
         {
             InitializeComponent();
             this.Title = player1Name;
-            this.battleshipPlayfield = player1BattleshipPlayfield;
+            this.myPlayfield = player1Playfield;
 
+            windowPlayer1 = true;
             string playerStart = whichPlayerStart(player1Name, player2Name);
 
-            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2BattleshipPlayfield, player1Coming);
+            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2Playfield, player1Coming);
             player2Window.Title = player2Name;
             player2Window.Show();
 
@@ -46,11 +49,12 @@ namespace Battleship
             this.OnHit += new Hit(player2Window.onShoot);
         }
 
-        public PvP(string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield, bool player1Coming)
+        public PvP(string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield, bool player1Coming)
         {
             InitializeComponent();
 
-            this.battleshipPlayfield = player2BattleshipPlayfield;
+            windowPlayer1 = false;
+            this.myPlayfield = player2Playfield;
             this.player1Coming = player1Coming;
 
             shipStatHpInit();
@@ -133,7 +137,7 @@ namespace Battleship
 
             if (isHit)
             {
-                return battleshipPlayfield[cell / rows, cell % columns].ToString();
+                return myPlayfield[cell / rows, cell % columns].ToString();
             }
             
             return "false";
@@ -141,7 +145,7 @@ namespace Battleship
 
         private bool isHitShipUnit(int cell)
         {
-            if (char.IsDigit(battleshipPlayfield[cell / rows, cell % columns]))
+            if (char.IsDigit(myPlayfield[cell / rows, cell % columns]))
             {
                 return true;
             }
@@ -208,18 +212,35 @@ namespace Battleship
 
                 int cell = calculateCell();
 
-                string shipUnitName = this.OnHit(cell);
+                bool shooted = isCellShooted(cell);
 
-                if (shipUnitName != "false")
+                if (!shooted)
                 {
-                    setShipUnit(cell, true, false);
-                    shipHpDecrement(shipUnitName);
-                }
-                else
-                {
-                    setShipUnit(cell, false, false);
-                }
+                    string shipUnitName = this.OnHit(cell);
+
+                    if (shipUnitName != "false")
+                    {
+                        setShipUnit(cell, true, false);
+                        shipHpDecrement(shipUnitName);
+                        enemyPlayfield[cell / rows, cell % columns] = 'T';
+                    }
+                    else
+                    {
+                        setShipUnit(cell, false, false);
+                        enemyPlayfield[cell / rows, cell % columns] = 'V';
+                    }
+                }    
             }
+        }
+
+        private bool isCellShooted(int cell)
+        {
+            if (enemyPlayfield[cell / rows, cell % columns] == 'T' || enemyPlayfield[cell / rows, cell % columns] == 'V')
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void shipHpDecrement(string shipUnitName)
