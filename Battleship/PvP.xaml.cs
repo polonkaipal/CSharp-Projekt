@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -271,12 +272,12 @@ namespace Battleship
             if (player1HitsLabel.Content.ToString() == "15")
             {
                 MessageBox.Show(player1Name + " won the game!", "The game is over" , MessageBoxButton.OK);
-                gameEnd();
+                gameEnd(player1Name);
             }
             else if (player2HitsLabel.Content.ToString() == "15")
             {
                 MessageBox.Show(player2Name + " won the game!", "The game is over", MessageBoxButton.OK);
-                gameEnd();
+                gameEnd(player2Name);
             }
         }
 
@@ -431,9 +432,24 @@ namespace Battleship
             this.Close();
         }
 
-        private void gameEnd()
+        private void gameEnd(string winner)
         {
             //score mentése
+            List<Score> scores = ScoreResult.ReadResult("score.json");
+            Score newScore = new()
+            {
+                Enemy = player2Name,
+                EnemyHits = Convert.ToInt32(player2HitsLabel.Content),
+                Player = player1Name,
+                PlayerHits = Convert.ToInt32(player1HitsLabel.Content),
+                Rounds = Convert.ToInt32(roundsLabel.Content),
+                Winner = winner
+            };
+
+            scores.Add(newScore);
+            ScoreResult.WriteResult(scores, "score.json");
+
+
             this.onCloseWindow();
 
             StartWindow startWindow = new StartWindow();
@@ -443,7 +459,14 @@ namespace Battleship
 
         private void surrendBtn_Click(object sender, RoutedEventArgs e)
         {
-            gameEnd();
+            if (windowPlayer1)
+            {
+                gameEnd(player2Name);
+            }
+            else
+            {
+                gameEnd(player1Name);
+            }
         }
     }
 }
