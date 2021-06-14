@@ -22,10 +22,8 @@ namespace Battleship
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly char[] _characters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' };
-        private static readonly short[] _nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        private static readonly int rows = _characters.Length;
-        private static readonly int columns = _nums.Length;
+        private static readonly int rows = 10;
+        private static readonly int columns = 10;
 
         Random rnd = new Random();
 
