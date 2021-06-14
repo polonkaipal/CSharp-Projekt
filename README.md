@@ -1,5 +1,5 @@
 # Battleship
-Egy közismert és egyszerű, de annál izgalmasabb játék implementálása C# nyelven.
+Egy közismert és egyszerű, de annál izgalmasabb játék implementálása C# nyelven. (.NET 5)
 
 
 ## Fejlesztéshez használt IDE
