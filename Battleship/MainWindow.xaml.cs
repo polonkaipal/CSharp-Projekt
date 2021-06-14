@@ -621,20 +621,64 @@ namespace Battleship
                         else
                             hitX = 0;
                     }
+                    else if(left)
+                    {
+                        left = false;
+                    }
 
                 }
                 else if (playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
                 {
-                    randomY = (int)rnd.Next(0, 10);
-                    randomX = (int)rnd.Next(0, 10);
-
-                    if (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
+                    if (up)
                     {
-                        continue;
-                    }
+                        up = false;
+                        down = true;
 
-                    hitX = randomX;
-                    hitY = randomY;
+                        if (randomY != 9)
+                            hitY = randomY + 1;
+                        else
+                            hitY = 9;
+
+                    }
+                    else if (down)
+                    {
+                        down = false;
+                        right = true;
+                        hitY = randomY;
+
+                        if (randomX != 9)
+                            hitX = randomX + 1;
+                        else
+                            hitX = 9;
+                    }
+                    else if (right)
+                    {
+                        right = false;
+                        left = true;
+                        hitY = randomY;
+
+                        if (randomX != 0)
+                            hitX = randomX - 1;
+                        else
+                            hitX = 0;
+                    }
+                    else if (left)
+                    {
+                        left = false;
+                    }
+                    else
+                    {
+                        randomY = (int)rnd.Next(0, 10);
+                        randomX = (int)rnd.Next(0, 10);
+
+                        if (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
+                        {
+                            continue;
+                        }
+
+                        hitX = randomX;
+                        hitY = randomY;
+                    }                   
                 }
             }
         }
