@@ -34,7 +34,6 @@ namespace Battleship
         Random rnd = new Random();
 
         char[,] playerPlayfield = new char[10, 10];
-        char[,] playerPlayfield2 = new char[10, 10];
         char[,] aiPlayfield = new char[10, 10];
 
         bool aiShipsShow = false;
@@ -133,7 +132,6 @@ namespace Battleship
                         rightTable.Children.Add(ship);
                     }
                 }
-
             }
         }
 
@@ -141,8 +139,32 @@ namespace Battleship
         {
             if(e.ClickCount == 1)
             {
+                int shipLength = 1;
+                deleteShipShadow(shipLength);
+                shipShadow = false;
 
-            }
+                int cell = calculateCell();
+
+                Debug.WriteLine($"{cell % columns}, {cell / rows}");
+
+                for (int i = 0; i < shipLength; i++)
+                {
+                    if (char.IsDigit(aiPlayfield[cell % columns, cell / rows]))
+                    {
+
+                        var ship = shipSettings(shipLength);
+                        ship.Fill = Brushes.Red;
+                        Grid.SetRow(ship, cell / rows);
+                        Grid.SetColumn(ship, cell % columns);
+
+                        aiPlayfield[cell % columns, cell / rows] = 'T';
+
+                        ship.Visibility = Visibility.Visible;
+
+                        rightTable.Children.Add(ship);
+                    }
+                }
+            }     
         }
 
         private void shipStatHpInit()
@@ -194,7 +216,6 @@ namespace Battleship
             InitializeComponent();
 
             this.playerPlayfield = playerPlayfield;
-            this.playerPlayfield2 = playerPlayfield2;
             playerShipsLoad(playfield);
 
 
@@ -212,7 +233,7 @@ namespace Battleship
                     Grid.SetRow(ship, row);
                     Grid.SetColumn(ship, col);
 
-                    if (playerPlayfield[row, col] == 'H')
+                    if (char.IsDigit(playerPlayfield[row, col]))
                     {
                         rightTable.Children.Add(ship);
                     }
@@ -254,7 +275,7 @@ namespace Battleship
 
                     while (empty == false)
                     {
-                        if ((randomPosX != 0 && aiPlayfield[randomPosY, randomPosX - 1] == 'H') || ((randomPosX + i - 1) != 9 && aiPlayfield[randomPosY, randomPosX + i] == 'H'))
+                        if ((randomPosX != 0 && char.IsDigit(aiPlayfield[randomPosY, randomPosX - 1])) || ((randomPosX + i - 1) != 9 && char.IsDigit(aiPlayfield[randomPosY, randomPosX + i])))
                         {
                             randomPosX = (int)rnd.Next(0, 10 - i + 1);
                             randomPosY = (int)rnd.Next(0, 10);
@@ -263,7 +284,7 @@ namespace Battleship
                         {
                             for (int k = 0; k < i; k++)
                             {
-                                if (aiPlayfield[randomPosY, randomPosX + k] == 'H' || (randomPosY != 0 && aiPlayfield[randomPosY - 1, randomPosX + k] == 'H') || (randomPosY != 9 && aiPlayfield[randomPosY + 1, randomPosX + k] == 'H'))
+                                if (char.IsDigit(aiPlayfield[randomPosY, randomPosX + k]) || (randomPosY != 0 && char.IsDigit(aiPlayfield[randomPosY - 1, randomPosX + k])) || (randomPosY != 9 && char.IsDigit(aiPlayfield[randomPosY + 1, randomPosX + k])))
                                 {
                                     randomPosX = (int)rnd.Next(0, 10 - i + 1);
                                     randomPosY = (int)rnd.Next(0, 10);
@@ -282,10 +303,10 @@ namespace Battleship
                     {
                         Rectangle ship = shipSettings(i);
 
-                        Grid.SetRow(ship, randomPosY);
-                        Grid.SetColumn(ship, col + randomPosX);
+                        Grid.SetRow(ship, col + randomPosX);
+                        Grid.SetColumn(ship, randomPosY);
 
-                        aiPlayfield[randomPosY, randomPosX + col] = 'H';
+                        aiPlayfield[randomPosY, col + randomPosX] = Convert.ToChar(i.ToString());
                         rightTable.Children.Add(ship);
                     }
                 }
@@ -296,7 +317,7 @@ namespace Battleship
 
                     while (empty == false)
                     {
-                        if ((randomPosY != 0 && aiPlayfield[randomPosY - 1, randomPosX] == 'H') || ((randomPosY + i - 1) != 9 && aiPlayfield[randomPosY + i, randomPosX] == 'H'))
+                        if ((randomPosY != 0 && char.IsDigit(aiPlayfield[randomPosY - 1, randomPosX])) || ((randomPosY + i - 1) != 9 && char.IsDigit(aiPlayfield[randomPosY + i, randomPosX])))
                         {
                             randomPosY = (int)rnd.Next(0, 10 - i + 1);
                             randomPosX = (int)rnd.Next(0, 10);
@@ -305,7 +326,7 @@ namespace Battleship
                         {
                             for (int k = 0; k < i; k++)
                             {
-                                if (aiPlayfield[randomPosY + k, randomPosX] == 'H' || (randomPosX != 0 && aiPlayfield[randomPosY + k, randomPosX - 1] == 'H') || (randomPosX != 9 && aiPlayfield[randomPosY + k, randomPosX + 1] == 'H'))
+                                if (char.IsDigit(aiPlayfield[randomPosY + k, randomPosX]) || (randomPosX != 0 && char.IsDigit(aiPlayfield[randomPosY + k, randomPosX - 1])) || (randomPosX != 9 && char.IsDigit(aiPlayfield[randomPosY + k, randomPosX + 1])))
                                 {
                                     randomPosY = (int)rnd.Next(0, 10 - i + 1);
                                     randomPosX = (int)rnd.Next(0, 10);
@@ -324,10 +345,10 @@ namespace Battleship
                     {
                         Rectangle ship = shipSettings(i);
 
-                        Grid.SetRow(ship, row + randomPosY);
-                        Grid.SetColumn(ship, randomPosX);
+                        Grid.SetRow(ship, randomPosX);
+                        Grid.SetColumn(ship, row + randomPosY);
 
-                        aiPlayfield[randomPosY + row, randomPosX] = 'H';
+                        aiPlayfield[randomPosY + row, randomPosX] = Convert.ToChar(i.ToString());
                         rightTable.Children.Add(ship);
                     }
                 }
@@ -426,7 +447,7 @@ namespace Battleship
                     hitY = randomY;
                 }
 
-                if (playerPlayfield[hitY, hitX] == 'H')
+                if (char.IsDigit(playerPlayfield[hitY, hitX]))
                 {
                     hit = true;
 
@@ -440,7 +461,7 @@ namespace Battleship
 
                         if (up)
                         {
-                            if (playerPlayfield[hitY, hitX] == 'H')
+                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
                             {
                                 playerPlayfield[hitY, hitX] = 'T';
                                 paintHitCell(hitX, hitY);
@@ -496,7 +517,7 @@ namespace Battleship
                         }
                         else if (down)
                         {
-                            if (playerPlayfield[hitY, hitX] == 'H')
+                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
                             {
                                 playerPlayfield[hitY, hitX] = 'T';
                                 paintHitCell(hitX, hitY);
@@ -558,7 +579,7 @@ namespace Battleship
                         }
                         else if (right)
                         {
-                            if (playerPlayfield[hitY, hitX] == 'H')
+                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
                             {
                                 playerPlayfield[hitY, hitX] = 'T';
                                 paintHitCell(hitX, hitY);
@@ -614,7 +635,7 @@ namespace Battleship
                         }
                         else if (left)
                         {
-                            if (playerPlayfield[hitY, hitX] == 'H')
+                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
                             {
                                 playerPlayfield[hitY, hitX] = 'T';
                                 paintHitCell(hitX, hitY);

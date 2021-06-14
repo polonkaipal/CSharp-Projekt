@@ -271,7 +271,6 @@ namespace Battleship
                         playfield.Children.Add(shadow);
                     }
                 }
-
             }
         }
 
