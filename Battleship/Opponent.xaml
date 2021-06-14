@@ -1,0 +1,30 @@
+﻿<Window x:Class="Battleship.Opponent"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Battleship"
+        mc:Ignorable="d"
+        ResizeMode="CanMinimize"
+        Title="Opponent" Height="300" Width="900">
+
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FFD0D6FF" Offset="1"/>
+            <GradientStop Color="White"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Button Click="pcBtn_Click" Content="Player VS Computer" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Width="350" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil"/>
+        <Button Click="ppBtn_Click" Content="Player VS Player" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="100" Width="350" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil"/>
+        <Label Content="Game Mode"  FontFamily="Stencil" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="40" Grid.ColumnSpan="2" Margin="335,0,0,0"/>
+
+    </Grid>
+</Window>
