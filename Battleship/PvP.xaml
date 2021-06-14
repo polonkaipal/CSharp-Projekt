@@ -108,7 +108,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+                    <Button Grid.Column="1" x:Name="surrrendBtn" Click="surrendBtn_Click" Content="Surrend" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
 
                 </Grid>
 
