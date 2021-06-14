@@ -108,9 +108,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        
-                        <Button Grid.Column="0" x:Name="newgameBtn" Content="New Game" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
-                        <Button Grid.Column="1" Click="surrendClick" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+                        <Button Click="surrendClick" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="150,18,150,19" Grid.ColumnSpan="2"/>
 
                     </Grid>
 
