@@ -202,68 +202,26 @@ namespace Battleship
         {
             Debug.WriteLine(s);
 
-            if(s == 1)
+            if (s == 1)
             {
-                destroyer++;
-                //Rectangle hpUnit = shipHpSettings(ship);
-
-                for (int unit = 0; unit < destroyer; unit++)
-                {
-                    Rectangle hpUnit = shipHpSettings(s);
-                    hpUnit.Fill = Brushes.DarkRed;
-                    Grid.SetColumn(hpUnit, unit);
-                    destroyerHpGrid.Children.Add(hpUnit);
-                }
+                destroyerHpGrid.Children.RemoveAt(destroyerHpGrid.Children.Count - 1);
             }
-            else if(s == 2)
+            else if (s == 2)
             {
-                submarine++;
-
-                for (int unit = 0; unit < submarine; unit++)
-                {
-                    Rectangle hpUnit = shipHpSettings(s);
-                    hpUnit.Fill = Brushes.DarkRed;
-                    Grid.SetColumn(hpUnit, unit);
-                    submarineHpGrid.Children.Add(hpUnit);
-                }
+                submarineHpGrid.Children.RemoveAt(submarineHpGrid.Children.Count - 1);
             }
-            else if(s == 3)
+            else if (s == 3)
             {
-                cruiser++;
-
-                for (int unit = 0; unit < cruiser; unit++)
-                {
-                    Rectangle hpUnit = shipHpSettings(s);
-                    hpUnit.Fill = Brushes.DarkRed;
-                    Grid.SetColumn(hpUnit, unit);
-                    cruiserHpGrid.Children.Add(hpUnit);
-                }
+                cruiserHpGrid.Children.RemoveAt(cruiserHpGrid.Children.Count - 1);
             }
-            else if(s == 4)
+            else if (s == 4)
             {
-                battleship++;
-
-                for (int unit = 0; unit < battleship; unit++)
-                {
-                    Rectangle hpUnit = shipHpSettings(s);
-                    hpUnit.Fill = Brushes.DarkRed;
-                    Grid.SetColumn(hpUnit, unit);
-                    battleshipHpGrid.Children.Add(hpUnit);
-                }
+                battleshipHpGrid.Children.RemoveAt(battleshipHpGrid.Children.Count - 1);
             }
-            else if(s == 5)
+            else if (s == 5)
             {
-                carrier++;
-
-                for (int unit = 0; unit < carrier; unit++)
-                {
-                    Rectangle hpUnit = shipHpSettings(s);
-                    hpUnit.Fill = Brushes.DarkRed;
-                    Grid.SetColumn(hpUnit, unit);
-                    carrierHpGrid.Children.Add(hpUnit);
-                }
+                carrierHpGrid.Children.RemoveAt(carrierHpGrid.Children.Count - 1);
             }
-
         }
 
         public bool isEndGame(int player)
