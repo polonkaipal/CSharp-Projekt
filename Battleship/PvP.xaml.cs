@@ -21,6 +21,8 @@ namespace Battleship
         private bool player1Coming;
         private bool windowPlayer1;
 
+        private int changePlayerCounter = 0;
+
         private string player1Name;
         private string player2Name;
 
@@ -29,6 +31,9 @@ namespace Battleship
 
         public delegate string Hit(int cell);
         public event Hit OnHit;
+
+        public delegate void CloseWindow();
+        public event CloseWindow onCloseWindow;
 
         public PvP(string player1Name, Grid player1PlayfieldGrid, char[,] player1Playfield, string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield)
         {
@@ -52,6 +57,10 @@ namespace Battleship
 
             player2Window.OnHit += new Hit(this.onShoot);
             this.OnHit += new Hit(player2Window.onShoot);
+
+            player2Window.onCloseWindow += new CloseWindow(this.onClose);
+            this.onCloseWindow += new CloseWindow(player2Window.onClose);
+
         }
 
         public PvP(string player1Name, string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield, bool player1Coming)
@@ -149,6 +158,7 @@ namespace Battleship
             }
 
             player1Coming = !player1Coming;
+            roundsLabelChange();
             whichPlayerComingLabelChange();
 
             return "false";
@@ -238,6 +248,7 @@ namespace Battleship
                             enemyPlayfield[cell / rows, cell % columns] = 'T';
 
                             hitsLabelChange();
+                            everyShipDestroyed();
                         }
                         else
                         {
@@ -245,10 +256,35 @@ namespace Battleship
                             enemyPlayfield[cell / rows, cell % columns] = 'V';
 
                             player1Coming = !player1Coming;
+                            roundsLabelChange();
                             whichPlayerComingLabelChange();
                         }
                     }
                 }
+            }
+        }
+
+        private void everyShipDestroyed()
+        {
+            if (player1HitsLabel.Content.ToString() == "15")
+            {
+                MessageBox.Show(player1Name + " won the game!", "The game is over" , MessageBoxButton.OK);
+                gameEnd();
+            }
+            else if (player2HitsLabel.Content.ToString() == "15")
+            {
+                MessageBox.Show(player2Name + " won the game!", "The game is over", MessageBoxButton.OK);
+                gameEnd();
+            }
+        }
+
+        private void roundsLabelChange()
+        {
+            changePlayerCounter++;
+
+            if (changePlayerCounter % 2 == 0)
+            {
+                roundsLabel.Content = Convert.ToInt32(roundsLabel.Content) + 1;
             }
         }
 
@@ -384,6 +420,26 @@ namespace Battleship
             }
 
             return (row * 10) + col;
+        }
+
+        public void onClose()
+        {
+            this.Close();
+        }
+
+        private void gameEnd()
+        {
+            //score mentése
+            this.onCloseWindow();
+
+            StartWindow startWindow = new StartWindow();
+            this.Close();
+            startWindow.Show();
+        }
+
+        private void surrendBtn_Click(object sender, RoutedEventArgs e)
+        {
+            gameEnd();
         }
     }
 }
