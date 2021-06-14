@@ -315,7 +315,11 @@ namespace Battleship
             game(rnd);
         }
 
-        
+        private void stats_Click(object sender, RoutedEventArgs e)
+        {
+            Stats stats = new Stats();
+            stats.Show();
+        }
 
         private void game(Random rnd)
         {

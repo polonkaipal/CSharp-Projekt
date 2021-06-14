@@ -19,7 +19,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="7*"/>
         </Grid.RowDefinitions>
 
@@ -71,6 +71,6 @@
 
         <Button Grid.Row="3" x:Name="PlayBtn" Click="playBtn_Click" Content="Play" Width="120px" Height="30px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="18" Foreground="White" FontFamily="Stencil" Margin="10"/>
 
-        <Label Grid.Row="4" Content="Stats" FontFamily="Stencil" FontSize="18px" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button Grid.Row="4" Content="Stats" Width="120px" Height="30px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="18" Foreground="White" FontFamily="Stencil" Margin="10" Click="stats_Click" />
     </Grid>
 </Window>

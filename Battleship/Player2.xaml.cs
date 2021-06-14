@@ -25,5 +25,11 @@ namespace Battleship
         {
             this.OnMessage("From P2");
         }
+
+        private void stats_Click(object sender, RoutedEventArgs e)
+        {
+            Stats stats = new Stats();
+            stats.Show();
+        }
     }
 }
