@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Timers;
-
+using System.Diagnostics;
 
 namespace Battleship
 {
@@ -441,12 +441,9 @@ namespace Battleship
             bool hit;
 
 
-            int randomX;
-            int randomY;
-
             while (!player)
             {
-
+                
                 if (!con)
                 {
                     randomY = (int)rnd.Next(0, 10);
