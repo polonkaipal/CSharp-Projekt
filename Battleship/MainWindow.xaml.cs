@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Timers;
@@ -24,14 +15,14 @@ namespace Battleship
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly char[] _characters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' };
-        private static readonly short[] _nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        private static readonly int rows = _characters.Length;
-        private static readonly int columns = _nums.Length;
         private bool shipShadow = false;
         private int calculatedCell = -1;
 
-        Random rnd = new Random();
+        private static readonly int rows = 10;
+        private static readonly int columns = 10;
+
+
+        Random rnd = new();
 
         char[,] playerPlayfield = new char[10, 10];
         char[,] aiPlayfield = new char[10, 10];
@@ -214,8 +205,10 @@ namespace Battleship
 
         private Rectangle shipHpSettings(int shipLength)
         {
-            Rectangle hpUnit = new Rectangle();
-            hpUnit.Fill = Brushes.Green;
+            Rectangle hpUnit = new()
+            {
+                Fill = Brushes.Green
+            };
             var Y = carrierHpGrid.Width;
             var X = carrierHpGrid.Height / shipLength;
             hpUnit.Width = Y;
@@ -229,6 +222,7 @@ namespace Battleship
             InitializeComponent();
 
             this.playerPlayfield = playerPlayfield;
+
             playerShipsLoad(playfield);
 
 
@@ -236,8 +230,10 @@ namespace Battleship
             {
                 for (int col = 0; col < 10; col++)
                 {
-                    Rectangle ship = new Rectangle();
-                    ship.Fill = Brushes.Red;
+                    Rectangle ship = new()
+                    {
+                        Fill = Brushes.Red
+                    };
                     var Y = rightTable.Width / rows;
                     var X = rightTable.Height / columns;
                     ship.Width = Y;
@@ -370,8 +366,10 @@ namespace Battleship
 
         private Rectangle shipSettings(int shipLength)
         {
-            Rectangle ship = new Rectangle();
-            ship.Fill = Brushes.DodgerBlue;
+            Rectangle ship = new()
+            {
+                Fill = Brushes.DodgerBlue
+            };
             var Y = rightTable.Width / rows;
             var X = rightTable.Height / columns;
             ship.Width = Y;
@@ -428,12 +426,12 @@ namespace Battleship
 
         private void surrendClick(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void stats_Click(object sender, RoutedEventArgs e)
         {
-            Stats stats = new Stats();
+            Stats stats = new();
             stats.Show();
         }
 
@@ -441,6 +439,10 @@ namespace Battleship
         {
             bool player = false; // false - AI | true - Player 
             bool hit;
+
+
+            int randomX;
+            int randomY;
 
             while (!player)
             {
