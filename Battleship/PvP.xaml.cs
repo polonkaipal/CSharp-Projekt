@@ -57,53 +57,6 @@ namespace Battleship
             playerShipsLoad(player2PlayfieldGrid);
         }
 
-        public string onShoot(int cell)
-        {
-            bool isHit = isHitShipUnit(cell);
-
-            if (isHit)
-            {
-                setShipUnitExploded(cell);
-
-                return battleshipPlayfield[cell / rows, cell % columns].ToString();
-            }
-
-            return "false";
-        }
-
-        private bool isHitShipUnit(int cell)
-        {
-            if (char.IsDigit(battleshipPlayfield[cell / rows, cell % columns]))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private void setShipUnitExploded(int cell)
-        {
-            Rectangle explodedShip = explodedShipUnitSettings();
-
-            Grid.SetRow(explodedShip, cell / rows);
-            Grid.SetColumn(explodedShip, cell % columns);
-
-            leftTable.Children.Add(explodedShip);
-        }
-
-        private Rectangle explodedShipUnitSettings()
-        {
-            Rectangle explodedUnit = new Rectangle();
-
-            explodedUnit.Fill = Brushes.DarkRed;
-            var Y = explodedUnit.Width / rows;
-            var X = explodedUnit.Height / columns;
-            explodedUnit.Width = Y;
-            explodedUnit.Height = X;
-
-            return explodedUnit;
-        }
-
         private string whichPlayerStart(string player1Name, string player2Name)
         {
             if (rnd.Next(0, 2) == 0)
@@ -172,6 +125,68 @@ namespace Battleship
             }
         }
 
+        public string onShoot(int cell)
+        {
+            bool isHit = isHitShipUnit(cell);
+
+            setShipUnit(cell, isHit, true);
+
+            if (isHit)
+            {
+                return battleshipPlayfield[cell / rows, cell % columns].ToString();
+            }
+            
+            return "false";
+        }
+
+        private bool isHitShipUnit(int cell)
+        {
+            if (char.IsDigit(battleshipPlayfield[cell / rows, cell % columns]))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void setShipUnit(int cell, bool isHit, bool setLeftTable)
+        {
+            Rectangle ship = shipUnitSettings(isHit);
+
+            Grid.SetRow(ship, cell / rows);
+            Grid.SetColumn(ship, cell % columns);
+
+            if (setLeftTable)
+            {
+                leftTable.Children.Add(ship);
+            }
+            else
+            {
+                rightTable.Children.Add(ship);
+            }
+        }
+
+        private Rectangle shipUnitSettings(bool isHit)
+        {
+            Rectangle unit = new Rectangle();
+
+            if (isHit)
+            {
+                unit.Fill = Brushes.DarkRed;
+            }
+            else
+            {
+                unit.Fill = Brushes.LightGray;
+            }
+
+            var Y = unit.Width / rows;
+            var X = unit.Height / columns;
+            unit.Width = Y;
+            unit.Height = X;
+
+            return unit;
+        }
+
         private Rectangle shipHpSettings(int shipLength)
         {
             Rectangle hpUnit = new Rectangle();
@@ -193,19 +208,39 @@ namespace Battleship
 
                 int cell = calculateCell();
 
-                char shipUnitName = battleshipPlayfield[cell / rows, cell % columns];
+                string shipUnitName = this.OnHit(cell);
 
-                switch (shipUnitName)
+                if (shipUnitName != "false")
                 {
-                    case '5':
-
-                        break;
+                    setShipUnit(cell, true, false);
+                    shipHpDecrement(shipUnitName);
                 }
-
-                if (this.OnHit(cell) != "false")
+                else
                 {
-                    playerComingLabel.Content = "Nem talalt!";
+                    setShipUnit(cell, false, false);
                 }
+            }
+        }
+
+        private void shipHpDecrement(string shipUnitName)
+        {
+            switch (shipUnitName)
+            {
+                case "5":
+                    carrierHpGrid.Children.RemoveAt(carrierHpGrid.Children.Count - 1);
+                    break;
+                case "4":
+                    battleshipHpGrid.Children.RemoveAt(battleshipHpGrid.Children.Count - 1);
+                    break;
+                case "3":
+                    cruiserHpGrid.Children.RemoveAt(cruiserHpGrid.Children.Count - 1);
+                    break;
+                case "2":
+                    submarineHpGrid.Children.RemoveAt(submarineHpGrid.Children.Count - 1);
+                    break;
+                case "1":
+                    destroyerHpGrid.Children.RemoveAt(destroyerHpGrid.Children.Count - 1);
+                    break;
             }
         }
 
