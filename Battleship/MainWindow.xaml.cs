@@ -34,6 +34,12 @@ namespace Battleship
         int randomX;
         int randomY;
 
+        int destroyer = 0;
+        int submarine = 0;
+        int cruiser = 0;
+        int battleship = 0;
+        int carrier = 0;
+
         private const double RefreshTimeSec = 10;
         private readonly DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Send);
 
@@ -140,14 +146,20 @@ namespace Battleship
                 {
                     if (char.IsDigit(aiPlayfield[cell % columns, cell / rows]))
                     {
-                        
-
                         var ship = shipSettings(shipLength);
                         ship.Fill = Brushes.DarkRed;
                         Grid.SetRow(ship, cell / rows);
                         Grid.SetColumn(ship, cell % columns);
 
-                        aiPlayfield[cell % columns, cell / rows] = 'T';
+                        Debug.WriteLine(aiPlayfield[cell % columns, cell / rows]);
+
+                        char c = aiPlayfield[cell % columns, cell / rows];
+
+                        aiPlayfield[cell % columns, cell / rows] = 'T';                        
+                        
+                        Debug.WriteLine(int.Parse(c.ToString()));
+
+                        shipHp(int.Parse(c.ToString()));
 
                         ship.Visibility = Visibility.Visible;
                         rightTable.Children.Add(ship);
@@ -186,6 +198,74 @@ namespace Battleship
             }     
         }
 
+        private void shipHp(int s)
+        {
+            Debug.WriteLine(s);
+
+            if(s == 1)
+            {
+                destroyer++;
+                //Rectangle hpUnit = shipHpSettings(ship);
+
+                for (int unit = 0; unit < destroyer; unit++)
+                {
+                    Rectangle hpUnit = shipHpSettings(s);
+                    hpUnit.Fill = Brushes.DarkRed;
+                    Grid.SetColumn(hpUnit, unit);
+                    destroyerHpGrid.Children.Add(hpUnit);
+                }
+            }
+            else if(s == 2)
+            {
+                submarine++;
+
+                for (int unit = 0; unit < submarine; unit++)
+                {
+                    Rectangle hpUnit = shipHpSettings(s);
+                    hpUnit.Fill = Brushes.DarkRed;
+                    Grid.SetColumn(hpUnit, unit);
+                    submarineHpGrid.Children.Add(hpUnit);
+                }
+            }
+            else if(s == 3)
+            {
+                cruiser++;
+
+                for (int unit = 0; unit < cruiser; unit++)
+                {
+                    Rectangle hpUnit = shipHpSettings(s);
+                    hpUnit.Fill = Brushes.DarkRed;
+                    Grid.SetColumn(hpUnit, unit);
+                    cruiserHpGrid.Children.Add(hpUnit);
+                }
+            }
+            else if(s == 4)
+            {
+                battleship++;
+
+                for (int unit = 0; unit < battleship; unit++)
+                {
+                    Rectangle hpUnit = shipHpSettings(s);
+                    hpUnit.Fill = Brushes.DarkRed;
+                    Grid.SetColumn(hpUnit, unit);
+                    battleshipHpGrid.Children.Add(hpUnit);
+                }
+            }
+            else if(s == 5)
+            {
+                carrier++;
+
+                for (int unit = 0; unit < carrier; unit++)
+                {
+                    Rectangle hpUnit = shipHpSettings(s);
+                    hpUnit.Fill = Brushes.DarkRed;
+                    Grid.SetColumn(hpUnit, unit);
+                    carrierHpGrid.Children.Add(hpUnit);
+                }
+            }
+
+        }
+
         public bool isEndGame(int player)
         {
             if(player == 0)
@@ -220,6 +300,7 @@ namespace Battleship
 
         private void shipStatHpInit()
         {
+           
             for (int ship = 5; ship > 0; ship--)
             {
                 for (int unit = 0; unit < ship; unit++)
