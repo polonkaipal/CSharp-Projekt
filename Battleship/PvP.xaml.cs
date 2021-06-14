@@ -21,6 +21,9 @@ namespace Battleship
         private bool player1Coming;
         private bool windowPlayer1;
 
+        private string player1Name;
+        private string player2Name;
+
         PvP player2Window;
         Random rnd = new Random();
 
@@ -33,10 +36,12 @@ namespace Battleship
             this.Title = player1Name;
             this.myPlayfield = player1Playfield;
 
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
             windowPlayer1 = true;
             string playerStart = whichPlayerStart(player1Name, player2Name);
 
-            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2Playfield, player1Coming);
+            player2Window = new PvP(player1Name, player2Name, player2PlayfieldGrid, player2Playfield, player1Coming);
             player2Window.Title = player2Name;
             player2Window.Show();
 
@@ -49,13 +54,15 @@ namespace Battleship
             this.OnHit += new Hit(player2Window.onShoot);
         }
 
-        public PvP(string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield, bool player1Coming)
+        public PvP(string player1Name, string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield, bool player1Coming)
         {
             InitializeComponent();
 
             windowPlayer1 = false;
             this.myPlayfield = player2Playfield;
             this.player1Coming = player1Coming;
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
 
             shipStatHpInit();
             playerShipsLoad(player2PlayfieldGrid);
@@ -139,7 +146,10 @@ namespace Battleship
             {
                 return myPlayfield[cell / rows, cell % columns].ToString();
             }
-            
+
+            player1Coming = !player1Coming;
+            whichPlayerComingLabelInitialize();
+
             return "false";
         }
 
@@ -207,29 +217,47 @@ namespace Battleship
         {
             if (e.ClickCount == 1)
             {
-                deleteShadow();
-                shadowExists = false;
-
-                int cell = calculateCell();
-
-                bool shooted = isCellShooted(cell);
-
-                if (!shooted)
+                if (player1Coming && windowPlayer1 || !player1Coming && !windowPlayer1)
                 {
-                    string shipUnitName = this.OnHit(cell);
+                    deleteShadow();
+                    shadowExists = false;
 
-                    if (shipUnitName != "false")
+                    int cell = calculateCell();
+
+                    bool shooted = isCellShooted(cell);
+
+                    if (!shooted)
                     {
-                        setShipUnit(cell, true, false);
-                        shipHpDecrement(shipUnitName);
-                        enemyPlayfield[cell / rows, cell % columns] = 'T';
+                        string shipUnitName = this.OnHit(cell);
+
+                        if (shipUnitName != "false")
+                        {
+                            setShipUnit(cell, true, false);
+                            shipHpDecrement(shipUnitName);
+                            enemyPlayfield[cell / rows, cell % columns] = 'T';
+                        }
+                        else
+                        {
+                            setShipUnit(cell, false, false);
+                            enemyPlayfield[cell / rows, cell % columns] = 'V';
+
+                            player1Coming = !player1Coming;
+                            whichPlayerComingLabelInitialize();
+                        }
                     }
-                    else
-                    {
-                        setShipUnit(cell, false, false);
-                        enemyPlayfield[cell / rows, cell % columns] = 'V';
-                    }
-                }    
+                }
+            }
+        }
+
+        private void whichPlayerComingLabelInitialize()
+        {
+            if (player1Coming)
+            {
+                playerComingLabel.Content = player1Name + " is coming";
+            }
+            else
+            {
+                playerComingLabel.Content = player2Name + " is coming";
             }
         }
 
