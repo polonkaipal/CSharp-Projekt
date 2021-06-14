@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
@@ -22,12 +13,10 @@ namespace Battleship
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly char[] _characters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j' };
-        private static readonly short[] _nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-        private static readonly int rows = _characters.Length;
-        private static readonly int columns = _nums.Length;
+        private static readonly int rows = 10;
+        private static readonly int columns = 10;
 
-        Random rnd = new Random();
+        Random rnd = new();
 
         char[,] playerPlayfield = new char[10, 10];
         char[,] playerPlayfield2 = new char[10, 10];
@@ -88,8 +77,10 @@ namespace Battleship
 
         private Rectangle shipHpSettings(int shipLength)
         {
-            Rectangle hpUnit = new Rectangle();
-            hpUnit.Fill = Brushes.Green;
+            Rectangle hpUnit = new()
+            {
+                Fill = Brushes.Green
+            };
             var Y = carrierHpGrid.Width;
             var X = carrierHpGrid.Height / shipLength;
             hpUnit.Width = Y;
@@ -102,7 +93,7 @@ namespace Battleship
         {
             InitializeComponent();
 
-            this.playerPlayfield = playerPlayfield; 
+            this.playerPlayfield = playerPlayfield;
             this.playerPlayfield2 = playerPlayfield2;
             playerShipsLoad(playfield);
 
@@ -111,8 +102,10 @@ namespace Battleship
             {
                 for (int col = 0; col < 10; col++)
                 {
-                    Rectangle ship = new Rectangle();
-                    ship.Fill = Brushes.Red;
+                    Rectangle ship = new()
+                    {
+                        Fill = Brushes.Red
+                    };
                     var Y = rightTable.Width / rows;
                     var X = rightTable.Height / columns;
                     ship.Width = Y;
@@ -133,12 +126,12 @@ namespace Battleship
 
         private void new_gameBtn_Click(object sender, RoutedEventArgs e)
         {
-            Opponent opponentWindow = new Opponent();
+            Opponent opponentWindow = new();
             App.Current.MainWindow = opponentWindow;
             this.Close();
             opponentWindow.Show();
         }
-        
+
         private void playerShipsLoad(Grid playfield)
         {
             for (int unit = playfield.Children.Count - 1; unit >= 0; unit--)
@@ -253,8 +246,10 @@ namespace Battleship
 
         private Rectangle shipSettings(int shipLength)
         {
-            Rectangle ship = new Rectangle();
-            ship.Fill = Brushes.DodgerBlue;
+            Rectangle ship = new()
+            {
+                Fill = Brushes.DodgerBlue
+            };
             var Y = rightTable.Width / rows;
             var X = rightTable.Height / columns;
             ship.Width = Y;
@@ -311,20 +306,19 @@ namespace Battleship
 
         private void surrendClick(object sender, RoutedEventArgs e)
         {
-            Random rnd = new Random();
             game(rnd);
         }
 
         private void stats_Click(object sender, RoutedEventArgs e)
         {
-            Stats stats = new Stats();
+            Stats stats = new();
             stats.Show();
         }
 
         private void game(Random rnd)
         {
             bool player = false; // false - AI | true - Player 
-            bool hit;  
+            bool hit;
 
             int randomX;
             int randomY;
@@ -342,7 +336,7 @@ namespace Battleship
                 randomY = (int)rnd.Next(0, 10);
                 randomX = (int)rnd.Next(0, 10);
 
-                if(playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
+                if (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
                 {
                     continue;
                 }
@@ -365,8 +359,8 @@ namespace Battleship
                             //hitX = randomX;
                             playerPlayfield[hitY, hitX] = 'T';
                             paintHitCell(hitX, hitY);
-                            
-                            if(hitY != 0)
+
+                            if (hitY != 0)
                             {
                                 hitY--;
                             }
@@ -382,7 +376,7 @@ namespace Battleship
                             hit = false;
                             //player = true;
                         }
-                        else if(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
+                        else if (playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
                         {
                             randomY = (int)rnd.Next(0, 10);
                             randomX = (int)rnd.Next(0, 10);
@@ -395,14 +389,14 @@ namespace Battleship
 
                     player = true;
                 }
-                else if(!(playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V'))
+                else if (!(playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V'))
                 {
                     playerPlayfield[randomY, randomX] = 'V';
 
                     paintMissCell(randomX, randomY);
-           
+
                     player = true;
-                }   
+                }
             }
         }
 

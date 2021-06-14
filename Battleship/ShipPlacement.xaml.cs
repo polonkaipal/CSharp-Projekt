@@ -199,9 +199,10 @@ namespace Battleship
 
         private Rectangle shipSettings()
         {
-            Rectangle ship = new Rectangle();
-
-            ship.Fill = Brushes.DodgerBlue;
+            Rectangle ship = new()
+            {
+                Fill = Brushes.DodgerBlue
+            };
             var Y = playfield.Width / rows;
             var X = playfield.Height / columns;
             ship.Width = Y;
@@ -277,8 +278,10 @@ namespace Battleship
 
         private Rectangle shadowUnitSettings()
         {
-            var shadow = new Rectangle();
-            shadow.Fill = Brushes.LightGray;
+            Rectangle shadow = new()
+            {
+                Fill = Brushes.LightGray
+            };
             var Y = playfield.Width / rows;
             var X = playfield.Height / columns;
             shadow.Width = Y;
@@ -317,30 +320,15 @@ namespace Battleship
 
         private int shipLengthCalculate()
         {
-            int length = 0;
-
-            switch (selectedShip)
+            int length = selectedShip switch
             {
-                case "Carrier":
-                    length = 5;
-                    break;
-                case "Battleship":
-                    length = 4;
-                    break;
-                case "Cruiser":
-                    length = 3;
-                    break;
-                case "Submarine":
-                    length = 2;
-                    break;
-                case "Destroyer":
-                    length = 1;
-                    break;
-                default:
-                    length = 0;
-                    break;
-            }
-
+                "Carrier" => 5,
+                "Battleship" => 4,
+                "Cruiser" => 3,
+                "Submarine" => 2,
+                "Destroyer" => 1,
+                _ => 0,
+            };
             return length;
         }
 
@@ -390,21 +378,21 @@ namespace Battleship
             {
                 if (player2PlaceShips)
                 {
-                    PvP player1BattleshipPlayfieldWindow = new PvP(player1Name, player1PlayfieldGrid, player1BattleshipPlayfield, player2Name, playfield, battleshipPlayfield);
+                    PvP player1BattleshipPlayfieldWindow = new(player1Name, player1PlayfieldGrid, player1BattleshipPlayfield, player2Name, playfield, battleshipPlayfield);
                     App.Current.MainWindow = player1BattleshipPlayfieldWindow;
                     this.Close();
                     player1BattleshipPlayfieldWindow.Show();
                 }
                 else if (vsComputer)
                 {
-                    MainWindow battleshipPlayfieldWindow = new MainWindow(playfield, battleshipPlayfield);
+                    MainWindow battleshipPlayfieldWindow = new(playfield, battleshipPlayfield);
                     App.Current.MainWindow = battleshipPlayfieldWindow;
                     this.Close();
                     battleshipPlayfieldWindow.Show();
                 }
                 else if (!vsComputer)
                 {
-                    ShipPlacement player2ShipPlacementWindow = new ShipPlacement(player1Name, player2Name, playfield, battleshipPlayfield);
+                    ShipPlacement player2ShipPlacementWindow = new(player1Name, player2Name, playfield, battleshipPlayfield);
                     App.Current.MainWindow = player2ShipPlacementWindow;
                     this.Close();
                     player2ShipPlacementWindow.Show();
@@ -447,7 +435,7 @@ namespace Battleship
             submarineBtn.IsEnabled = false;
             destroyerBtn.IsEnabled = false;
 
-            Random rnd = new Random();
+            Random rnd = new();
 
             int randomOrient;
             int randomPosX = (int)rnd.Next(0, 10);
@@ -550,8 +538,10 @@ namespace Battleship
 
         private Rectangle shipSettings(int shipLength)
         {
-            Rectangle ship = new Rectangle();
-            ship.Fill = Brushes.DodgerBlue;
+            Rectangle ship = new()
+            {
+                Fill = Brushes.DodgerBlue
+            };
             var Y = playfield.Width / rows;
             var X = playfield.Height / columns;
             ship.Width = Y;

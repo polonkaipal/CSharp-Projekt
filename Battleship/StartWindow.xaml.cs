@@ -38,7 +38,7 @@ namespace Battleship
             {
                 if (!string.IsNullOrWhiteSpace(player1TextBox.Text))
                 {
-                    ShipPlacement player1ShipPlacementWindow = new ShipPlacement(player1TextBox.Text);
+                    ShipPlacement player1ShipPlacementWindow = new(player1TextBox.Text);
                     this.Close();
                     player1ShipPlacementWindow.Show();
                 }
@@ -47,7 +47,7 @@ namespace Battleship
             {
                 if (!string.IsNullOrWhiteSpace(player1TextBox.Text) && !string.IsNullOrWhiteSpace(player2TextBox.Text))
                 {
-                    ShipPlacement player1ShipPlacementWindow = new ShipPlacement(player1TextBox.Text, player2TextBox.Text);
+                    ShipPlacement player1ShipPlacementWindow = new(player1TextBox.Text, player2TextBox.Text);
                     App.Current.MainWindow = player1ShipPlacementWindow;
                     this.Close();
                     player1ShipPlacementWindow.Show();
@@ -57,7 +57,7 @@ namespace Battleship
 
         private void stats_Click(object sender, RoutedEventArgs e)
         {
-            Stats stats = new Stats();
+            Stats stats = new();
             stats.Show();
         }
     }

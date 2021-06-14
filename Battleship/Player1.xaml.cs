@@ -7,7 +7,7 @@ namespace Battleship
     /// </summary>
     public partial class Player1 : Window
     {
-        Player2 player2Window = new Player2();
+        Player2 player2Window = new();
 
         public Player1()
         {
@@ -29,7 +29,7 @@ namespace Battleship
 
         private void stats_Click(object sender, RoutedEventArgs e)
         {
-            Stats stats = new Stats();
+            Stats stats = new();
             stats.Show();
         }
     }
