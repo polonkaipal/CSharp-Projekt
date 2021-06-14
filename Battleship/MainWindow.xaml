@@ -96,7 +96,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"></RowDefinition>
-                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="2*"></RowDefinition>
                         <RowDefinition Height="2*"></RowDefinition>
                         <RowDefinition Height="2*"></RowDefinition>
                         <RowDefinition Height="1*"></RowDefinition>
@@ -114,7 +114,7 @@
 
                     </Grid>
 
-                    <Button Grid.Row="1" Content="Stats" FontFamily="Stencil" FontSize="30px" VerticalAlignment="Top" HorizontalAlignment="Center" Click="stats_Click"/>
+                    <Button Grid.Row="1" Content="Stats" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10" Click="stats_Click"/>
 
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>

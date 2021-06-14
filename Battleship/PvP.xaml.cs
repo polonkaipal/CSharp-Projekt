@@ -271,7 +271,7 @@ namespace Battleship
         {
             if (player1HitsLabel.Content.ToString() == "15")
             {
-                MessageBox.Show(player1Name + " won the game!", "The game is over" , MessageBoxButton.OK);
+                MessageBox.Show(player1Name + " won the game!", "The game is over", MessageBoxButton.OK);
                 gameEnd(player1Name);
             }
             else if (player2HitsLabel.Content.ToString() == "15")
@@ -367,7 +367,7 @@ namespace Battleship
                 deleteShadow();
 
                 Rectangle shadow = shadowUnitSettings();
-                
+
                 Grid.SetRow(shadow, cell / rows);
                 Grid.SetColumn(shadow, cell % columns);
 
@@ -467,6 +467,12 @@ namespace Battleship
             {
                 gameEnd(player1Name);
             }
+        }
+
+        private void stats_Click(object sender, RoutedEventArgs e)
+        {
+            Stats stats = new Stats();
+            stats.Show();
         }
     }
 }
