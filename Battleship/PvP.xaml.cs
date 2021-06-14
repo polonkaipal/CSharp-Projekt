@@ -144,11 +144,12 @@ namespace Battleship
 
             if (isHit)
             {
+                hitsLabelChange();
                 return myPlayfield[cell / rows, cell % columns].ToString();
             }
 
             player1Coming = !player1Coming;
-            whichPlayerComingLabelInitialize();
+            whichPlayerComingLabelChange();
 
             return "false";
         }
@@ -235,6 +236,8 @@ namespace Battleship
                             setShipUnit(cell, true, false);
                             shipHpDecrement(shipUnitName);
                             enemyPlayfield[cell / rows, cell % columns] = 'T';
+
+                            hitsLabelChange();
                         }
                         else
                         {
@@ -242,14 +245,35 @@ namespace Battleship
                             enemyPlayfield[cell / rows, cell % columns] = 'V';
 
                             player1Coming = !player1Coming;
-                            whichPlayerComingLabelInitialize();
+                            whichPlayerComingLabelChange();
                         }
                     }
                 }
             }
         }
 
-        private void whichPlayerComingLabelInitialize()
+        private void hitsLabelChange()
+        {
+            if (windowPlayer1 && player1Coming)
+            {
+                player1HitsLabel.Content = Convert.ToInt32(player1HitsLabel.Content) + 1;
+            }
+            else if (!windowPlayer1 && !player1Coming)
+            {
+                player2HitsLabel.Content = Convert.ToInt32(player2HitsLabel.Content) + 1;
+            }
+
+            if (windowPlayer1 && !player1Coming)
+            {
+                player2HitsLabel.Content = Convert.ToInt32(player2HitsLabel.Content) + 1;
+            }
+            else if (!windowPlayer1 && player1Coming)
+            {
+                player1HitsLabel.Content = Convert.ToInt32(player1HitsLabel.Content) + 1;
+            }
+        }
+
+        private void whichPlayerComingLabelChange()
         {
             if (player1Coming)
             {
