@@ -21,7 +21,6 @@ namespace Battleship
         private static readonly int rows = 10;
         private static readonly int columns = 10;
 
-
         Random rnd = new();
 
         char[,] playerPlayfield = new char[10, 10];
@@ -30,7 +29,6 @@ namespace Battleship
         bool aiShipsShow = false;
 
         bool left, right, down, up, con = false;
-        int ures = 0;
 
         int hitX = -1, hitY = -1;
         int randomX;
@@ -142,6 +140,8 @@ namespace Battleship
                 {
                     if (char.IsDigit(aiPlayfield[cell % columns, cell / rows]))
                     {
+                        
+
                         var ship = shipSettings(shipLength);
                         ship.Fill = Brushes.DarkRed;
                         Grid.SetRow(ship, cell / rows);
@@ -151,6 +151,14 @@ namespace Battleship
 
                         ship.Visibility = Visibility.Visible;
                         rightTable.Children.Add(ship);
+
+                        if(isEndGame(0)) // player
+                        {
+                            MessageBox.Show("The Player won!", "Winner", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                            StartWindow startWindow = new StartWindow();
+                            this.Close();
+                            startWindow.Show();
+                        }
                     }
                     else if(!(aiPlayfield[cell % columns, cell / rows] == 'T' || aiPlayfield[cell % columns, cell / rows] == 'V' ))
                     {
@@ -166,9 +174,48 @@ namespace Battleship
 
                         Random rnd = new Random();
                         game(rnd);
+                        if(isEndGame(1))
+                        {
+                            MessageBox.Show("The AI won!", "Loser", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                            StartWindow startWindow = new StartWindow();
+                            this.Close();
+                            startWindow.Show();
+                        }
                     }
                 }
             }     
+        }
+
+        public bool isEndGame(int player)
+        {
+            if(player == 0)
+            {
+                for (int row = 0; row < 10; row++)
+                {
+                    for(int col =  0; col < 10; col++)
+                    {
+                        if(char.IsDigit(aiPlayfield[row, col]))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            else if(player == 1)
+            {
+                for (int row = 0; row < 10; row++)
+                {
+                    for (int col = 0; col < 10; col++)
+                    {
+                        if (char.IsDigit(playerPlayfield[row, col]))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         private void shipStatHpInit()

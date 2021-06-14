@@ -400,6 +400,7 @@ namespace Battleship
             else
             {
                 MessageBox.Show("All ships must be placed!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
 
         }
