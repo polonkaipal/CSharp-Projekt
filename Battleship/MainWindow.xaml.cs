@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using System.Timers;
 
 
 namespace Battleship
@@ -26,6 +28,8 @@ namespace Battleship
         private static readonly short[] _nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
         private static readonly int rows = _characters.Length;
         private static readonly int columns = _nums.Length;
+        private bool shipShadow = false;
+        private int calculatedCell = -1;
 
         Random rnd = new Random();
 
@@ -42,6 +46,9 @@ namespace Battleship
         int randomX;
         int randomY;
 
+        private const double RefreshTimeSec = 10;
+        private readonly DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Send);
+
         public MainWindow(Grid playfield, char[,] playerPlayfield)
         {
             InitializeComponent();
@@ -54,6 +61,88 @@ namespace Battleship
             //game(rnd);
 
             shipStatHpInit();
+        }
+
+        private int calculateCell() //which cell the cursor is on
+        {
+            var point = Mouse.GetPosition(rightTable);
+
+            int row = 0;
+            int col = 0;
+            double accumulatedHeight = 0.0;
+            double accumulatedWidth = 0.0;
+
+            foreach (var rowDefinition in rightTable.RowDefinitions)
+            {
+                accumulatedHeight += rowDefinition.ActualHeight;
+                if (accumulatedHeight >= point.Y)
+                    break;
+                row++;
+            }
+
+            foreach (var columnDefinition in rightTable.ColumnDefinitions)
+            {
+                accumulatedWidth += columnDefinition.ActualWidth;
+                if (accumulatedWidth >= point.X)
+                    break;
+                col++;
+            }
+
+            return (row * 10) + col;
+        }
+
+        private void deleteShipShadow(int shipLength)
+        {
+            if (shipShadow == true)
+            {
+                for (int i = 0; i < shipLength; i++)
+                {
+                    int lastItem = rightTable.Children.Count - 1;
+                    rightTable.Children.RemoveAt(lastItem);
+                }
+            }
+        }
+
+        private void onGridMouseOver(object sender, MouseEventArgs e) //ship shadow
+        {
+            int shipLength = 1;
+
+            if (shipLength != 0)
+            {
+                int cell = calculateCell();
+
+                if (calculatedCell != cell)
+                {
+                    calculatedCell = cell;
+
+                    deleteShipShadow(shipLength);
+
+                    for (int i = 0; i < shipLength; i++)
+                    {
+                        var ship = new Rectangle();
+                        ship.Fill = Brushes.LightGray;
+                        var Y = rightTable.Width / rows;
+                        var X = rightTable.Height / columns;
+                        ship.Width = Y;
+                        ship.Height = X;
+
+                        Grid.SetRow(ship, cell / rows + i);
+                        Grid.SetColumn(ship, cell % columns);
+
+                        shipShadow = true;
+                        rightTable.Children.Add(ship);
+                    }
+                }
+
+            }
+        }
+
+        private void onGridMouseClick(object sender, MouseButtonEventArgs e) //ship placement in the playfield
+        {
+            if(e.ClickCount == 1)
+            {
+
+            }
         }
 
         private void shipStatHpInit()
@@ -316,6 +405,7 @@ namespace Battleship
 
             while (!player)
             {
+
                 if (!con)
                 {
                     randomY = (int)rnd.Next(0, 10);
@@ -340,7 +430,8 @@ namespace Battleship
                     right = false;
 
                     while (hit)
-                    {
+                    {                     
+
                         if (up)
                         {
                             if (playerPlayfield[hitY, hitX] == 'H')
@@ -416,7 +507,12 @@ namespace Battleship
                                 else
                                 {
                                     hitY = randomY;
-                                    hitX = randomX + 1;
+
+                                    if (randomX != 9)
+                                        hitX = randomX + 1;
+                                    else
+                                        hitX = 9;
+
                                     up = false;
                                     down = false;
                                     left = false;
@@ -472,7 +568,11 @@ namespace Battleship
                                 }
                                 else
                                 {
-                                    hitX = randomX - 1;
+                                    if (randomX != 0)
+                                        hitX = randomX - 1;
+                                    else
+                                        hitX = 0;
+
                                     up = false;
                                     down = false;
                                     left = true;
@@ -523,10 +623,10 @@ namespace Battleship
                                 }
                                 else
                                 {
-                                    hitX = randomX - 1;
+                                    
                                     up = false;
                                     down = false;
-                                    left = true;
+                                    left = false;
                                     right = false;
                                 }
                             }

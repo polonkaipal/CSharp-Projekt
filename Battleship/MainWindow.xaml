@@ -64,7 +64,7 @@
             <Label Grid.Row="1" Grid.Column="1" Content="A     B     C     D     E     F     G     H     I     J" FontFamily="Stencil" FontSize="21.6px" Margin="55,20,10,10" />
             <TextBlock Grid.Row="1" Grid.Column="1" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="33px" Margin="0,60,440,0" TextWrapping="Wrap" />
 
-            <Grid Height="400" Width="400" Name="rightTable" Grid.Row="1" Grid.Column="1" Margin="20,0,20,0" ShowGridLines="True">
+            <Grid Height="400" Width="400" Name="rightTable" Grid.Row="1" Grid.Column="1" Margin="20,0,20,0" ShowGridLines="True" Background="Transparent" PreviewMouseMove="onGridMouseOver" PreviewMouseLeftButtonDown="onGridMouseClick">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
