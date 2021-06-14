@@ -48,10 +48,6 @@ namespace Battleship
 
             player2Window = new PvP(player1Name, player2Name, player2PlayfieldGrid, player2Playfield, player1Coming);
             player2Window.Title = player2Name;
-            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2BattleshipPlayfield, player1Coming)
-            {
-                Title = player2Name
-            };
             player2Window.Show();
 
             initializeLabels(player1Name, player2Name, playerStart);
