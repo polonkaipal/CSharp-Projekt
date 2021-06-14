@@ -1,0 +1,39 @@
+﻿<Window x:Class="Battleship.Stats"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Battleship"
+        mc:Ignorable="d"
+        Title="Stats" Height="450" Width="500">
+
+    <Window.DataContext>
+        <local:Score/>
+    </Window.DataContext>
+
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FFD0D6FF" Offset="1"/>
+            <GradientStop Color="White"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Score" FontFamily="Stencil" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"/>
+        <DataGrid Grid.Row="1" Name="table" AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Player" IsReadOnly="True" Binding="{Binding Player}" Width="*"/>
+                <DataGridTextColumn Header="Enemy" IsReadOnly="True" Binding="{Binding Enemy}" Width="*"/>
+                <DataGridTextColumn Header="Winner" IsReadOnly="True" Binding="{Binding Winner}" Width="*"/>
+                <DataGridTextColumn Header="PlayerHits" IsReadOnly="True" Binding="{Binding PlayerHits}" Width="*"/>
+                <DataGridTextColumn Header="EnemyHits" IsReadOnly="True" Binding="{Binding EnemyHits}" Width="*"/>
+                <DataGridTextColumn Header="Rounds" IsReadOnly="True" Binding="{Binding Rounds}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

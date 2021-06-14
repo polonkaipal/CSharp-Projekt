@@ -76,5 +76,11 @@ namespace Battleship
 
             return hpUnit;
         }
+
+        private void stats_Click(object sender, RoutedEventArgs e)
+        {
+            Stats stats = new Stats();
+            stats.Show();
+        }
     }
 }

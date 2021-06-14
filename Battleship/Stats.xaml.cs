@@ -15,24 +15,21 @@ using System.Windows.Shapes;
 namespace Battleship
 {
     /// <summary>
-    /// Interaction logic for PvP.xaml
+    /// Interaction logic for Stats.xaml
     /// </summary>
-    public partial class PvP : Window
+    public partial class Stats : Window
     {
-        public PvP()
+        public List<Score> result;
+        public Stats()
         {
             InitializeComponent();
+            LoadData();
         }
 
-        public PvP(Grid player1PlayfieldGrid, char[,] player1BattleshipPlayfield, Grid playfield, char[,] battleshipPlayfield)
+        private void LoadData()
         {
-            InitializeComponent();
-        }
-
-        private void stats_Click(object sender, RoutedEventArgs e)
-        {
-            Stats stats = new Stats();
-            stats.Show();
+            result = ScoreResult.ReadResult("score.json");
+            table.ItemsSource = result;
         }
     }
 }
