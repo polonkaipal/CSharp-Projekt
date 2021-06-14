@@ -28,21 +28,16 @@ Egy közismert és egyszerű, de annál izgalmasabb játék implementálása C# 
 Todo
 
 
-## Dokumentáció avagy hogyan tudsz játszani
+## Dokumentáció, avagy hogyan tudsz játszani
 1. Válaszd ki, hogy AI vagy humán ellen akarsz játszani!
 2. Írd be a neved (vagy neveiteket, ha nem AI ellen játszol)!
 3. Rakd le a hajókat (vagy választhatod, hogy generáljon neked egy lehetőséget)!
-4. Taktikáz!
+4. Taktikázz!
 5. Nyerj! :D
-
-
-Todo
 
 
 ## Features
 - AI elleni játszáskor a Ctrl+S megnyomására láthatóvá válik az ellenség hajói
-
-Todo
 
 
 ## Licensz
@@ -77,5 +72,3 @@ Indítsd el a solution fájlt
 
 ### Játék (a Ctr+S megnyomásakor az ellenség hajónak megjelenítése, kizárólag AI elleni játékkor)
 ![elindult játék 2](screenshots/jatek_fazis2.jpg)
-
-Todo
