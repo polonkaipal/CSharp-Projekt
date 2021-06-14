@@ -20,7 +20,7 @@ namespace Battleship
         private bool player1Coming;
 
         PvP player2Window;
-        Random rnd = new Random();
+        Random rnd = new();
 
         public delegate string Hit(int cell);
         public event Hit OnHit;
@@ -33,8 +33,10 @@ namespace Battleship
 
             string playerStart = whichPlayerStart(player1Name, player2Name);
 
-            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2BattleshipPlayfield, player1Coming);
-            player2Window.Title = player2Name;
+            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2BattleshipPlayfield, player1Coming)
+            {
+                Title = player2Name
+            };
             player2Window.Show();
 
             initializeLabels(player1Name, player2Name, playerStart);
@@ -93,9 +95,10 @@ namespace Battleship
 
         private Rectangle explodedShipUnitSettings()
         {
-            Rectangle explodedUnit = new Rectangle();
-
-            explodedUnit.Fill = Brushes.DarkRed;
+            Rectangle explodedUnit = new()
+            {
+                Fill = Brushes.DarkRed
+            };
             var Y = explodedUnit.Width / rows;
             var X = explodedUnit.Height / columns;
             explodedUnit.Width = Y;
@@ -174,8 +177,10 @@ namespace Battleship
 
         private Rectangle shipHpSettings(int shipLength)
         {
-            Rectangle hpUnit = new Rectangle();
-            hpUnit.Fill = Brushes.Green;
+            Rectangle hpUnit = new()
+            {
+                Fill = Brushes.Green
+            };
             var Y = carrierHpGrid.Width;
             var X = carrierHpGrid.Height / shipLength;
             hpUnit.Width = Y;
@@ -231,8 +236,10 @@ namespace Battleship
 
         private Rectangle shadowUnitSettings()
         {
-            var shadow = new Rectangle();
-            shadow.Fill = Brushes.LightGray;
+            Rectangle shadow = new()
+            {
+                Fill = Brushes.LightGray
+            };
             var Y = rightTable.Width / rows;
             var X = rightTable.Height / columns;
             shadow.Width = Y;
@@ -280,7 +287,7 @@ namespace Battleship
 
         private void stats_Click(object sender, RoutedEventArgs e)
         {
-            Stats stats = new Stats();
+            Stats stats = new();
             stats.Show();
         }
     }
