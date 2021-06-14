@@ -17,25 +17,62 @@ namespace Battleship
         private int columns = 10;
         private bool shadowExists = false;
 
-        int number = 0;
+        private bool player1Coming;
 
         PvP player2Window;
         Random rnd = new Random();
+
+        public delegate bool Hit(int cell);
+        public event Hit OnHit;
 
         public PvP(string player1Name, Grid player1PlayfieldGrid, char[,] player1BattleshipPlayfield, string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield)
         {
             InitializeComponent();
             this.Title = player1Name;
 
-            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2BattleshipPlayfield);
+            string playerStart = whichPlayerStart(player1Name, player2Name);
+
+            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2BattleshipPlayfield, player1Coming);
             player2Window.Title = player2Name;
             player2Window.Show();
 
-            string playerStart = whichPlayerStart(player1Name, player2Name);
             initializeLabels(player1Name, player2Name, playerStart);
 
             shipStatHpInit();
             playerShipsLoad(player1PlayfieldGrid);
+
+            player2Window.OnHit += new Hit(this.onShoot);
+        }
+
+        public PvP(string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield, bool player1Coming)
+        {
+            InitializeComponent();
+
+            this.player1Coming = player1Coming;
+
+            shipStatHpInit();
+            playerShipsLoad(player2PlayfieldGrid);
+        }
+
+        public bool onShoot(int cell)
+        {
+            roundsLabel.Content = cell;
+
+            return true;
+        }
+
+        private string whichPlayerStart(string player1Name, string player2Name)
+        {
+            if (rnd.Next(0, 2) == 0)
+            {
+                player1Coming = true;
+                return player1Name;
+            }
+            else
+            {
+                player1Coming = false;
+                return player2Name;
+            }
         }
 
         private void initializeLabels(string player1Name, string player2Name, string playerStart)
@@ -48,26 +85,6 @@ namespace Battleship
 
             playerComingLabel.Content = playerStart + " is coming";
             player2Window.playerComingLabel.Content = playerStart + " is coming";
-        }
-
-        public PvP(string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield)
-        {
-            InitializeComponent();
-
-            shipStatHpInit();
-            playerShipsLoad(player2PlayfieldGrid);
-        }
-
-        private string whichPlayerStart(string player1Name, string player2Name)
-        {
-            if (rnd.Next(0, 2) == 0)
-            {
-                return player1Name;
-            }
-            else
-            {
-                return player2Name;
-            }
         }
 
         private void playerShipsLoad(Grid playfield)
@@ -131,7 +148,8 @@ namespace Battleship
                 deleteShadow();
                 shadowExists = false;
 
-
+                int cell = calculateCell();
+                this.OnHit(cell);
             }
         }
 

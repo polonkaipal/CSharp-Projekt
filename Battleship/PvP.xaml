@@ -195,12 +195,12 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Label x:Name="player1infoLabel" Content="Player hits:" FontFamily="Stencil" FontSize="26px"/>
                         <Label x:Name="player1HitsLabel" Content="0" FontFamily="Stencil" FontSize="26px" Margin="1,0,0,0"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
                         <Label x:Name="player2infoLabel" Content="Computer hits:" FontFamily="Stencil" FontSize="26px"/>
                         <Label x:Name="player2HitsLabel" Content="0" FontFamily="Stencil" FontSize="26px"/>
                     </StackPanel>
