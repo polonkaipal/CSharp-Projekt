@@ -124,14 +124,6 @@ namespace Battleship
 
         }
 
-        private void new_gameBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Opponent opponentWindow = new();
-            App.Current.MainWindow = opponentWindow;
-            this.Close();
-            opponentWindow.Show();
-        }
-
         private void playerShipsLoad(Grid playfield)
         {
             for (int unit = playfield.Children.Count - 1; unit >= 0; unit--)
