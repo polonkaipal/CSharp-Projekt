@@ -16,19 +16,20 @@ namespace Battleship
         private int rows = 10;
         private int columns = 10;
         private bool shadowExists = false;
-
+        private char[,] battleshipPlayfield = new char[10, 10];
         private bool player1Coming;
 
         PvP player2Window;
         Random rnd = new Random();
 
-        public delegate bool Hit(int cell);
+        public delegate string Hit(int cell);
         public event Hit OnHit;
 
         public PvP(string player1Name, Grid player1PlayfieldGrid, char[,] player1BattleshipPlayfield, string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield)
         {
             InitializeComponent();
             this.Title = player1Name;
+            this.battleshipPlayfield = player1BattleshipPlayfield;
 
             string playerStart = whichPlayerStart(player1Name, player2Name);
 
@@ -42,23 +43,65 @@ namespace Battleship
             playerShipsLoad(player1PlayfieldGrid);
 
             player2Window.OnHit += new Hit(this.onShoot);
+            this.OnHit += new Hit(player2Window.onShoot);
         }
 
         public PvP(string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield, bool player1Coming)
         {
             InitializeComponent();
 
+            this.battleshipPlayfield = player2BattleshipPlayfield;
             this.player1Coming = player1Coming;
 
             shipStatHpInit();
             playerShipsLoad(player2PlayfieldGrid);
         }
 
-        public bool onShoot(int cell)
+        public string onShoot(int cell)
         {
-            roundsLabel.Content = cell;
+            bool isHit = isHitShipUnit(cell);
 
-            return true;
+            if (isHit)
+            {
+                setShipUnitExploded(cell);
+
+                return battleshipPlayfield[cell / rows, cell % columns].ToString();
+            }
+
+            return "false";
+        }
+
+        private bool isHitShipUnit(int cell)
+        {
+            if (char.IsDigit(battleshipPlayfield[cell / rows, cell % columns]))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void setShipUnitExploded(int cell)
+        {
+            Rectangle explodedShip = explodedShipUnitSettings();
+
+            Grid.SetRow(explodedShip, cell / rows);
+            Grid.SetColumn(explodedShip, cell % columns);
+
+            leftTable.Children.Add(explodedShip);
+        }
+
+        private Rectangle explodedShipUnitSettings()
+        {
+            Rectangle explodedUnit = new Rectangle();
+
+            explodedUnit.Fill = Brushes.DarkRed;
+            var Y = explodedUnit.Width / rows;
+            var X = explodedUnit.Height / columns;
+            explodedUnit.Width = Y;
+            explodedUnit.Height = X;
+
+            return explodedUnit;
         }
 
         private string whichPlayerStart(string player1Name, string player2Name)
@@ -149,7 +192,20 @@ namespace Battleship
                 shadowExists = false;
 
                 int cell = calculateCell();
-                this.OnHit(cell);
+
+                char shipUnitName = battleshipPlayfield[cell / rows, cell % columns];
+
+                switch (shipUnitName)
+                {
+                    case '5':
+
+                        break;
+                }
+
+                if (this.OnHit(cell) != "false")
+                {
+                    playerComingLabel.Content = "Nem talalt!";
+                }
             }
         }
 

@@ -13,6 +13,7 @@ namespace Battleship
     public partial class ShipPlacement : Window
     {
         private string selectedShip = null;
+        private char selectedShipUnit;
         private int rows = 10;
         private int columns = 10;
         private int calculatedCell = -1;
@@ -81,7 +82,6 @@ namespace Battleship
 
                     Rectangle ship = shipSettings();
 
-
                     //enough space for the selected ship or not
                     shipPlacementEnoughSpace = !shipExtendsBeyond(cell, shipLength, shipHorizontal);
 
@@ -140,7 +140,7 @@ namespace Battleship
                 Grid.SetColumn(ship, cell % columns + i);
 
                 //save the ship position
-                battleshipPlayfield[cell / rows, cell % columns + i] = 'H';
+                battleshipPlayfield[cell / rows, cell % columns + i] = selectedShipUnit;
             }
             else if (!shipHorizontal)
             {
@@ -148,10 +148,8 @@ namespace Battleship
                 Grid.SetColumn(ship, cell % columns);
 
                 //save the ship position
-                battleshipPlayfield[cell / rows + i, cell % columns] = 'H';
+                battleshipPlayfield[cell / rows + i, cell % columns] = selectedShipUnit;
             }
-
-            ship.Uid = "Teszt";
 
             playfield.Children.Add(ship);
         }
@@ -182,14 +180,14 @@ namespace Battleship
             {
                 if (shipHorizontal)
                 {
-                    if (battleshipPlayfield[cell / rows, cell % columns + unit] == 'H')
+                    if (char.IsDigit(battleshipPlayfield[cell / rows, cell % columns + unit]))
                     {
                         return true;
                     }
                 }
                 else if (!shipHorizontal)
                 {
-                    if (battleshipPlayfield[cell / rows + unit, cell % columns] == 'H')
+                    if (char.IsDigit(battleshipPlayfield[cell / rows + unit, cell % columns]))
                     {
                         return true;
                     }
@@ -218,6 +216,25 @@ namespace Battleship
         {
             var ShipButton = (Button)sender;
             selectedShip = ShipButton.Content.ToString();
+
+            switch (selectedShip)
+            {
+                case "Carrier":
+                    selectedShipUnit = '5';
+                    break;
+                case "Battleship":
+                    selectedShipUnit = '4';
+                    break;
+                case "Cruiser":
+                    selectedShipUnit = '3';
+                    break;
+                case "Submarine":
+                    selectedShipUnit = '2';
+                    break;
+                case "Destroyer":
+                    selectedShipUnit = '1';
+                    break;
+            }
         }
 
         private void onGridMouseOver(object sender, MouseEventArgs e) //ship shadow
@@ -416,7 +433,13 @@ namespace Battleship
         {
             playfield.Children.Clear();
 
-            Array.Clear(battleshipPlayfield, 0, battleshipPlayfield.Length);
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < columns; col++)
+                {
+                    battleshipPlayfield[row, col] = '\0';
+                }
+            }
 
             carrierBtn.IsEnabled = false;
             battleshipBtn.IsEnabled = false;
@@ -445,7 +468,7 @@ namespace Battleship
 
                     while (empty == false)
                     {
-                        if ((randomPosX != 0 && battleshipPlayfield[randomPosY, randomPosX-1] == 'H') || ((randomPosX + i - 1)!= 9 && battleshipPlayfield[randomPosY, randomPosX + i] == 'H'))
+                        if ((randomPosX != 0 && char.IsDigit(battleshipPlayfield[randomPosY, randomPosX-1])) || ((randomPosX + i - 1)!= 9 && char.IsDigit(battleshipPlayfield[randomPosY, randomPosX + i])))
                         {
                             randomPosX = (int)rnd.Next(0, 10 - i + 1);
                             randomPosY = (int)rnd.Next(0, 10);
@@ -454,7 +477,7 @@ namespace Battleship
                         {
                             for (int k = 0; k < i; k++)
                             {
-                                if (battleshipPlayfield[randomPosY, randomPosX + k] == 'H' || (randomPosY != 0 && battleshipPlayfield[randomPosY - 1, randomPosX + k] == 'H') || (randomPosY != 9 && battleshipPlayfield[randomPosY + 1, randomPosX + k] == 'H'))
+                                if (char.IsDigit(battleshipPlayfield[randomPosY, randomPosX + k]) || (randomPosY != 0 && char.IsDigit(battleshipPlayfield[randomPosY - 1, randomPosX + k])) || (randomPosY != 9 && char.IsDigit(battleshipPlayfield[randomPosY + 1, randomPosX + k])))
                                 {
                                     randomPosX = (int)rnd.Next(0, 10 - i + 1);
                                     randomPosY = (int)rnd.Next(0, 10);
@@ -476,7 +499,7 @@ namespace Battleship
                         Grid.SetRow(ship, randomPosY);
                         Grid.SetColumn(ship, col + randomPosX);
 
-                        battleshipPlayfield[randomPosY, randomPosX + col] = 'H';
+                        battleshipPlayfield[randomPosY, randomPosX + col] = Convert.ToChar(i.ToString());
                         playfield.Children.Add(ship);
                     }
                 }
@@ -487,7 +510,7 @@ namespace Battleship
 
                     while (empty == false)
                     {
-                        if ((randomPosY != 0 && battleshipPlayfield[randomPosY - 1, randomPosX] == 'H') || ((randomPosY + i - 1) != 9 && battleshipPlayfield[randomPosY + i, randomPosX] == 'H') )
+                        if ((randomPosY != 0 && char.IsDigit(battleshipPlayfield[randomPosY - 1, randomPosX])) || ((randomPosY + i - 1) != 9 && char.IsDigit(battleshipPlayfield[randomPosY + i, randomPosX])))
                         {
                             randomPosY = (int)rnd.Next(0, 10 - i + 1);
                             randomPosX = (int)rnd.Next(0, 10);
@@ -496,7 +519,7 @@ namespace Battleship
                         {
                             for (int k = 0; k < i; k++)
                             {
-                                if (battleshipPlayfield[randomPosY + k, randomPosX] == 'H' || (randomPosX != 0 && battleshipPlayfield[randomPosY + k, randomPosX - 1] == 'H') || (randomPosX != 9 && battleshipPlayfield[randomPosY + k, randomPosX + 1] == 'H'))
+                                if (char.IsDigit(battleshipPlayfield[randomPosY + k, randomPosX]) || (randomPosX != 0 && char.IsDigit(battleshipPlayfield[randomPosY + k, randomPosX - 1])) || (randomPosX != 9 && char.IsDigit(battleshipPlayfield[randomPosY + k, randomPosX + 1])))
                                 {
                                     randomPosY = (int)rnd.Next(0, 10 - i + 1);
                                     randomPosX = (int)rnd.Next(0, 10);
@@ -518,7 +541,7 @@ namespace Battleship
                         Grid.SetRow(ship, row + randomPosY);
                         Grid.SetColumn(ship, randomPosX);
 
-                        battleshipPlayfield[randomPosY + row, randomPosX] = 'H';
+                        battleshipPlayfield[randomPosY + row, randomPosX] = Convert.ToChar(i.ToString());
                         playfield.Children.Add(ship);
                     }
                 }
