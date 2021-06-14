@@ -16,27 +16,33 @@ namespace Battleship
         private int rows = 10;
         private int columns = 10;
         private bool shadowExists = false;
-        private char[,] battleshipPlayfield = new char[10, 10];
+        private char[,] myPlayfield = new char[10, 10];
+        private char[,] enemyPlayfield = new char[10, 10];
         private bool player1Coming;
+        private bool windowPlayer1;
+
+        private string player1Name;
+        private string player2Name;
 
         PvP player2Window;
-        Random rnd = new();
+        Random rnd = new Random();
 
         public delegate string Hit(int cell);
         public event Hit OnHit;
 
-        public PvP(string player1Name, Grid player1PlayfieldGrid, char[,] player1BattleshipPlayfield, string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield)
+        public PvP(string player1Name, Grid player1PlayfieldGrid, char[,] player1Playfield, string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield)
         {
             InitializeComponent();
             this.Title = player1Name;
-            this.battleshipPlayfield = player1BattleshipPlayfield;
+            this.myPlayfield = player1Playfield;
 
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
+            windowPlayer1 = true;
             string playerStart = whichPlayerStart(player1Name, player2Name);
 
-            player2Window = new PvP(player2Name, player2PlayfieldGrid, player2BattleshipPlayfield, player1Coming)
-            {
-                Title = player2Name
-            };
+            player2Window = new PvP(player1Name, player2Name, player2PlayfieldGrid, player2Playfield, player1Coming);
+            player2Window.Title = player2Name;
             player2Window.Show();
 
             initializeLabels(player1Name, player2Name, playerStart);
@@ -48,63 +54,18 @@ namespace Battleship
             this.OnHit += new Hit(player2Window.onShoot);
         }
 
-        public PvP(string player2Name, Grid player2PlayfieldGrid, char[,] player2BattleshipPlayfield, bool player1Coming)
+        public PvP(string player1Name, string player2Name, Grid player2PlayfieldGrid, char[,] player2Playfield, bool player1Coming)
         {
             InitializeComponent();
 
-            this.battleshipPlayfield = player2BattleshipPlayfield;
+            windowPlayer1 = false;
+            this.myPlayfield = player2Playfield;
             this.player1Coming = player1Coming;
+            this.player1Name = player1Name;
+            this.player2Name = player2Name;
 
             shipStatHpInit();
             playerShipsLoad(player2PlayfieldGrid);
-        }
-
-        public string onShoot(int cell)
-        {
-            bool isHit = isHitShipUnit(cell);
-
-            if (isHit)
-            {
-                setShipUnitExploded(cell);
-
-                return battleshipPlayfield[cell / rows, cell % columns].ToString();
-            }
-
-            return "false";
-        }
-
-        private bool isHitShipUnit(int cell)
-        {
-            if (char.IsDigit(battleshipPlayfield[cell / rows, cell % columns]))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private void setShipUnitExploded(int cell)
-        {
-            Rectangle explodedShip = explodedShipUnitSettings();
-
-            Grid.SetRow(explodedShip, cell / rows);
-            Grid.SetColumn(explodedShip, cell % columns);
-
-            leftTable.Children.Add(explodedShip);
-        }
-
-        private Rectangle explodedShipUnitSettings()
-        {
-            Rectangle explodedUnit = new()
-            {
-                Fill = Brushes.DarkRed
-            };
-            var Y = explodedUnit.Width / rows;
-            var X = explodedUnit.Height / columns;
-            explodedUnit.Width = Y;
-            explodedUnit.Height = X;
-
-            return explodedUnit;
         }
 
         private string whichPlayerStart(string player1Name, string player2Name)
@@ -175,12 +136,76 @@ namespace Battleship
             }
         }
 
+        public string onShoot(int cell)
+        {
+            bool isHit = isHitShipUnit(cell);
+
+            setShipUnit(cell, isHit, true);
+
+            if (isHit)
+            {
+                hitsLabelChange();
+                return myPlayfield[cell / rows, cell % columns].ToString();
+            }
+
+            player1Coming = !player1Coming;
+            whichPlayerComingLabelChange();
+
+            return "false";
+        }
+
+        private bool isHitShipUnit(int cell)
+        {
+            if (char.IsDigit(myPlayfield[cell / rows, cell % columns]))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void setShipUnit(int cell, bool isHit, bool setLeftTable)
+        {
+            Rectangle ship = shipUnitSettings(isHit);
+
+            Grid.SetRow(ship, cell / rows);
+            Grid.SetColumn(ship, cell % columns);
+
+            if (setLeftTable)
+            {
+                leftTable.Children.Add(ship);
+            }
+            else
+            {
+                rightTable.Children.Add(ship);
+            }
+        }
+
+        private Rectangle shipUnitSettings(bool isHit)
+        {
+            Rectangle unit = new Rectangle();
+
+            if (isHit)
+            {
+                unit.Fill = Brushes.DarkRed;
+            }
+            else
+            {
+                unit.Fill = Brushes.LightGray;
+            }
+
+            var Y = unit.Width / rows;
+            var X = unit.Height / columns;
+            unit.Width = Y;
+            unit.Height = X;
+
+            return unit;
+        }
+
         private Rectangle shipHpSettings(int shipLength)
         {
-            Rectangle hpUnit = new()
-            {
-                Fill = Brushes.Green
-            };
+            Rectangle hpUnit = new Rectangle();
+            hpUnit.Fill = Brushes.Green;
             var Y = carrierHpGrid.Width;
             var X = carrierHpGrid.Height / shipLength;
             hpUnit.Width = Y;
@@ -193,24 +218,102 @@ namespace Battleship
         {
             if (e.ClickCount == 1)
             {
-                deleteShadow();
-                shadowExists = false;
-
-                int cell = calculateCell();
-
-                char shipUnitName = battleshipPlayfield[cell / rows, cell % columns];
-
-                switch (shipUnitName)
+                if (player1Coming && windowPlayer1 || !player1Coming && !windowPlayer1)
                 {
-                    case '5':
+                    deleteShadow();
+                    shadowExists = false;
 
-                        break;
-                }
+                    int cell = calculateCell();
 
-                if (this.OnHit(cell) != "false")
-                {
-                    playerComingLabel.Content = "Nem talalt!";
+                    bool shooted = isCellShooted(cell);
+
+                    if (!shooted)
+                    {
+                        string shipUnitName = this.OnHit(cell);
+
+                        if (shipUnitName != "false")
+                        {
+                            setShipUnit(cell, true, false);
+                            shipHpDecrement(shipUnitName);
+                            enemyPlayfield[cell / rows, cell % columns] = 'T';
+
+                            hitsLabelChange();
+                        }
+                        else
+                        {
+                            setShipUnit(cell, false, false);
+                            enemyPlayfield[cell / rows, cell % columns] = 'V';
+
+                            player1Coming = !player1Coming;
+                            whichPlayerComingLabelChange();
+                        }
+                    }
                 }
+            }
+        }
+
+        private void hitsLabelChange()
+        {
+            if (windowPlayer1 && player1Coming)
+            {
+                player1HitsLabel.Content = Convert.ToInt32(player1HitsLabel.Content) + 1;
+            }
+            else if (!windowPlayer1 && !player1Coming)
+            {
+                player2HitsLabel.Content = Convert.ToInt32(player2HitsLabel.Content) + 1;
+            }
+
+            if (windowPlayer1 && !player1Coming)
+            {
+                player2HitsLabel.Content = Convert.ToInt32(player2HitsLabel.Content) + 1;
+            }
+            else if (!windowPlayer1 && player1Coming)
+            {
+                player1HitsLabel.Content = Convert.ToInt32(player1HitsLabel.Content) + 1;
+            }
+        }
+
+        private void whichPlayerComingLabelChange()
+        {
+            if (player1Coming)
+            {
+                playerComingLabel.Content = player1Name + " is coming";
+            }
+            else
+            {
+                playerComingLabel.Content = player2Name + " is coming";
+            }
+        }
+
+        private bool isCellShooted(int cell)
+        {
+            if (enemyPlayfield[cell / rows, cell % columns] == 'T' || enemyPlayfield[cell / rows, cell % columns] == 'V')
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void shipHpDecrement(string shipUnitName)
+        {
+            switch (shipUnitName)
+            {
+                case "5":
+                    carrierHpGrid.Children.RemoveAt(carrierHpGrid.Children.Count - 1);
+                    break;
+                case "4":
+                    battleshipHpGrid.Children.RemoveAt(battleshipHpGrid.Children.Count - 1);
+                    break;
+                case "3":
+                    cruiserHpGrid.Children.RemoveAt(cruiserHpGrid.Children.Count - 1);
+                    break;
+                case "2":
+                    submarineHpGrid.Children.RemoveAt(submarineHpGrid.Children.Count - 1);
+                    break;
+                case "1":
+                    destroyerHpGrid.Children.RemoveAt(destroyerHpGrid.Children.Count - 1);
+                    break;
             }
         }
 
@@ -236,10 +339,8 @@ namespace Battleship
 
         private Rectangle shadowUnitSettings()
         {
-            Rectangle shadow = new()
-            {
-                Fill = Brushes.LightGray
-            };
+            var shadow = new Rectangle();
+            shadow.Fill = Brushes.LightGray;
             var Y = rightTable.Width / rows;
             var X = rightTable.Height / columns;
             shadow.Width = Y;
@@ -283,12 +384,6 @@ namespace Battleship
             }
 
             return (row * 10) + col;
-        }
-
-        private void stats_Click(object sender, RoutedEventArgs e)
-        {
-            Stats stats = new();
-            stats.Show();
         }
     }
 }
