@@ -215,10 +215,8 @@ namespace Battleship
 
         private Rectangle shipHpSettings(int shipLength)
         {
-            Rectangle hpUnit = new()
-            {
-                Fill = Brushes.Green
-            };
+            Rectangle hpUnit = new Rectangle();
+            hpUnit.Fill = Brushes.Green;
             var Y = carrierHpGrid.Width;
             var X = carrierHpGrid.Height / shipLength;
             hpUnit.Width = Y;
@@ -378,10 +376,8 @@ namespace Battleship
 
         private Rectangle shadowUnitSettings()
         {
-            Rectangle shadow = new()
-            {
-                Fill = Brushes.LightGray
-            };
+            var shadow = new Rectangle();
+            shadow.Fill = Brushes.LightGray;
             var Y = rightTable.Width / rows;
             var X = rightTable.Height / columns;
             shadow.Width = Y;

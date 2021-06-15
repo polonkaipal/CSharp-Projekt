@@ -64,7 +64,7 @@
             <Label Grid.Row="1" Grid.Column="1" Content="A     B     C     D     E     F     G     H     I     J" FontFamily="Stencil" FontSize="21.6px" Margin="55,20,10,10" />
             <TextBlock Grid.Row="1" Grid.Column="1" Width="30px" Text="0 1 2 3 4 5 6 7 8 9" FontFamily="Stencil" FontSize="33px" Margin="0,60,440,0" TextWrapping="Wrap" />
 
-            <Grid Height="400" Width="400" Name="rightTable" Grid.Row="1" Grid.Column="1" Margin="20,0,20,0" ShowGridLines="True">
+            <Grid Height="400" Width="400" Name="rightTable" Grid.Row="1" Grid.Column="1" Margin="20,0,20,0" ShowGridLines="True" Background="Transparent" PreviewMouseMove="onGridMouseOver" PreviewMouseLeftButtonDown="onGridMouseClick">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -108,9 +108,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        
-                        <Button Grid.Column="0" x:Name="newgameBtn" Content="New Game" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
-                        <Button Grid.Column="1" Click="surrendClick" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="10"/>
+                        <Button Click="surrendClick" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="60px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="150,18,150,19" Grid.ColumnSpan="2"/>
 
                     </Grid>
 
@@ -173,7 +171,7 @@
                         </Border>
 
                         <Border Grid.Column="2" Width="50px" Height="50px" BorderThickness="2" BorderBrush="Black" HorizontalAlignment="Left">
-                            <Grid ShowGridLines="True" Name="destroyerHpGrid">
+                            <Grid ShowGridLines="True" Name="destroyerHpGrid" HorizontalAlignment="Left" Width="46">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
