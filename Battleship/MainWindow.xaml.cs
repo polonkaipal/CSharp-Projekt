@@ -555,7 +555,7 @@ namespace Battleship
             {
                 if (!con)
                 {
-                    int cell = generateAiShoot(rnd);
+                    int cell = AiMethods.generateAiShoot(rnd, playerPlayfield);
                     randomY = cell / rows;
                     randomX = cell % columns;
 
@@ -654,7 +654,7 @@ namespace Battleship
                             break;
                     }
 
-                    if (shipDestroyed())
+                    if (shipDestroyed(up, down, left, right))
                     {
                         break;
                     }
@@ -679,7 +679,7 @@ namespace Battleship
             computerHitsLabel.Content = Convert.ToInt32(computerHitsLabel.Content) + 1;
         }
 
-        private bool shipDestroyed()
+        private bool shipDestroyed(bool up, bool down, bool left, bool right)
         {
             if (up && down && left && right)
             {
@@ -718,11 +718,11 @@ namespace Battleship
                     break;
             }
 
-            if (!isCellWall(randomX, randomY))
+            if (!AiMethods.isCellWall(randomX, randomY))
             {
-                if (!isCellShootedAI(randomX, randomY))
+                if (!AiMethods.isCellShootedAI(randomX, randomY, playerPlayfield))
                 {
-                    if (isHitPlayerShipUnit(randomX, randomY))
+                    if (AiMethods.isHitPlayerShipUnit(randomX, randomY, playerPlayfield))
                     {
                         shootedCellChange(randomX, randomY, true);
                         paintHitCell(randomX, randomY);
@@ -748,22 +748,6 @@ namespace Battleship
             }
         }
 
-        private bool isCellWall(int randomX, int randomY)
-        {
-            if (randomY > 9 || randomY < 0)
-            {
-                return true;
-            }
-            else if (randomX > 9 || randomX < 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private void shootedCellChange(int randomX, int randomY, bool isHit)
         {
             if (isHit)
@@ -774,29 +758,6 @@ namespace Battleship
             {
                 playerPlayfield[randomY, randomX] = 'V';
             }
-        }
-
-        private int generateAiShoot(Random rnd)
-        {
-            int randomX, randomY;
-            do
-            {
-                randomY = (int)rnd.Next(0, 10);
-                randomX = (int)rnd.Next(0, 10);
-            }
-            while (isCellShootedAI(randomX, randomY) == true);
-
-            return (randomY * rows) + randomX;
-        }
-
-        private bool isCellShootedAI(int randomX, int randomY)
-        {
-            return (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V');
-        }
-
-        private bool isHitPlayerShipUnit(int randomX, int randomY)
-        {
-            return char.IsDigit(playerPlayfield[randomY, randomX]);
         }
 
         private void paintMissCell(int randomX, int randomY)
