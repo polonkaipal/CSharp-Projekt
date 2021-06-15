@@ -30,9 +30,7 @@ namespace Battleship
 
         bool left, right, down, up, con = false;
 
-        int hitX = -1, hitY = -1;
-        int randomX;
-        int randomY;
+        int firstHitX, firstHitY, randomX, randomY;
 
         int destroyer = 0;
         int submarine = 0;
@@ -524,387 +522,232 @@ namespace Battleship
         private void game(Random rnd)
         {
             bool player = false; // false - AI | true - Player 
-            bool hit;
-
+            bool isHit = false;
 
             while (!player)
             {
-                
                 if (!con)
                 {
-                    randomY = (int)rnd.Next(0, 10);
-                    randomX = (int)rnd.Next(0, 10);
+                    int cell = generateAiShoot(rnd);
+                    randomY = cell / rows;
+                    randomX = cell % columns;
 
-                    if (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
+                    isHit = shoot(randomY, randomX, "center");
+
+                    if (isHit)
                     {
-                        continue;
+                        firstHitX = randomX;
+                        firstHitY = randomY;
                     }
-
-                    hitX = randomX;
-                    hitY = randomY;
+                }
+                else
+                {
+                    isHit = true;
                 }
 
-                if (char.IsDigit(playerPlayfield[hitY, hitX]))
+                while (isHit) //ha eltalálta vagy olyan helyre lőtt ahová nem lehet vagy már lőtt oda
                 {
-                    hit = true;
+                    con = true;
 
-                    up = true;
-                    down = false;
-                    left = false;
-                    right = false;
+                    int direction = rnd.Next(0, 4);
 
-                    while (hit)
-                    {                     
-
-                        if (up)
-                        {
-                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
+                    switch (direction)
+                    {
+                        case 0:
+                            while (!up)
                             {
-                                playerPlayfield[hitY, hitX] = 'T';
-                                paintHitCell(hitX, hitY);
-
-                                if (hitY != 0)
+                                if (shoot(randomY, randomX, "Up"))
                                 {
+                                    randomY++;
+                                }
+                                else
+                                {
+                                    randomY = firstHitY;
+                                    player = true;
+                                    isHit = false;
                                     up = true;
-                                    down = false;
-                                    left = false;
-                                    right = false;
-
-                                    hitY--;
+                                }
+                            }
+                            break;
+                        case 1:
+                            while (!down)
+                            {
+                                if (shoot(randomY, randomX, "Down"))
+                                {
+                                    randomY--;
                                 }
                                 else
                                 {
-                                    hitY = randomY + 1;
-                                    up = false;
+                                    randomY = firstHitY;
+                                    player = true;
+                                    isHit = false;
                                     down = true;
-                                    left = false;
-                                    right = false;
                                 }
                             }
-                            else if (!(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V'))
+                            break;
+                        case 2:
+                            while (!left)
                             {
-                                up = false;
-                                down = true;
-                                left = false;
-                                right = false;
-                                playerPlayfield[hitY, hitX] = 'V';
-                                paintMissCell(hitX, hitY);
-                                hit = false;
-                                con = true;
-                                hitX = randomX;
-
-                                if (randomY != 9)
-                                    hitY = randomY + 1;
-                                else
-                                    hitY = 9;
-                            }
-                            else if (playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
-                            {
-                                up = false;
-                                down = true;
-                                left = false;
-                                right = false;
-                                hitX = randomX;
-
-                                if (randomY != 9)
-                                    hitY = randomY + 1;
-                                else
-                                    hitY = 9;
-                            }
-                        }
-                        else if (down)
-                        {
-                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
-                            {
-                                playerPlayfield[hitY, hitX] = 'T';
-                                paintHitCell(hitX, hitY);
-
-                                if (hitY != 9)
+                                if (shoot(randomY, randomX, "Left"))
                                 {
-                                    up = false;
-                                    down = true;
-                                    left = false;
-                                    right = false;
-
-                                    hitY++;
+                                    randomX--;
                                 }
                                 else
                                 {
-                                    hitY = randomY;
-
-                                    if (randomX != 9)
-                                        hitX = randomX + 1;
-                                    else
-                                        hitX = 9;
-
-                                    up = false;
-                                    down = false;
-                                    left = false;
+                                    randomX = firstHitX;
+                                    player = true;
+                                    isHit = false;
+                                    left = true;
+                                }
+                            }
+                            break;
+                        case 3:
+                            while (!right)
+                            {
+                                if (shoot(randomY, randomX, "Right"))
+                                {
+                                    randomX++;
+                                }
+                                else
+                                {
+                                    randomX = firstHitX;
+                                    player = true;
+                                    isHit = false;
                                     right = true;
                                 }
                             }
-                            else if (!(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V'))
-                            {
-                                up = false;
-                                down = false;
-                                left = false;
-                                right = true;
-                                playerPlayfield[hitY, hitX] = 'V';
-                                paintMissCell(hitX, hitY);
-                                hit = false;
-                                con = true;
-                                hitY = randomY;
-
-                                if (randomX != 9)
-                                    hitX = randomX + 1;
-                                else
-                                    hitX = 9;
-                            }
-                            else if (playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
-                            {
-                                up = false;
-                                down = false;
-                                left = false;
-                                right = true;
-                                hitY = randomY;
-
-                                if (randomX != 9)
-                                    hitX = randomX + 1;
-                                else
-                                    hitX = 9;
-                            }
-                        }
-                        else if (right)
-                        {
-                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
-                            {
-                                playerPlayfield[hitY, hitX] = 'T';
-                                paintHitCell(hitX, hitY);
-
-                                if (hitX != 9)
-                                {
-                                    up = false;
-                                    down = false;
-                                    left = false;
-                                    right = true;
-
-                                    hitX++;
-                                }
-                                else
-                                {
-                                    if (randomX != 0)
-                                        hitX = randomX - 1;
-                                    else
-                                        hitX = 0;
-
-                                    up = false;
-                                    down = false;
-                                    left = true;
-                                    right = false;
-                                }
-                            }
-                            else if (!(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V'))
-                            {
-                                up = false;
-                                down = false;
-                                left = true;
-                                right = false;
-                                playerPlayfield[hitY, hitX] = 'V';
-                                paintMissCell(hitX, hitY);
-                                hit = false;
-                                con = true;
-                                hitY = randomY;
-
-                                if (randomX != 0)
-                                    hitX = randomY - 1;
-                                else
-                                    hitX = 0;
-                            }
-                            else if (playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
-                            {
-                                up = false;
-                                down = false;
-                                left = true;
-                                right = false;
-                                hitX = randomX - 1;
-                                hitY = randomY;
-                            }
-                        }
-                        else if (left)
-                        {
-                            if (char.IsDigit(playerPlayfield[hitY, hitX]))
-                            {
-                                playerPlayfield[hitY, hitX] = 'T';
-                                paintHitCell(hitX, hitY);
-
-                                if (hitX != 0)
-                                {
-                                    up = false;
-                                    down = false;
-                                    left = true;
-                                    right = false;
-                                    hitX--;
-                                }
-                                else
-                                {
-                                    
-                                    up = false;
-                                    down = false;
-                                    left = false;
-                                    right = false;
-                                }
-                            }
-                            else if (!(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V'))
-                            {
-                                up = false;
-                                down = false;
-                                left = false;
-                                right = false;
-                                playerPlayfield[hitY, hitX] = 'V';
-                                paintMissCell(hitX, hitY);
-                                hit = false;
-                                con = false;
-                            }
-                            else if (playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
-                            {
-                                up = true;
-                                down = false;
-                                left = false;
-                                right = false;
-
-                                randomY = (int)rnd.Next(0, 10);
-                                randomX = (int)rnd.Next(0, 10);
-
-                                if (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
-                                {
-                                    continue;
-                                }
-
-                                hitX = randomX;
-                                hitY = randomY;
-                            }
-                        }
-                        else
-                        {
-                            randomY = (int)rnd.Next(0, 10);
-                            randomX = (int)rnd.Next(0, 10);
-
-                            if (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
-                            {
-                                continue;
-                            }
-
-                            hitX = randomX;
-                            hitY = randomY;
-
-                            up = true;
-                            down = false;
-                            left = false;
-                            right = false;
-                        }
+                            break;
                     }
 
-                    player = true;
+                    if (shipDestroyed())
+                    {
+                        break;
+                    }
+                    
                 }
-                else if (!(playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V'))
+
+                player = true;
+            }
+        }
+
+        private bool shipDestroyed()
+        {
+            if (up && down && left && right)
+            {
+                initializeDirection();
+                con = false;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void initializeDirection()
+        {
+            up = false;
+            down = false;
+            left = false;
+            right = false;
+        }
+
+        private bool shoot(int randomY, int randomX, string direction)
+        {
+            switch (direction)
+            {
+                case "Up":
+                    randomY++;
+                    break;
+                case "Down":
+                    randomY--;
+                    break;
+                case "Left":
+                    randomX--;
+                    break;
+                case "Right":
+                    randomX++;
+                    break;
+            }
+
+            if (!isCellWall(randomX, randomY))
+            {
+                if (!isCellShootedAI(randomX, randomY))
                 {
-                    playerPlayfield[hitY, hitX] = 'V';
-                    paintMissCell(hitX, hitY);
-                    player = true;
-
-                    if(up)
+                    if (isHitPlayerShipUnit(randomX, randomY))
                     {
-                        up = false;
-                        down = true;
+                        shootedCellChange(randomX, randomY, true);
+                        paintHitCell(randomX, randomY);
 
-                        if (randomY != 9)
-                            hitY = randomY + 1;
-                        else
-                            hitY = 9;
-
-                    }
-                    else if(down)
-                    {
-                        down = false;
-                        right = true;
-                        hitY = randomY;
-
-                        if (randomX != 9)
-                            hitX = randomX + 1;
-                        else
-                            hitX = 9;
-                    }
-                    else if (right)
-                    {
-                        right = false;
-                        left = true;
-                        hitY = randomY;
-
-                        if (randomX != 0)
-                            hitX = randomX - 1;
-                        else
-                            hitX = 0;
-                    }
-                    else if(left)
-                    {
-                        left = false;
-                    }
-
-                }
-                else if (playerPlayfield[hitY, hitX] == 'T' || playerPlayfield[hitY, hitX] == 'V')
-                {
-                    if (up)
-                    {
-                        up = false;
-                        down = true;
-
-                        if (randomY != 9)
-                            hitY = randomY + 1;
-                        else
-                            hitY = 9;
-
-                    }
-                    else if (down)
-                    {
-                        down = false;
-                        right = true;
-                        hitY = randomY;
-
-                        if (randomX != 9)
-                            hitX = randomX + 1;
-                        else
-                            hitX = 9;
-                    }
-                    else if (right)
-                    {
-                        right = false;
-                        left = true;
-                        hitY = randomY;
-
-                        if (randomX != 0)
-                            hitX = randomX - 1;
-                        else
-                            hitX = 0;
-                    }
-                    else if (left)
-                    {
-                        left = false;
+                        return true;
                     }
                     else
                     {
-                        randomY = (int)rnd.Next(0, 10);
-                        randomX = (int)rnd.Next(0, 10);
+                        shootedCellChange(randomX, randomY, false);
+                        paintMissCell(randomX, randomY);
 
-                        if (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V')
-                        {
-                            continue;
-                        }
-
-                        hitX = randomX;
-                        hitY = randomY;
-                    }                   
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
                 }
             }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool isCellWall(int randomX, int randomY)
+        {
+            if (randomY > 9 || randomY < 0)
+            {
+                return true;
+            }
+            else if (randomX > 9 || randomX < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void shootedCellChange(int randomX, int randomY, bool isHit)
+        {
+            if (isHit)
+            {
+                playerPlayfield[randomY, randomX] = 'T';
+            }
+            else
+            {
+                playerPlayfield[randomY, randomX] = 'V';
+            }
+        }
+
+        private int generateAiShoot(Random rnd)
+        {
+            int randomX, randomY;
+            do
+            {
+                randomY = (int)rnd.Next(0, 10);
+                randomX = (int)rnd.Next(0, 10);
+            }
+            while (isCellShootedAI(randomX, randomY) == true);
+
+            return (randomY * rows) + randomX;
+        }
+
+        private bool isCellShootedAI(int randomX, int randomY)
+        {
+            return (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V');
+        }
+
+        private bool isHitPlayerShipUnit(int randomX, int randomY)
+        {
+            return char.IsDigit(playerPlayfield[randomY, randomX]);
         }
 
         private void paintMissCell(int randomX, int randomY)
@@ -916,7 +759,6 @@ namespace Battleship
 
             leftTable.Children.Add(ship);
         }
-
 
         private void paintHitCell(int randomX, int randomY)
         {
