@@ -384,7 +384,7 @@ namespace Battleship
                 }
                 else if (vsComputer)
                 {
-                    MainWindow battleshipPlayfieldWindow = new(playfield, battleshipPlayfield);
+                    MainWindow battleshipPlayfieldWindow = new(playfield, battleshipPlayfield, player1Name);
                     App.Current.MainWindow = battleshipPlayfieldWindow;
                     this.Close();
                     battleshipPlayfieldWindow.Show();
