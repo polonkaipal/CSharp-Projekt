@@ -330,9 +330,7 @@ namespace Battleship
                         rightTable.Children.Add(ship);
                     }
                 }
-
             }
-
         }
 
         private void playerShipsLoad(Grid playfield)
@@ -558,6 +556,8 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Up"))
                                 {
                                     randomY++;
+                                    right = true;
+                                    left = true;
                                 }
                                 else
                                 {
@@ -574,6 +574,8 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Down"))
                                 {
                                     randomY--;
+                                    right = true;
+                                    left = true;
                                 }
                                 else
                                 {
@@ -590,6 +592,8 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Left"))
                                 {
                                     randomX--;
+                                    up = true;
+                                    down = true;
                                 }
                                 else
                                 {
@@ -606,6 +610,8 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Right"))
                                 {
                                     randomX++;
+                                    up = true;
+                                    down = true;
                                 }
                                 else
                                 {
