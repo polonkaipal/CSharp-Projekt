@@ -18,6 +18,7 @@ namespace Battleship
     {
         private bool shipShadow = false;
         private int calculatedCell = -1;
+        private string player1Name;
 
         private static readonly int rows = 10;
         private static readonly int columns = 10;
@@ -36,20 +37,15 @@ namespace Battleship
         private int changePlayerCounter = 0;
         private int playerHits;
 
-        int destroyer = 0;
-        int submarine = 0;
-        int cruiser = 0;
-        int battleship = 0;
-        int carrier = 0;
-
         private const double RefreshTimeSec = 10;
         private readonly DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Send);
 
-        public MainWindow(Grid playfield, char[,] playerPlayfield)
+        public MainWindow(Grid playfield, char[,] playerPlayfield, string player1Name)
         {
             InitializeComponent();
 
             this.playerPlayfield = playerPlayfield;
+            this.player1Name = player1Name;
             playerShipsLoad(playfield);
 
             shipAI(rnd);
