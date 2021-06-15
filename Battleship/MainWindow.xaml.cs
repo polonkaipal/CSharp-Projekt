@@ -32,11 +32,7 @@ namespace Battleship
 
         int firstHitX, firstHitY, randomX, randomY;
 
-        int destroyer = 0;
-        int submarine = 0;
-        int cruiser = 0;
-        int battleship = 0;
-        int carrier = 0;
+        int playerHits = 0;
 
         private const double RefreshTimeSec = 10;
         private readonly DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Send);
@@ -162,7 +158,10 @@ namespace Battleship
                         ship.Visibility = Visibility.Visible;
                         rightTable.Children.Add(ship);
 
-                        if(isEndGame(0)) // player
+                        playerHits++;
+                        playerHitsLabel.Content = playerHits;
+
+                        if (isEndGame(0)) // player
                         {
                             MessageBox.Show("The Player won!", "Winner", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             StartWindow startWindow = new StartWindow();
