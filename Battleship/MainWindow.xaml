@@ -109,7 +109,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Click="surrendClick" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="50px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="150,18,150,19" Grid.ColumnSpan="2"/>
+                        <Button Click="surrrendBtn_Click" x:Name="surrrendBtn" Content="Surrend" Width="200px" Height="50px" BorderBrush="Black" BorderThickness="2" Background="#FF5284C0" FontWeight="Bold" FontSize="30" Foreground="White" FontFamily="Stencil" Margin="150,18,150,19" Grid.ColumnSpan="2"/>
 
                     </Grid>
 

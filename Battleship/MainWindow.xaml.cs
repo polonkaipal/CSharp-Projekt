@@ -33,6 +33,7 @@ namespace Battleship
         int firstHitX, firstHitY, randomX, randomY;
 
         private int changePlayerCounter = 0;
+        private int playerHits;
 
         int destroyer = 0;
         int submarine = 0;
@@ -169,6 +170,7 @@ namespace Battleship
 
                         if (isEndGame(0)) // player
                         {
+                            onScore();
                             MessageBox.Show("The Player won!", "Winner", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             StartWindow startWindow = new StartWindow();
                             this.Close();
@@ -193,6 +195,7 @@ namespace Battleship
                         game(rnd);
                         if(isEndGame(1))
                         {
+                            onScore();
                             MessageBox.Show("The AI won!", "Loser", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             StartWindow startWindow = new StartWindow();
                             this.Close();
@@ -201,6 +204,11 @@ namespace Battleship
                     }
                 }
             }     
+        }
+
+        private void onScore()
+        {
+            //score
         }
 
         private void shipHp(int s)
@@ -352,7 +360,6 @@ namespace Battleship
                 leftTable.Children.Add(child);
             }
         }
-
 
         private void shipAI(Random rnd)
         {
@@ -515,9 +522,12 @@ namespace Battleship
             }
         }
 
-        private void surrendClick(object sender, RoutedEventArgs e)
+        private void surrendBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            onScore();
+            StartWindow startWindow = new StartWindow();
+            this.Close();
+            startWindow.Show();
         }
 
         private void stats_Click(object sender, RoutedEventArgs e)
