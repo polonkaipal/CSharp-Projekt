@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Timers;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Battleship
 {
@@ -17,6 +18,7 @@ namespace Battleship
     {
         private bool shipShadow = false;
         private int calculatedCell = -1;
+        private string player1Name;
 
         private static readonly int rows = 10;
         private static readonly int columns = 10;
@@ -32,16 +34,18 @@ namespace Battleship
 
         int firstHitX, firstHitY, randomX, randomY;
 
-        int playerHits = 0;
+        private int changePlayerCounter = 0;
+        private int playerHits;
 
         private const double RefreshTimeSec = 10;
         private readonly DispatcherTimer _timer = new DispatcherTimer(DispatcherPriority.Send);
 
-        public MainWindow(Grid playfield, char[,] playerPlayfield)
+        public MainWindow(Grid playfield, char[,] playerPlayfield, string player1Name)
         {
             InitializeComponent();
 
             this.playerPlayfield = playerPlayfield;
+            this.player1Name = player1Name;
             playerShipsLoad(playfield);
 
             shipAI(rnd);
@@ -163,6 +167,7 @@ namespace Battleship
 
                         if (isEndGame(0)) // player
                         {
+                            onScore(player1Name);
                             MessageBox.Show("The Player won!", "Winner", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             StartWindow startWindow = new StartWindow();
                             this.Close();
@@ -181,10 +186,13 @@ namespace Battleship
                         ship.Visibility = Visibility.Visible;
                         rightTable.Children.Add(ship);
 
+                        roundsLabelIncrement();
+
                         Random rnd = new Random();
                         game(rnd);
                         if(isEndGame(1))
                         {
+                            onScore("AI");
                             MessageBox.Show("The AI won!", "Loser", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             StartWindow startWindow = new StartWindow();
                             this.Close();
@@ -193,6 +201,24 @@ namespace Battleship
                     }
                 }
             }     
+        }
+
+        private void onScore(string winner)
+        {
+            //score
+            List<Score> scores = ScoreResult.ReadResult("score.json");
+            Score newScore = new()
+            {
+                Enemy = "AI",
+                EnemyHits = Convert.ToInt32(computerHitsLabel.Content),
+                Player = player1Name,
+                PlayerHits = Convert.ToInt32(playerHitsLabel.Content),
+                Rounds = Convert.ToInt32(roundsLabel.Content),
+                Winner = winner
+            };
+
+            scores.Add(newScore);
+            ScoreResult.WriteResult(scores, "score.json");
         }
 
         private void shipHp(int s)
@@ -330,7 +356,9 @@ namespace Battleship
                         rightTable.Children.Add(ship);
                     }
                 }
+
             }
+
         }
 
         private void playerShipsLoad(Grid playfield)
@@ -342,7 +370,6 @@ namespace Battleship
                 leftTable.Children.Add(child);
             }
         }
-
 
         private void shipAI(Random rnd)
         {
@@ -505,9 +532,12 @@ namespace Battleship
             }
         }
 
-        private void surrendClick(object sender, RoutedEventArgs e)
+        private void surrendBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            onScore("AI");
+            StartWindow startWindow = new StartWindow();
+            this.Close();
+            startWindow.Show();
         }
 
         private void stats_Click(object sender, RoutedEventArgs e)
@@ -525,7 +555,7 @@ namespace Battleship
             {
                 if (!con)
                 {
-                    int cell = generateAiShoot(rnd);
+                    int cell = AiMethods.generateAiShoot(rnd, playerPlayfield);
                     randomY = cell / rows;
                     randomX = cell % columns;
 
@@ -556,8 +586,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Up"))
                                 {
                                     randomY++;
-                                    right = true;
-                                    left = true;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -565,6 +594,7 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     up = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
@@ -574,8 +604,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Down"))
                                 {
                                     randomY--;
-                                    right = true;
-                                    left = true;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -583,6 +612,7 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     down = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
@@ -592,8 +622,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Left"))
                                 {
                                     randomX--;
-                                    up = true;
-                                    down = true;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -601,6 +630,7 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     left = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
@@ -610,8 +640,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Right"))
                                 {
                                     randomX++;
-                                    up = true;
-                                    down = true;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -619,12 +648,13 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     right = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
                     }
 
-                    if (shipDestroyed())
+                    if (shipDestroyed(up, down, left, right))
                     {
                         break;
                     }
@@ -635,7 +665,21 @@ namespace Battleship
             }
         }
 
-        private bool shipDestroyed()
+        private void roundsLabelIncrement()
+        {
+            changePlayerCounter++;
+            if (changePlayerCounter % 2 == 0)
+            {
+                roundsLabel.Content = Convert.ToInt32(roundsLabel.Content) + 1;
+            }
+        }
+
+        private void computerHitsLabelIncerement()
+        {
+            computerHitsLabel.Content = Convert.ToInt32(computerHitsLabel.Content) + 1;
+        }
+
+        private bool shipDestroyed(bool up, bool down, bool left, bool right)
         {
             if (up && down && left && right)
             {
@@ -674,11 +718,11 @@ namespace Battleship
                     break;
             }
 
-            if (!isCellWall(randomX, randomY))
+            if (!AiMethods.isCellWall(randomX, randomY))
             {
-                if (!isCellShootedAI(randomX, randomY))
+                if (!AiMethods.isCellShootedAI(randomX, randomY, playerPlayfield))
                 {
-                    if (isHitPlayerShipUnit(randomX, randomY))
+                    if (AiMethods.isHitPlayerShipUnit(randomX, randomY, playerPlayfield))
                     {
                         shootedCellChange(randomX, randomY, true);
                         paintHitCell(randomX, randomY);
@@ -704,22 +748,6 @@ namespace Battleship
             }
         }
 
-        private bool isCellWall(int randomX, int randomY)
-        {
-            if (randomY > 9 || randomY < 0)
-            {
-                return true;
-            }
-            else if (randomX > 9 || randomX < 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
         private void shootedCellChange(int randomX, int randomY, bool isHit)
         {
             if (isHit)
@@ -730,29 +758,6 @@ namespace Battleship
             {
                 playerPlayfield[randomY, randomX] = 'V';
             }
-        }
-
-        private int generateAiShoot(Random rnd)
-        {
-            int randomX, randomY;
-            do
-            {
-                randomY = (int)rnd.Next(0, 10);
-                randomX = (int)rnd.Next(0, 10);
-            }
-            while (isCellShootedAI(randomX, randomY) == true);
-
-            return (randomY * rows) + randomX;
-        }
-
-        private bool isCellShootedAI(int randomX, int randomY)
-        {
-            return (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V');
-        }
-
-        private bool isHitPlayerShipUnit(int randomX, int randomY)
-        {
-            return char.IsDigit(playerPlayfield[randomY, randomX]);
         }
 
         private void paintMissCell(int randomX, int randomY)
