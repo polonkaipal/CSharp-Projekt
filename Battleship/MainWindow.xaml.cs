@@ -587,6 +587,8 @@ namespace Battleship
                                 {
                                     randomY++;
                                     computerHitsLabelIncerement();
+                                    right = true;
+                                    left = true;
                                 }
                                 else
                                 {
@@ -604,6 +606,8 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Down"))
                                 {
                                     randomY--;
+                                    right = true;
+                                    left = true;
                                     computerHitsLabelIncerement();
                                 }
                                 else
@@ -622,6 +626,8 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Left"))
                                 {
                                     randomX--;
+                                    up = true;
+                                    down = true;
                                     computerHitsLabelIncerement();
                                 }
                                 else
@@ -640,6 +646,8 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Right"))
                                 {
                                     randomX++;
+                                    up = true;
+                                    down = true;
                                     computerHitsLabelIncerement();
                                 }
                                 else
