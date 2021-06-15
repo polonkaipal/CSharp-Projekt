@@ -207,6 +207,10 @@ namespace Battleship
         {
             //score
             List<Score> scores = ScoreResult.ReadResult("score.json");
+            if(scores == null)
+            {
+                scores = new List<Score>();
+            }
             Score newScore = new()
             {
                 Enemy = "AI",
