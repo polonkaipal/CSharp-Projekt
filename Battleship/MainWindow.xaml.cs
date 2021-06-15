@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Timers;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Battleship
 {
@@ -195,7 +196,7 @@ namespace Battleship
                         game(rnd);
                         if(isEndGame(1))
                         {
-                            onScore();
+                            onScore("AI");
                             MessageBox.Show("The AI won!", "Loser", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             StartWindow startWindow = new StartWindow();
                             this.Close();
@@ -206,9 +207,22 @@ namespace Battleship
             }     
         }
 
-        private void onScore()
+        private void onScore(string winner)
         {
             //score
+            List<Score> scores = ScoreResult.ReadResult("score.json");
+            Score newScore = new()
+            {
+                Enemy = "AI",
+                EnemyHits = Convert.ToInt32(computerHitsLabel.Content),
+                Player = player1Name,
+                PlayerHits = Convert.ToInt32(playerHitsLabel.Content),
+                Rounds = Convert.ToInt32(roundsLabel.Content),
+                Winner = winner
+            };
+
+            scores.Add(newScore);
+            ScoreResult.WriteResult(scores, "score.json");
         }
 
         private void shipHp(int s)
@@ -524,7 +538,7 @@ namespace Battleship
 
         private void surrendBtn_Click(object sender, RoutedEventArgs e)
         {
-            onScore();
+            onScore("AI");
             StartWindow startWindow = new StartWindow();
             this.Close();
             startWindow.Show();
