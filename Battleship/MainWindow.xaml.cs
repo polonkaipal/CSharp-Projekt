@@ -32,6 +32,8 @@ namespace Battleship
 
         int firstHitX, firstHitY, randomX, randomY;
 
+        private int changePlayerCounter = 0;
+
         int destroyer = 0;
         int submarine = 0;
         int cruiser = 0;
@@ -181,6 +183,8 @@ namespace Battleship
 
                         ship.Visibility = Visibility.Visible;
                         rightTable.Children.Add(ship);
+
+                        roundsLabelIncrement();
 
                         Random rnd = new Random();
                         game(rnd);
@@ -559,6 +563,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Up"))
                                 {
                                     randomY++;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -566,6 +571,7 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     up = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
@@ -575,6 +581,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Down"))
                                 {
                                     randomY--;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -582,6 +589,7 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     down = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
@@ -591,6 +599,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Left"))
                                 {
                                     randomX--;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -598,6 +607,7 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     left = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
@@ -607,6 +617,7 @@ namespace Battleship
                                 if (shoot(randomY, randomX, "Right"))
                                 {
                                     randomX++;
+                                    computerHitsLabelIncerement();
                                 }
                                 else
                                 {
@@ -614,6 +625,7 @@ namespace Battleship
                                     player = true;
                                     isHit = false;
                                     right = true;
+                                    roundsLabelIncrement();
                                 }
                             }
                             break;
@@ -628,6 +640,20 @@ namespace Battleship
 
                 player = true;
             }
+        }
+
+        private void roundsLabelIncrement()
+        {
+            changePlayerCounter++;
+            if (changePlayerCounter % 2 == 0)
+            {
+                roundsLabel.Content = Convert.ToInt32(roundsLabel.Content) + 1;
+            }
+        }
+
+        private void computerHitsLabelIncerement()
+        {
+            computerHitsLabel.Content = Convert.ToInt32(computerHitsLabel.Content) + 1;
         }
 
         private bool shipDestroyed()
