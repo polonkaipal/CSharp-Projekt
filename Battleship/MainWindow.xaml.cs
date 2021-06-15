@@ -522,7 +522,7 @@ namespace Battleship
             {
                 aiShipsShow = !aiShipsShow;
 
-                for (int unit = 0; unit < rightTable.Children.Count; unit++)
+                for (int unit = 0; unit < 15; unit++)
                 {
                     if (aiShipsShow)
                     {
