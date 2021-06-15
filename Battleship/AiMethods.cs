@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Battleship
 {
-    static class AiMethods
+    public static class AiMethods
     {
-        internal static bool isCellWall(int randomX, int randomY)
+        public static bool isCellWall(int randomX, int randomY)
         {
             if (randomY > 9 || randomY < 0)
             {
@@ -24,17 +24,17 @@ namespace Battleship
             }
         }
 
-        internal static bool isCellShootedAI(int randomX, int randomY, char[,] playerPlayfield)
+        public static bool isCellShootedAI(int randomX, int randomY, char[,] playerPlayfield)
         {
             return (playerPlayfield[randomY, randomX] == 'T' || playerPlayfield[randomY, randomX] == 'V');
         }
 
-        internal static bool isHitPlayerShipUnit(int randomX, int randomY, char[,] playerPlayfield)
+        public static bool isHitPlayerShipUnit(int randomX, int randomY, char[,] playerPlayfield)
         {
             return char.IsDigit(playerPlayfield[randomY, randomX]);
         }
 
-        internal static int generateAiShoot(Random rnd, char[,] playerPlayfield)
+        public static int generateAiShoot(Random rnd, char[,] playerPlayfield)
         {
             int randomX, randomY;
             do
