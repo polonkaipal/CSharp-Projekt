@@ -167,7 +167,7 @@ namespace Battleship
 
                         if (isEndGame(0)) // player
                         {
-                            onScore();
+                            onScore(player1Name);
                             MessageBox.Show("The Player won!", "Winner", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             StartWindow startWindow = new StartWindow();
                             this.Close();
