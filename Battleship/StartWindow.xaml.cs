@@ -11,6 +11,8 @@ namespace Battleship
         {
             InitializeComponent();
 
+            warningRow.Height = new GridLength(0);
+
             playerInitialize();
         }
 
@@ -42,6 +44,10 @@ namespace Battleship
                     this.Close();
                     player1ShipPlacementWindow.Show();
                 }
+                else
+                {
+                    warningRow.Height = new GridLength(1, GridUnitType.Star);
+                }
             }
             else if (vsPlayerRadioBtn.IsChecked == true)
             {
@@ -51,6 +57,10 @@ namespace Battleship
                     App.Current.MainWindow = player1ShipPlacementWindow;
                     this.Close();
                     player1ShipPlacementWindow.Show();
+                }
+                else
+                {
+                    warningRow.Height = new GridLength(1, GridUnitType.Star);
                 }
             }
         }
